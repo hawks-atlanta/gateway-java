@@ -6,7 +6,7 @@ let
   }) { };
 
 in pkgs.mkShell {
-	name="dev-environment";
+	name = "dev-environment";
 	buildInputs = [
 		pkgs.git
 		pkgs.gradle

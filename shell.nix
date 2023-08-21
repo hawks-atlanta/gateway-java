@@ -11,7 +11,7 @@ in pkgs.mkShell {
 		pkgs.git
 		pkgs.gradle
 		pkgs.gradle-completion
-		pkgs.jdk17
+		pkgs.jdk11
 	];
 	shellHook = ''
 		echo "Starting gatewaye development shell"

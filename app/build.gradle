@@ -30,6 +30,17 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
+
+    // --- SOAP service ---
+
+    // https://mvnrepository.com/artifact/javax.xml.ws/jaxws-api
+    implementation 'javax.xml.ws:jaxws-api:2.3.1'
+
+    // https://mvnrepository.com/artifact/org.glassfish.main.javaee-api/javax.jws
+    implementation 'org.glassfish.main.javaee-api:javax.jws:3.1.2.2'
+
+    // https://mvnrepository.com/artifact/com.sun.xml.ws/jaxws-rt
+    implementation 'com.sun.xml.ws:jaxws-rt:2.3.6'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

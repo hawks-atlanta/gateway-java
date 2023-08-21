@@ -1,5 +1,11 @@
 # Gateway
 
+[![codecov](https://codecov.io/gh/hawks-atlanta/gateway-java/graph/badge.svg?token=0FSRVUD6AD)](https://codecov.io/gh/hawks-atlanta/gateway-java)
+[![Coverage](https://github.com/hawks-atlanta/gateway-java/actions/workflows/coverage.yml/badge.svg)](https://github.com/hawks-atlanta/gateway-java/actions/workflows/coverage.yml)
+[![Release](https://github.com/hawks-atlanta/gateway-java/actions/workflows/release.yaml/badge.svg)](https://github.com/hawks-atlanta/gateway-java/actions/workflows/release.yaml)
+[![Tagging](https://github.com/hawks-atlanta/gateway-java/actions/workflows/tagging.yaml/badge.svg)](https://github.com/hawks-atlanta/gateway-java/actions/workflows/tagging.yaml)
+[![Test](https://github.com/hawks-atlanta/gateway-java/actions/workflows/testing.yml/badge.svg)](https://github.com/hawks-atlanta/gateway-java/actions/workflows/testing.yml)
+
 ## Development
 
 ### Required tools
@@ -56,3 +62,8 @@ Or use docker compose (preferred):
 ```sh
 docker-compose up
 ```
+
+## Coverage
+
+|![coverage](https://codecov.io/gh/hawks-atlanta/gateway-java/graphs/sunburst.svg?token=0FSRVUD6AD)|![coverage](https://codecov.io/gh/hawks-atlanta/gateway-java/graphs/tree.svg?token=0FSRVUD6AD)|
+|---|---|

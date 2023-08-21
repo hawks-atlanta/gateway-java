@@ -1,0 +1,12 @@
+﻿---
+BasedOnStyle: LLVM
+AlignAfterOpenBracket: AlwaysBreak
+BreakBeforeBraces: Mozilla
+Cpp11BracedListStyle: 'false'
+IndentWidth: '4'
+PointerAlignment: Left
+SpaceBeforeParens: Always
+TabWidth: '4'
+UseTab: Always
+
+...

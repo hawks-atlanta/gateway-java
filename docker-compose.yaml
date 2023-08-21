@@ -8,7 +8,12 @@ services:
     restart: on-failure
     ports:
       - "127.0.0.1:8081:8080"
-    # env:# TODO: Setup environment variables
+    env:
+      DATABASE_HOST: postgres-db
+      DATABASE_PORT: '5432'
+      DATABASE_NAME: database
+      DATABASE_USER: username
+      DATABASE_PASSWORD: password
   authentication:
     image: ghcr.io/hawks-atlanta/authentication-go:latest
     container_name: authentication

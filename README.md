@@ -43,9 +43,16 @@ gradle testCodeCoverageReport
 
 ### Running
 
-Use docker compose to start the service locally. SOAP will be exposed at `http://localhost:8080/sampleservice?wsdl`.
+SOAP will be exposed at `http://localhost:8080/sampleservice?wsdl`.
+
+Run directly on host:
+
+```sh
+gradle run
+```
+
+Or use docker compose (preferred):
 
 ```sh
 docker-compose up
 ```
-

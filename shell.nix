@@ -14,7 +14,7 @@ in pkgs.mkShell {
 		pkgs.jdk11
 	];
 	shellHook = ''
-		echo "Starting gatewaye development shell"
+		echo "Starting development shell"
 
 		# custom prompt
 		if [ -e ~/.gitconfig ] && [ -f ~/.git-prompt.sh ]; then

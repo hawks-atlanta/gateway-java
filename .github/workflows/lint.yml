@@ -1,0 +1,17 @@
+name: Lint
+
+on:
+  pull_request:
+    branches: ["dev"]
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install clang-format
+        run: sudo apt --assume-yes install clang-format
+
+      - name: Clang check
+        run: chmod +x ./format.sh && ./format.sh clang-check
+

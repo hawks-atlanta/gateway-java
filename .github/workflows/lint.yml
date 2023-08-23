@@ -1,11 +1,11 @@
-name: Lint
+name: Format
 
 on:
   pull_request:
     branches: ["dev"]
 
 jobs:
-  linter:
+  formatter:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

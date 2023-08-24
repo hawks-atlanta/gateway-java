@@ -44,6 +44,15 @@ gradle run
 gradle test
 ```
 
+### Format
+
+You need to have `clang-format` installed.
+
+```sh
+./format.sh clang-check # check (doesn't write)
+./format.sh clang-format # apply (writes)
+```
+
 ## Coverage
 
 |![coverage](https://codecov.io/gh/hawks-atlanta/gateway-java/graphs/sunburst.svg?token=0FSRVUD6AD)|![coverage](https://codecov.io/gh/hawks-atlanta/gateway-java/graphs/tree.svg?token=0FSRVUD6AD)|

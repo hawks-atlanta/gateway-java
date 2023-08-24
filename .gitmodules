@@ -1,0 +1,4 @@
+[submodule "rmi"]
+	path = rmi
+	url = https://github.com/hawks-atlanta/rmi-java
+	branch = dev

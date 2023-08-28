@@ -12,6 +12,7 @@ in pkgs.mkShell {
 		pkgs.gradle
 		pkgs.gradle-completion
 		pkgs.jdk11
+		pkgs.clang-tools
 	];
 	shellHook = ''
 		echo "Starting development shell"

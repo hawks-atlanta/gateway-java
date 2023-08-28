@@ -1,4 +1,4 @@
-package gateway;
+package gateway.soap;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;

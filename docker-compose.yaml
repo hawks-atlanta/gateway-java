@@ -1,7 +1,13 @@
-version: '3.1'
+version: "3.1"
 
 services:
-  # TODO: Add worker service
+  worker:
+    image: ghcr.io/hawks-atlanta/worker-java:latest
+    container_name: worker
+    restart: on-failure
+    ports:
+      - "127.0.0.1:1900:1900" # RMI
+
   metadata:
     image: ghcr.io/hawks-atlanta/metadata-scala:latest
     container_name: metadata
@@ -9,6 +15,7 @@ services:
     ports:
       - "127.0.0.1:8081:8080"
     # env:# TODO: Setup environment variables
+
   authentication:
     image: ghcr.io/hawks-atlanta/authentication-go:latest
     container_name: authentication
@@ -18,6 +25,7 @@ services:
     environment:
       DATABASE_ENGINE: postgres
       DATABASE_DSN: "host=postgres-db user=username password=password dbname=database port=5432 sslmode=disable"
+
   postgres-db:
     image: postgres:latest
     container_name: postgres-db

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.7 (2023-08-29)
+
+
+### Bug Fixes
+
+* Use git submodules on checkout before using docker ([#14](https://github.com/hawks-atlanta/gateway-java/issues/14)) ([e764e78](https://github.com/hawks-atlanta/gateway-java/commit/e764e781400e3a6adb0e0228b6025928736b66a0))
+
+### 0.0.6 (2023-08-28)
+
+
+### Features
+
+* RMI client with interfaces as git module ([#13](https://github.com/hawks-atlanta/gateway-java/issues/13)) ([506ef03](https://github.com/hawks-atlanta/gateway-java/commit/506ef03d4e250c74719bead33e2194d9f3c423bd))
+
 ### 0.0.5 (2023-08-21)
 
 ### 0.0.4 (2023-08-21)

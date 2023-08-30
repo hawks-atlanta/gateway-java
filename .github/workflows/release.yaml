@@ -46,6 +46,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
 
       - name: Docker image
         run: echo "v${{ needs.versioning.outputs.version }}"

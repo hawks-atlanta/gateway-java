@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.8 (2023-08-30)
+
+
+### Bug Fixes
+
+* added metadata service environment variables ([#16](https://github.com/hawks-atlanta/gateway-java/issues/16)) ([abb0bea](https://github.com/hawks-atlanta/gateway-java/commit/abb0bea97c3f4e499edd482e7ae8381128307680))
+
 ### 0.0.7 (2023-08-29)
 
 

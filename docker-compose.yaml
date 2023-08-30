@@ -25,6 +25,8 @@ services:
     image: ghcr.io/hawks-atlanta/authentication-go:latest
     container_name: authentication
     restart: on-failure
+    depends_on:
+      - postgres-db
     ports:
       - "127.0.0.1:8080:8080"
     environment:
@@ -48,10 +50,10 @@ services:
   postgres-admin:
     image: dpage/pgadmin4
     container_name: postgres-admin
+    depends_on:
+      - postgres-db
     ports:
       - "127.0.0.1:5050:80"
     environment:
       - PGADMIN_DEFAULT_EMAIL=postgres@postgres.com
       - PGADMIN_DEFAULT_PASSWORD=postgres
-    depends_on:
-      - postgres-db

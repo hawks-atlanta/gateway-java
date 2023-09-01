@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.10 (2023-09-01)
+
+
+### Features
+
+* SOAP service definition ([#15](https://github.com/hawks-atlanta/gateway-java/issues/15)) ([7aa0cd0](https://github.com/hawks-atlanta/gateway-java/commit/7aa0cd09a2f15e474997ea81414ab517fbc7451b))
+
 ### 0.0.9 (2023-09-01)
 
 

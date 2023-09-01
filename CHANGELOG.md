@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.9 (2023-09-01)
+
+
+### Features
+
+* Add worker instance in docker compose ([#17](https://github.com/hawks-atlanta/gateway-java/issues/17)) ([08863c2](https://github.com/hawks-atlanta/gateway-java/commit/08863c2dfb047a98a92b523b2f05bc75d44c1ad1))
+
 ### 0.0.8 (2023-08-30)
 
 

@@ -9,7 +9,12 @@ import javax.jws.WebService;
 {
 	// auth
 
-	@WebMethod public Authorization login (Credentials credentials) { return new Authorization (); }
+	@WebMethod public Authorization login (Credentials credentials)
+	{
+		Authorization auth = new Authorization ();
+		auth.token = "sample-token-for-" + credentials.username;
+		return auth;
+	}
 
 	@WebMethod public Authorization register(Credentials credentials)
 	{

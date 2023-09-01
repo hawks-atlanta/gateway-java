@@ -33,7 +33,7 @@ public interface Service {
 
 	@WebMethod StatusRes shareWith (ShareWithReq args);
 
-	@WebMethod StatusRes unShareWithReq (UnShareWithReqReq args);
+	@WebMethod StatusRes unShareWithReq (UnShareWithReq args);
 
 	@WebMethod User[] sharedWithWho (SharedWithWhoReq args);
 

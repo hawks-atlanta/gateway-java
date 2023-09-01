@@ -2,7 +2,7 @@ package gateway.soap.request;
 
 import java.util.UUID;
 
-public class UnShareWithReqReq
+public class UnShareWithReq
 {
 	public UUID fileUUID;
 	public UUID otherUserUUID;

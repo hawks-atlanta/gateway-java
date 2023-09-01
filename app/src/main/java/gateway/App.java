@@ -34,6 +34,6 @@ public class App
 		System.out.println ("Gateway: Starting SOAP");
 
 		// serve SOAP
-		Endpoint.publish ("http://0.0.0.0:8080/sampleservice", new ServiceImp ());
+		Endpoint.publish ("http://0.0.0.0:8080/service", new ServiceImp ());
 	}
 }

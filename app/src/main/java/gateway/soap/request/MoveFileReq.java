@@ -6,5 +6,5 @@ public class MoveFileReq extends Operation
 {
 	public UUID nameUUID;
 	public UUID targetLocationUUID; // always a directory
-	public String newName; // optional
+	public String newName;			// optional
 }

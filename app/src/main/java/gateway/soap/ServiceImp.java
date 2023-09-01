@@ -62,7 +62,7 @@ import javax.jws.WebService;
 
 	@WebMethod public StatusRes shareWith (ShareWithReq args) { return new StatusRes (); }
 
-	@WebMethod public StatusRes unShareWithReq (UnShareWithReq args) { return new StatusRes (); }
+	@WebMethod public StatusRes unShareWith (UnShareWithReq args) { return new StatusRes (); }
 
 	@WebMethod public User[] sharedWithWho (SharedWithWhoReq args) { return new User[0]; }
 

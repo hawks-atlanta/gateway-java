@@ -17,25 +17,25 @@ public interface Service {
 
 	// file system
 
-	@WebMethod StatusRes createFile (Operation<CreateFileReq> args);
+	@WebMethod StatusRes createFile (CreateFileReq args);
 
-	@WebMethod StatusRes createDirectory (Operation<CreateDirectoryReq> args);
+	@WebMethod StatusRes createDirectory (CreateDirectoryReq args);
 
-	@WebMethod StatusRes deleteFile (Operation<DeleteFileReq> args);
+	@WebMethod StatusRes deleteFile (DeleteFileReq args);
 
-	@WebMethod File[] listFiles (Operation<ListFileReq> args);
+	@WebMethod File[] listFiles (ListFileReq args);
 
-	@WebMethod FileContents downloadFile (Operation<DownloadFileReq> args);
+	@WebMethod FileContents downloadFile (DownloadFileReq args);
 
-	@WebMethod StatusRes moveFile (Operation<MoveFileReq> args);
+	@WebMethod StatusRes moveFile (MoveFileReq args);
 
 	// sharing
 
-	@WebMethod StatusRes shareWith (Operation<ShareWithReq> args);
+	@WebMethod StatusRes shareWith (ShareWithReq args);
 
-	@WebMethod StatusRes unShareWithReq (Operation<UnShareWithReqReq> args);
+	@WebMethod StatusRes unShareWithReq (UnShareWithReqReq args);
 
-	@WebMethod User[] sharedWithWho (Operation<SharedWithWhoReq> args);
+	@WebMethod User[] sharedWithWho (SharedWithWhoReq args);
 
 	@WebMethod SharedFile[] listSharedWithMe (Authorization auth);
 }

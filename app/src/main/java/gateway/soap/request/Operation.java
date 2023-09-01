@@ -1,6 +1,6 @@
 package gateway.soap.request;
 
-public class Operation<T> extends Authorization
+public class Operation extends Authorization
 {
-	public T Op; // operation
+	// TODO: Add additional fields
 }

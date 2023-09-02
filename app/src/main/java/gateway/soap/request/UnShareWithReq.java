@@ -5,5 +5,5 @@ import java.util.UUID;
 public class UnShareWithReq
 {
 	public UUID fileUUID;
-	public UUID otherUserUUID;
+	public String otherUsername;
 }

@@ -19,13 +19,17 @@ public class App
 			// get service
 
 			Registry registry = LocateRegistry.getRegistry (1900);
-			MessengerService server = (MessengerService)registry.lookup ("MessengerService");
+			IWorkerService server = (IWorkerService)registry.lookup ("WorkerService");
 
-			// send message
+			// TODO: Replace me
 
-			Message query = new Message ("Hi");
-			Message response = server.sendMessage (query);
-			System.out.println (response.content);
+			File queryUpload = new File ("----", null);
+			server.uploadFile (queryUpload);
+
+			FileDownload queryDownload = new FileDownload ("----");
+			File resultFile = server.downloadFile (queryDownload);
+
+			System.out.println (resultFile.uuid);
 
 		} catch (Exception e) {
 			System.err.println (e);

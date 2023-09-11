@@ -2,6 +2,7 @@
 BasedOnStyle: LLVM
 AlignAfterOpenBracket: AlwaysBreak
 BreakBeforeBraces: Mozilla
+ColumnLimit: '100'
 Cpp11BracedListStyle: 'false'
 IndentWidth: '4'
 PointerAlignment: Left

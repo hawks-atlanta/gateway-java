@@ -8,59 +8,49 @@
 
 ## Development
 
-### Required tools
+### Submodules
 
-- JDK11
-- Gradle
-
-You can use the `shell.nix` script to get a shell with all required dependencies, should work on most linux distributions and on Windows Subsystem for Linux (WSL) [see how to install Nix.](https://nixos.org/download)
+Fetch submodules after cloning:
 
 ```sh
-nix-shell
+git clone https://github.com/hawks-atlanta/gateway-java
+git submodule update --init
 ```
 
-Otherwise you need to install `jdk11` and use the **gradle wrapper script** `./gradlew` instead of `gradle`. For example:
+### Tools
 
-```sh
-./gradlew build
-```
+- Have `jdk11` or newer installed.
+- (Optional) Use the **gradle wrapper script** (`./gradlew`) for all `gradle` commands. For example:
 
-### Building
+    ```sh
+    ./gradlew build
+    ```
 
-To generate a single JAR run the command below. It'll be located at `./app/build/libs/app-all.jar`.
+- (Optional) Use the provided `nix-shell` to get into a shell with all required dependecies [[install Nix](https://nixos.org/download)].
 
-```sh
-gradle build
-```
+    ```sh
+    nix-shell
+    ```
 
-### Testing
-
-To run all tests:
-
-```sh
-gradle test
-```
-
-Generate coverage report which can be found at `app/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml`.
-
-```sh
-gradle testCodeCoverageReport
-```
-
-### Running
-
-SOAP will be exposed at `http://localhost:8080/sampleservice?wsdl`.
-
-Run directly on host:
+### Run
 
 ```sh
 gradle run
 ```
 
-Or use docker compose (preferred):
+### Run tests
 
 ```sh
-docker-compose up
+gradle test
+```
+
+### Format
+
+You need to have `clang-format` installed.
+
+```sh
+./format.sh clang-check # check (doesn't write)
+./format.sh clang-format # apply (writes)
 ```
 
 ## Coverage

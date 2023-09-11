@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.11 (2023-09-02)
+
+### 0.0.10 (2023-09-01)
+
+
+### Features
+
+* SOAP service definition ([#15](https://github.com/hawks-atlanta/gateway-java/issues/15)) ([7aa0cd0](https://github.com/hawks-atlanta/gateway-java/commit/7aa0cd09a2f15e474997ea81414ab517fbc7451b))
+
+### 0.0.9 (2023-09-01)
+
+
+### Features
+
+* Add worker instance in docker compose ([#17](https://github.com/hawks-atlanta/gateway-java/issues/17)) ([08863c2](https://github.com/hawks-atlanta/gateway-java/commit/08863c2dfb047a98a92b523b2f05bc75d44c1ad1))
+
+### 0.0.8 (2023-08-30)
+
+
+### Bug Fixes
+
+* added metadata service environment variables ([#16](https://github.com/hawks-atlanta/gateway-java/issues/16)) ([abb0bea](https://github.com/hawks-atlanta/gateway-java/commit/abb0bea97c3f4e499edd482e7ae8381128307680))
+
+### 0.0.7 (2023-08-29)
+
+
+### Bug Fixes
+
+* Use git submodules on checkout before using docker ([#14](https://github.com/hawks-atlanta/gateway-java/issues/14)) ([e764e78](https://github.com/hawks-atlanta/gateway-java/commit/e764e781400e3a6adb0e0228b6025928736b66a0))
+
+### 0.0.6 (2023-08-28)
+
+
+### Features
+
+* RMI client with interfaces as git module ([#13](https://github.com/hawks-atlanta/gateway-java/issues/13)) ([506ef03](https://github.com/hawks-atlanta/gateway-java/commit/506ef03d4e250c74719bead33e2194d9f3c423bd))
+
 ### 0.0.5 (2023-08-21)
 
 ### 0.0.4 (2023-08-21)

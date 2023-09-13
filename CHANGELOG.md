@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.14 (2023-09-13)
+
+
+### Features
+
+* Normalize method responses ([#36](https://github.com/hawks-atlanta/gateway-java/issues/36)) ([914a1e7](https://github.com/hawks-atlanta/gateway-java/commit/914a1e7c9414c7e51cbdc3bd1b31bee7fbb7aa70))
+
 ### 0.0.13 (2023-09-13)
 
 ### 0.0.12 (2023-09-11)

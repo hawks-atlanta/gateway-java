@@ -9,18 +9,19 @@ import javax.jws.WebService;
 {
 	// auth
 
-	@WebMethod public Authorization login (Credentials credentials)
+	@WebMethod public SessionRes login (Credentials credentials)
 	{
 		// TODO: Replace me
-		Authorization auth = new Authorization ();
-		auth.token = "sample-token-for-" + credentials.username;
-		return auth;
+		SessionRes res = new SessionRes ();
+		res.auth = new Authorization ();
+		res.auth.token = "sample-token-for-" + credentials.username;
+		res.success = true;
+		res.message = "Successfully logged in";
+
+		return res;
 	}
 
-	@WebMethod public Authorization register(Credentials credentials)
-	{
-		return new Authorization ();
-	}
+	@WebMethod public SessionRes register(Credentials credentials) { return new SessionRes (); }
 
 	@WebMethod public StatusRes updatePassword (UpdatePasswordReq parameters)
 	{
@@ -39,6 +40,7 @@ import javax.jws.WebService;
 		System.out.println ("---");
 		StatusRes s = new StatusRes ();
 		s.success = true;
+		s.message = "File created successfully";
 		return s;
 	}
 
@@ -49,12 +51,9 @@ import javax.jws.WebService;
 
 	@WebMethod public StatusRes deleteFile (DeleteFileReq args) { return new StatusRes (); }
 
-	@WebMethod public File[] listFiles (ListFileReq args) { return new File[0]; }
+	@WebMethod public ListFileRes listFiles (ListFileReq args) { return null; }
 
-	@WebMethod public FileContents downloadFile (DownloadFileReq args)
-	{
-		return new FileContents ();
-	}
+	@WebMethod public DownloadFileRes downloadFile (DownloadFileReq args) { return null; }
 
 	@WebMethod public StatusRes moveFile (MoveFileReq args) { return new StatusRes (); }
 
@@ -64,10 +63,7 @@ import javax.jws.WebService;
 
 	@WebMethod public StatusRes unShareWith (UnShareWithReq args) { return new StatusRes (); }
 
-	@WebMethod public User[] sharedWithWho (SharedWithWhoReq args) { return new User[0]; }
+	@WebMethod public SharedWithWhoRes sharedWithWho (SharedWithWhoReq args) { return null; }
 
-	@WebMethod public SharedFile[] listSharedWithMe (Authorization auth)
-	{
-		return new SharedFile[0];
-	}
+	@WebMethod public ListSharedWithMeRes listSharedWithMe (Authorization auth) { return null; }
 }

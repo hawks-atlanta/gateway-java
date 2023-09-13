@@ -4,6 +4,7 @@ import gateway.soap.request.*;
 import gateway.soap.response.*;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import org.json.JSONObject;
 
 @WebService (endpointInterface = "gateway.soap.Service") public class ServiceImp implements Service
 {
@@ -12,6 +13,18 @@ import javax.jws.WebService;
 	@WebMethod public SessionRes login (Credentials credentials)
 	{
 		// TODO: Replace me
+
+		// Example handle JSON
+
+		String string_res = "{\"succeed\":false,\"msg\":\"example message\"}";
+		JSONObject json_res = new JSONObject (string_res);
+
+		System.out.println ("---");
+		System.out.println (json_res.getBoolean ("succeed"));
+		System.out.println (json_res.getString ("msg"));
+
+		// Example return type
+
 		SessionRes res = new SessionRes ();
 		res.auth = new Authorization ();
 		res.auth.token = "sample-token-for-" + credentials.username;

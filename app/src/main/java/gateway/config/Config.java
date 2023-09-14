@@ -17,6 +17,6 @@ public class Config
 		authBaseUrl = System.getenv ().getOrDefault ("AUTHENTICATION_BASEURL", "127.0.0.1");
 		metadataBaseUrl = System.getenv ().getOrDefault ("METADATA_BASEURL", "127.0.0.1");
 		workerHost = System.getenv ().getOrDefault ("WORKER_HOST", "127.0.0.1");
-		workerPort = Integer.parseInt (System.getenv ().getOrDefault ("WORKER_PORT", "1900"));
+		workerPort = Integer.parseInt (System.getenv ().getOrDefault ("WORKER_PORT", "1099"));
 	}
 }

@@ -9,9 +9,9 @@ import javax.jws.WebService;
 public interface Service {
 	// auth
 
-	@WebMethod Authorization login (Credentials credentials);
+	@WebMethod SessionRes login (Credentials credentials);
 
-	@WebMethod Authorization register(Credentials credentials);
+	@WebMethod SessionRes register(Credentials credentials);
 
 	@WebMethod StatusRes updatePassword (UpdatePasswordReq parameters);
 
@@ -23,9 +23,9 @@ public interface Service {
 
 	@WebMethod StatusRes deleteFile (DeleteFileReq args);
 
-	@WebMethod File[] listFiles (ListFileReq args);
+	@WebMethod ListFileRes listFiles (ListFileReq args);
 
-	@WebMethod FileContents downloadFile (DownloadFileReq args);
+	@WebMethod DownloadFileRes downloadFile (DownloadFileReq args);
 
 	@WebMethod StatusRes moveFile (MoveFileReq args);
 
@@ -35,7 +35,7 @@ public interface Service {
 
 	@WebMethod StatusRes unShareWith (UnShareWithReq args);
 
-	@WebMethod User[] sharedWithWho (SharedWithWhoReq args);
+	@WebMethod SharedWithWhoRes sharedWithWho (SharedWithWhoReq args);
 
-	@WebMethod SharedFile[] listSharedWithMe (Authorization auth);
+	@WebMethod ListSharedWithMeRes listSharedWithMe (Authorization auth);
 }

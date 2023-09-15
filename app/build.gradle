@@ -23,6 +23,10 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
+    
+    // JSON library
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation 'org.json:json:20230618'
 
     // --- SOAP service ---
 

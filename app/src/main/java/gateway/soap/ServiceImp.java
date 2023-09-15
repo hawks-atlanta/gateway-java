@@ -43,9 +43,8 @@ public class ServiceImp implements Service {
 
 	// user register in auth service, returns an access token
 	@WebMethod
-	public Authorization register(Credentials credentials) {
-
-		Authorization auth = new Authorization();
+	public SessionRes register(Credentials credentials) {
+		SessionRes res = new SessionRes();
 
 		String url = EnvironmentVar.AUTH_BASEURL + "register";
 
@@ -64,18 +63,14 @@ public class ServiceImp implements Service {
 					.build();
 
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-			auth.token = response.body();
+			JSONObject jsonObject = new JSONObject(response.body());
+			res.auth = new Authorization();
+			res.auth.token = jsonObject.getString("jwt");
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
 
-		return auth;
-	}
-
-	@WebMethod
-	public SessionRes register(Credentials credentials) {
-		return new SessionRes();
+		return res;
 	}
 
 	@WebMethod

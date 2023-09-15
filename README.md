@@ -6,6 +6,17 @@
 [![Tagging](https://github.com/hawks-atlanta/gateway-java/actions/workflows/tagging.yaml/badge.svg)](https://github.com/hawks-atlanta/gateway-java/actions/workflows/tagging.yaml)
 [![Test](https://github.com/hawks-atlanta/gateway-java/actions/workflows/testing.yml/badge.svg)](https://github.com/hawks-atlanta/gateway-java/actions/workflows/testing.yml)
 
+Microservice to expose main CapyFile services.
+
+## Documentation
+
+| Document                | URL                                                                                |
+|-------------------------|------------------------------------------------------------------------------------|
+| CLI documentation       | [CLI.md](CLI.md)                                                                   |
+| CICD                    | [CICD.md](https://github.com/hawks-atlanta/docs/blob/main/CICD.md)                 |
+| CONTRIBUTING            | [CONTRIBUTING.md](https://github.com/hawks-atlanta/docs/blob/main/CONTRIBUTING.md) |
+| SOAP service definition | [Service.java](app/src/main/java/gateway/soap/Service.java)                        |
+
 ## Development
 
 ### Submodules

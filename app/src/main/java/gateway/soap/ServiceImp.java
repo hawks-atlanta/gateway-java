@@ -73,6 +73,7 @@ import org.json.JSONObject;
 
 			if (statusCode == 201) {
 				res.auth = new Authorization ();
+				res.success = true;
 				res.auth.token = jsonObject.getString ("jwt");
 			} else {
 				res.success = jsonObject.getBoolean ("succeed");

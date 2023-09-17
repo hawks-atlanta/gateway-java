@@ -5,6 +5,6 @@ import java.util.UUID;
 public class CreateFileReq extends Operation
 {
 	public String fileName;
-	public Byte[] fileContent;
+	public byte[] fileContent;
 	public UUID location;
 }

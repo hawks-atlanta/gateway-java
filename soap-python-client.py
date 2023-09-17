@@ -12,7 +12,7 @@ client = Client('http://localhost:8080/service?wsdl')
 # consume methods
 result = client.service.login({
             'username':  'woynert',
-            'pass': 'password'
+            'password': 'password'
             })
 
 print(result)

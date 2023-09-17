@@ -7,3 +7,9 @@ build
 node_modules
 
 *volume
+
+# Ignore bin folder 
+**bin/
+
+# Ignore internal config staff about some IDEs
+**.vscode/

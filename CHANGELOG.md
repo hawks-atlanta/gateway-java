@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.17 (2023-09-17)
+
+
+### Features
+
+* adding register implementation and some changes in .gitignore ([#35](https://github.com/hawks-atlanta/gateway-java/issues/35)) ([8dc5bbe](https://github.com/hawks-atlanta/gateway-java/commit/8dc5bbe7538a1d927488306419594ac95db197ba))
+
 ### 0.0.16 (2023-09-15)
 
 

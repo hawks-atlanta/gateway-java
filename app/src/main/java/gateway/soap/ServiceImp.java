@@ -1,10 +1,10 @@
 package gateway.soap;
 
+import capyfile.rmi.interfaces.*;
 import gateway.config.Config;
+import gateway.rmiclient.ManagerRMI;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
-import capyfile.rmi.interfaces.*;
-import gateway.rmiclient.ManagerRMI;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -102,21 +102,19 @@ import org.json.JSONObject;
 
 		// TODO: authenticate
 
-		String uuid = java.util.UUID.randomUUID().toString();
+		String uuid = java.util.UUID.randomUUID ().toString ();
 
 		try {
-		
+
 			// TODO: Merge dev branch
-			IWorkerService server = ManagerRMI.getServer();
+			IWorkerService server = ManagerRMI.getServer ();
 
 			UploadFileArgs queryUpload = new UploadFileArgs (uuid, args.fileContent);
 			server.uploadFile (queryUpload);
 
 			s.success = true;
 			s.message = "Your file is being uploaded";
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.err.println (e);
 
 			s.success = false;

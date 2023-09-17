@@ -1,6 +1,6 @@
 package gateway.soap;
 
-import gateway.soap.environment.*;
+import gateway.config.Config;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
 import java.io.IOException;
@@ -46,7 +46,7 @@ import org.json.JSONObject;
 	{
 		SessionRes res = new SessionRes ();
 
-		String url = EnvironmentVar.AUTH_BASEURL + "/register";
+		String url = Config.getAuthBaseUrl () + "/register";
 
 		// Request
 		JSONObject requestBody = new JSONObject ();

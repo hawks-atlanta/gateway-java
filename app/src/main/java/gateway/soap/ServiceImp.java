@@ -1,7 +1,14 @@
 package gateway.soap;
 
+import gateway.config.Config;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import org.json.JSONObject;
@@ -34,7 +41,51 @@ import org.json.JSONObject;
 		return res;
 	}
 
-	@WebMethod public SessionRes register(Credentials credentials) { return new SessionRes (); }
+	// user register in auth service, returns an access token
+	@WebMethod public SessionRes register(Credentials credentials)
+	{
+		SessionRes res = new SessionRes ();
+
+		String url = Config.getAuthBaseUrl () + "/register";
+
+		// Request
+		JSONObject requestBody = new JSONObject ();
+		requestBody.put ("username", credentials.username);
+		requestBody.put ("password", credentials.password);
+
+		try {
+			// Configs and make HTTP POST request to user register.
+			HttpClient client = HttpClient.newHttpClient ();
+
+			HttpRequest request = HttpRequest.newBuilder ()
+									  .uri (URI.create (url))
+									  .POST (BodyPublishers.ofString (requestBody.toString ()))
+									  .uri (URI.create (url))
+									  .header ("Content-Type", "application/json")
+									  .build ();
+
+			HttpResponse<String> response =
+				client.send (request, HttpResponse.BodyHandlers.ofString ());
+
+			// Response
+			JSONObject jsonObject = new JSONObject (response.body ());
+			int statusCode = response.statusCode ();
+
+			if (statusCode == 201) {
+				res.auth = new Authorization ();
+				res.success = true;
+				res.auth.token = jsonObject.getString ("jwt");
+			} else {
+				res.success = jsonObject.getBoolean ("succeed");
+				res.message = jsonObject.getString ("msg");
+			}
+
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace ();
+		}
+
+		return res;
+	}
 
 	@WebMethod public StatusRes updatePassword (UpdatePasswordReq parameters)
 	{

@@ -14,8 +14,10 @@ public class Config
 
 	public static void initializeFromEnv ()
 	{
-		authBaseUrl = System.getenv ().getOrDefault ("AUTHENTICATION_BASEURL", "127.0.0.1");
-		metadataBaseUrl = System.getenv ().getOrDefault ("METADATA_BASEURL", "127.0.0.1");
+		authBaseUrl =
+			System.getenv ().getOrDefault ("AUTHENTICATION_BASEURL", "http://127.0.0.1:8081");
+		metadataBaseUrl =
+			System.getenv ().getOrDefault ("METADATA_BASEURL", "http://127.0.0.1:8082");
 		workerHost = System.getenv ().getOrDefault ("WORKER_HOST", "127.0.0.1");
 		workerPort = Integer.parseInt (System.getenv ().getOrDefault ("WORKER_PORT", "1099"));
 	}

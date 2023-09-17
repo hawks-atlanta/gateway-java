@@ -7,11 +7,13 @@ import gateway.soap.response.*;
 import gateway.utils.ManagerAuth;
 import gateway.utils.ManagerRMI;
 import java.io.IOException;
+import java.lang.Exception;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
+import java.util.UUID;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import org.json.JSONObject;
@@ -108,7 +110,17 @@ import org.json.JSONObject;
 			return authRes;
 		}
 
-		// TODO: get user uuid
+		// get user uuid
+
+		try {
+			UUID uuid = ManagerAuth.getUserUUID (args.token, "woynert"); // TODO: issue auth#39
+			System.out.println (uuid);
+		} catch (Exception e) {
+			System.err.println (e);
+			s.success = false;
+			s.message = "Internal error, try again later";
+			return s;
+		}
 
 		// TODO: save file metadata
 
@@ -128,7 +140,6 @@ import org.json.JSONObject;
 			s.message = "Your file is being uploaded";
 		} catch (Exception e) {
 			System.err.println (e);
-
 			s.success = false;
 			s.message = "Internal error, try again later";
 		}

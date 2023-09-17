@@ -2,6 +2,8 @@ package gateway.soap;
 
 import gateway.soap.request.*;
 import gateway.soap.response.*;
+import capyfile.rmi.interfaces.*;
+import gateway.rmiclient.ManagerRMI;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import org.json.JSONObject;
@@ -45,15 +47,31 @@ import org.json.JSONObject;
 
 	@WebMethod public StatusRes createFile (CreateFileReq args)
 	{
-		// TODO: Replace me
-		System.out.println ("---");
-		System.out.println (args);
-		System.out.println (args.token);
-		System.out.println (args.fileName);
-		System.out.println ("---");
 		StatusRes s = new StatusRes ();
-		s.success = true;
-		s.message = "File created successfully";
+
+		// TODO: authenticate
+
+		String uuid = java.util.UUID.randomUUID().toString();
+
+		try {
+		
+			// TODO: Merge dev branch
+			IWorkerService server = ManagerRMI.getServer();
+
+			UploadFileArgs queryUpload = new UploadFileArgs (uuid, args.fileContent);
+			server.uploadFile (queryUpload);
+
+			s.success = true;
+			s.message = "Your file is being uploaded";
+		}
+		catch (Exception e)
+		{
+			System.err.println (e);
+
+			s.success = false;
+			s.message = "Internal error, try again later";
+		}
+
 		return s;
 	}
 

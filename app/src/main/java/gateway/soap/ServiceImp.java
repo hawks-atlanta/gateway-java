@@ -2,9 +2,10 @@ package gateway.soap;
 
 import capyfile.rmi.interfaces.*;
 import gateway.config.Config;
-import gateway.rmiclient.ManagerRMI;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
+import gateway.utils.ManagerAuth;
+import gateway.utils.ManagerRMI;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -100,7 +101,18 @@ import org.json.JSONObject;
 	{
 		StatusRes s = new StatusRes ();
 
-		// TODO: authenticate
+		// authenticate
+
+		StatusRes authRes = ManagerAuth.authenticate (args.token);
+		if (!authRes.success) {
+			return authRes;
+		}
+
+		// TODO: get user uuid
+
+		// TODO: save file metadata
+
+		// store file
 
 		String uuid = java.util.UUID.randomUUID ().toString ();
 

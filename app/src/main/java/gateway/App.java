@@ -1,6 +1,7 @@
 package gateway;
 
 import capyfile.rmi.interfaces.*;
+import gateway.config.Config;
 import gateway.soap.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -12,16 +13,20 @@ public class App
 {
 	public static void main (String[] args)
 	{
-		System.out.println ("Gateway: RMI demo");
+		// init config from env vars
+		Config.initializeFromEnv ();
 
 		// consume RMI
 		try {
 			// get service
 
-			Registry registry = LocateRegistry.getRegistry (1900);
+			System.out.println ("Gateway: RMI demo");
+			Registry registry =
+				LocateRegistry.getRegistry (Config.getWorkerHost (), Config.getWorkerPort ());
 			IWorkerService server = (IWorkerService)registry.lookup ("WorkerService");
 
 			// TODO: Replace me
+			// example
 
 			File queryUpload = new File ("----", null);
 			server.uploadFile (queryUpload);
@@ -29,7 +34,7 @@ public class App
 			FileDownload queryDownload = new FileDownload ("----");
 			File resultFile = server.downloadFile (queryDownload);
 
-			System.out.println (resultFile.uuid);
+			System.out.println ("Successfully communicated with worker RMI");
 
 		} catch (Exception e) {
 			System.err.println (e);

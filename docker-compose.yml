@@ -1,5 +1,8 @@
 version: "3.1"
 
+networks:
+  net:
+
 services:
   worker:
     image: ghcr.io/hawks-atlanta/worker-java:latest
@@ -12,14 +15,18 @@ services:
     image: ghcr.io/hawks-atlanta/metadata-scala:latest
     container_name: metadata
     restart: on-failure
+    depends_on:
+      - postgres-db
     ports:
       - "127.0.0.1:8082:8080"
     environment:
       DATABASE_HOST: postgres-db
-      DATABASE_PORT: '5432'
-      DATABASE_NAME: database
+      DATABASE_PORT: 5432
+      DATABASE_NAME: metadatadb
       DATABASE_USER: username
       DATABASE_PASSWORD: password
+    networks:
+      - net
 
   authentication:
     image: ghcr.io/hawks-atlanta/authentication-go:latest
@@ -31,7 +38,9 @@ services:
       - "127.0.0.1:8081:8080"
     environment:
       DATABASE_ENGINE: postgres
-      DATABASE_DSN: "host=postgres-db user=username password=password dbname=database port=5432 sslmode=disable"
+      DATABASE_DSN: "host=postgres-db user=username password=password dbname=authdb port=5432 sslmode=disable"
+    networks:
+      - net
 
   postgres-db:
     image: postgres:latest
@@ -40,20 +49,22 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     environment:
-      - POSTGRES_USER=username
+      - POSTGRES_MULTIPLE_DATABASES=authdb,metadatadb
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=database
+      - POSTGRES_USER=username
     volumes:
-      # - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./postgres-volume:/var/lib/postgresql/data
+      - ./.docker-psql-mult-db:/docker-entrypoint-initdb.d/init.sh
+      - ./volumes/db:/var/lib/postgresql/data
+    networks:
+      - net
 
   postgres-admin:
     image: dpage/pgadmin4
     container_name: postgres-admin
-    depends_on:
-      - postgres-db
     ports:
       - "127.0.0.1:5050:80"
     environment:
-      - PGADMIN_DEFAULT_EMAIL=postgres@postgres.com
-      - PGADMIN_DEFAULT_PASSWORD=postgres
+      - PGADMIN_DEFAULT_EMAIL=p@p.com
+      - PGADMIN_DEFAULT_PASSWORD=p
+    networks:
+      - net

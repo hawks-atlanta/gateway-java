@@ -1,5 +1,6 @@
 package gateway.soap;
 
+import java.net.URLConnection;
 import capyfile.rmi.interfaces.*;
 import gateway.config.Config;
 import gateway.soap.request.*;
@@ -17,6 +18,8 @@ import java.util.UUID;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import org.json.JSONObject;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 @WebService (endpointInterface = "gateway.soap.Service") public class ServiceImp implements Service
 {
@@ -102,6 +105,7 @@ import org.json.JSONObject;
 	@WebMethod public StatusRes createFile (CreateFileReq args)
 	{
 		StatusRes s = new StatusRes ();
+		String mimetype = "";
 
 		// authenticate
 
@@ -120,6 +124,16 @@ import org.json.JSONObject;
 			s.success = false;
 			s.message = "Internal error, try again later";
 			return s;
+		}
+
+		// get file type
+
+		try {
+			InputStream is = new ByteArrayInputStream(args.fileContent);
+			mimetype = URLConnection.guessContentTypeFromStream(is);
+		} catch (Exception e) {
+			System.err.println (e);
+			System.err.println ("Couldn't determine mimetype. Continuing");
 		}
 
 		// TODO: save file metadata

@@ -106,6 +106,7 @@ import java.io.InputStream;
 	{
 		StatusRes s = new StatusRes ();
 		String mimetype = "";
+		UUID userUUID;
 
 		// authenticate
 
@@ -117,8 +118,8 @@ import java.io.InputStream;
 		// get user uuid
 
 		try {
-			UUID uuid = ManagerAuth.getUserUUID (args.token, "woynert"); // TODO: issue auth#39
-			System.out.println (uuid);
+			userUUID = ManagerAuth.getUserUUID (args.token, "woynert"); // TODO: issue auth#39
+			System.out.println (userUUID);
 		} catch (Exception e) {
 			System.err.println (e);
 			s.success = false;
@@ -131,6 +132,7 @@ import java.io.InputStream;
 		try {
 			InputStream is = new ByteArrayInputStream(args.fileContent);
 			mimetype = URLConnection.guessContentTypeFromStream(is);
+			System.out.println (mimetype);
 		} catch (Exception e) {
 			System.err.println (e);
 			System.err.println ("Couldn't determine mimetype. Continuing");

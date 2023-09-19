@@ -10,8 +10,22 @@ from zeep import Client
 client = Client('http://localhost:8080/service?wsdl')
 
 # consume methods
+result = client.service.register({
+            'username':  'woynert',
+            'password': 'password'
+            })
+
+print(result)
+
 result = client.service.login({
             'username':  'woynert',
+            'password': 'password'
+            })
+
+print(result)
+
+result = client.service.login({
+            'username':  'woynert2',
             'password': 'password'
             })
 

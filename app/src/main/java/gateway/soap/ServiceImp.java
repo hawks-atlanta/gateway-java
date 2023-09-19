@@ -19,25 +19,58 @@ import org.json.JSONObject;
 
 	@WebMethod public SessionRes login (Credentials credentials)
 	{
-		// TODO: Replace me
-
-		// Example handle JSON
-
-		String string_res = "{\"succeed\":false,\"msg\":\"example message\"}";
-		JSONObject json_res = new JSONObject (string_res);
-
-		System.out.println ("---");
-		System.out.println (json_res.getBoolean ("succeed"));
-		System.out.println (json_res.getString ("msg"));
-
-		// Example return type
-
+		// Create a new SessionRes object to hold the response data
 		SessionRes res = new SessionRes ();
-		res.auth = new Authorization ();
-		res.auth.token = "sample-token-for-" + credentials.username;
-		res.success = true;
-		res.message = "Successfully logged in";
 
+		// Define the URL for the authentication request
+		String url = Config.getAuthBaseUrl () + "/login";
+
+		// Create a JSONObject to hold the request body data.
+		JSONObject requestBody = new JSONObject ();
+
+		// Add the username and password fields obtained from the credentials object to the JSON request body 
+		requestBody.put ("username", credentials.username);
+		requestBody.put ("password", credentials.password);
+
+		try {
+			// Create an HttpClient instance for making HTTP requests
+			HttpClient client = HttpClient.newHttpClient ();
+
+			// Build an HTTP POST request with the specified URL, request body, and headers.
+			HttpRequest request = HttpRequest.newBuilder ()
+									  .uri (URI.create (url))
+									  .POST (BodyPublishers.ofString (requestBody.toString ()))
+									  .uri (URI.create (url))
+									  .header ("Content-Type", "application/json")
+									  .build ();
+
+			// Send the HTTP request and retrieve the response.
+			HttpResponse<String> response = client.send (request, HttpResponse.BodyHandlers.ofString ());
+
+			// Create a JSONObject to hold the response body received from the HTTP request.
+			JSONObject jsonObject = new JSONObject (response.body ());
+
+			// Get the HTTP status code from the response.
+			int statusCode = response.statusCode ();
+
+			// Check if the response status code is 201 (Login succeed)
+			if (statusCode == 201) {
+				// If the status code is 201, indicating login succeed, initialize an Authorization object in the response and extract the JWT token.
+				res.auth = new Authorization ();
+				res.success = true;
+				res.auth.token = jsonObject.getString ("jwt");
+			} else {
+				// If the status code is different from 201, indicating an error response, extract success status and message from the JSON object.
+				res.success = jsonObject.getBoolean ("succeed");
+				res.message = jsonObject.getString ("msg");
+			}
+
+		} catch (IOException | InterruptedException e) {
+			// Handle exceptions such as IOException and InterruptedException, if they occur.
+			e.printStackTrace ();
+		}
+
+		// Return the res object containing the response data.
 		return res;
 	}
 

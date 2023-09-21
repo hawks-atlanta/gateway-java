@@ -28,7 +28,8 @@ import org.json.JSONObject;
 		// Create a JSONObject to hold the request body data.
 		JSONObject requestBody = new JSONObject ();
 
-		// Add the username and password fields obtained from the credentials object to the JSON request body 
+		// Add the username and password fields obtained from the credentials object to the JSON
+		// request body
 		requestBody.put ("username", credentials.username);
 		requestBody.put ("password", credentials.password);
 
@@ -45,7 +46,8 @@ import org.json.JSONObject;
 									  .build ();
 
 			// Send the HTTP request and retrieve the response.
-			HttpResponse<String> response = client.send (request, HttpResponse.BodyHandlers.ofString ());
+			HttpResponse<String> response =
+				client.send (request, HttpResponse.BodyHandlers.ofString ());
 
 			// Create a JSONObject to hold the response body received from the HTTP request.
 			JSONObject jsonObject = new JSONObject (response.body ());
@@ -55,12 +57,14 @@ import org.json.JSONObject;
 
 			// Check if the response status code is 201 (Login succeed)
 			if (statusCode == 201) {
-				// If the status code is 201, indicating login succeed, initialize an Authorization object in the response and extract the JWT token.
+				// If the status code is 201, indicating login succeed, initialize an Authorization
+				// object in the response and extract the JWT token.
 				res.auth = new Authorization ();
 				res.success = true;
 				res.auth.token = jsonObject.getString ("jwt");
 			} else {
-				// If the status code is different from 201, indicating an error response, extract success status and message from the JSON object.
+				// If the status code is different from 201, indicating an error response, extract
+				// success status and message from the JSON object.
 				res.success = jsonObject.getBoolean ("succeed");
 				res.message = jsonObject.getString ("msg");
 			}

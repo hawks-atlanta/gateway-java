@@ -7,7 +7,6 @@ import java.lang.Exception;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.util.UUID;
 import org.json.JSONObject;
@@ -21,7 +20,6 @@ public class ManagerAuth
 		// post
 
 		try {
-			System.out.println (token);
 			HttpRequest request = HttpRequest.newBuilder ()
 									  .uri (URI.create (Config.getAuthBaseUrl () + "/challenge"))
 									  .POST (HttpRequest.BodyPublishers.noBody ())
@@ -54,7 +52,6 @@ public class ManagerAuth
 	{
 		try {
 			String uri = String.format ("%s/user/uuid/%s", Config.getAuthBaseUrl (), username);
-			System.out.println (uri);
 			HttpRequest request = HttpRequest.newBuilder ()
 									  .uri (URI.create (uri))
 									  .GET ()

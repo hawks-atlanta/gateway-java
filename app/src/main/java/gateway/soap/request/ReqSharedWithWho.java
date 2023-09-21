@@ -2,7 +2,7 @@ package gateway.soap.request;
 
 import java.util.UUID;
 
-public class SharedWithWhoReq extends Operation
+public class ReqSharedWithWho extends Operation
 {
 	public UUID fileUUID;
 }

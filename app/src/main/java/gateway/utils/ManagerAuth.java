@@ -1,7 +1,7 @@
 package gateway.utils;
 
 import gateway.config.Config;
-import gateway.soap.response.StatusRes;
+import gateway.soap.response.ResStatus;
 import java.io.IOException;
 import java.lang.Exception;
 import java.net.URI;
@@ -14,9 +14,9 @@ import org.json.JSONObject;
 
 public class ManagerAuth
 {
-	public static StatusRes authenticate (String token)
+	public static ResStatus authenticate (String token)
 	{
-		StatusRes s = new StatusRes ();
+		ResStatus s = new ResStatus ();
 
 		// post
 

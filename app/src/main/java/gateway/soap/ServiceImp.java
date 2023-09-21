@@ -27,7 +27,7 @@ import org.json.JSONObject;
 {
 	// auth
 
-	@WebMethod public SessionRes login (Credentials credentials)
+	@WebMethod public ResSession login (Credentials credentials)
 	{
 		// TODO: Replace me
 
@@ -42,7 +42,7 @@ import org.json.JSONObject;
 
 		// Example return type
 
-		SessionRes res = new SessionRes ();
+		ResSession res = new ResSession ();
 		res.auth = new Authorization ();
 		res.auth.token = "sample-token-for-" + credentials.username;
 		res.success = true;
@@ -52,9 +52,9 @@ import org.json.JSONObject;
 	}
 
 	// user register in auth service, returns an access token
-	@WebMethod public SessionRes register(Credentials credentials)
+	@WebMethod public ResSession register(Credentials credentials)
 	{
-		SessionRes res = new SessionRes ();
+		ResSession res = new ResSession ();
 
 		String url = Config.getAuthBaseUrl () + "/register";
 
@@ -97,21 +97,21 @@ import org.json.JSONObject;
 		return res;
 	}
 
-	@WebMethod public StatusRes updatePassword (UpdatePasswordReq parameters)
+	@WebMethod public ResStatus updatePassword (ReqUpdatePassword parameters)
 	{
-		return new StatusRes ();
+		return new ResStatus ();
 	}
 
 	// file system
 
-	@WebMethod public StatusRes createFile (CreateFileReq args)
+	@WebMethod public ResStatus createFile (CreateFileReq args)
 	{
-		StatusRes s = new StatusRes ();
+		ResStatus s = new ResStatus ();
 		String mimetype = "";
 		UUID userUUID;
 		UUID fileUUID;
 
-		StatusRes authRes = ManagerAuth.authenticate (args.token);
+		ResStatus authRes = ManagerAuth.authenticate (args.token);
 		if (!authRes.success) {
 			return authRes;
 		}
@@ -155,26 +155,26 @@ import org.json.JSONObject;
 		return s;
 	}
 
-	@WebMethod public StatusRes createDirectory (CreateDirectoryReq args)
+	@WebMethod public ResStatus createDirectory (ReqCreateDirectory args)
 	{
-		return new StatusRes ();
+		return new ResStatus ();
 	}
 
-	@WebMethod public StatusRes deleteFile (DeleteFileReq args) { return new StatusRes (); }
+	@WebMethod public ResStatus deleteFile (ReqDeleteFile args) { return new ResStatus (); }
 
-	@WebMethod public ListFileRes listFiles (ListFileReq args) { return null; }
+	@WebMethod public ResListFile listFiles (ReqListFile args) { return null; }
 
-	@WebMethod public DownloadFileRes downloadFile (DownloadFileReq args) { return null; }
+	@WebMethod public ResDownloadFile downloadFile (ReqDownloadFile args) { return null; }
 
-	@WebMethod public StatusRes moveFile (MoveFileReq args) { return new StatusRes (); }
+	@WebMethod public ResStatus moveFile (ReqMoveFile args) { return new ResStatus (); }
 
 	// sharing
 
-	@WebMethod public StatusRes shareWith (ShareWithReq args) { return new StatusRes (); }
+	@WebMethod public ResStatus shareWith (ReqShareWith args) { return new ResStatus (); }
 
-	@WebMethod public StatusRes unShareWith (UnShareWithReq args) { return new StatusRes (); }
+	@WebMethod public ResStatus unShareWith (ReqUnShareWith args) { return new ResStatus (); }
 
-	@WebMethod public SharedWithWhoRes sharedWithWho (SharedWithWhoReq args) { return null; }
+	@WebMethod public ResSharedWithWho sharedWithWho (ReqSharedWithWho args) { return null; }
 
-	@WebMethod public ListSharedWithMeRes listSharedWithMe (Authorization auth) { return null; }
+	@WebMethod public ResListSharedWithMe listSharedWithMe (Authorization auth) { return null; }
 }

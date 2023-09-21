@@ -1,6 +1,6 @@
 package gateway.soap.response;
 
-public class StatusRes
+public class ResStatus
 {
 	public boolean success = false;
 	public String message = "";

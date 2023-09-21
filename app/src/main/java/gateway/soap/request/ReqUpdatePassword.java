@@ -1,6 +1,6 @@
 package gateway.soap.request;
 
-public class UpdatePasswordReq
+public class ReqUpdatePassword
 {
 	public String token;
 	public String newpass;

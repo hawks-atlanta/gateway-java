@@ -9,33 +9,33 @@ import javax.jws.WebService;
 public interface Service {
 	// auth
 
-	@WebMethod SessionRes login (Credentials credentials);
+	@WebMethod ResSession login (Credentials credentials);
 
-	@WebMethod SessionRes register(Credentials credentials);
+	@WebMethod ResSession register(Credentials credentials);
 
-	@WebMethod StatusRes updatePassword (UpdatePasswordReq parameters);
+	@WebMethod ResStatus updatePassword (ReqUpdatePassword parameters);
 
 	// file system
 
-	@WebMethod StatusRes createFile (CreateFileReq args);
+	@WebMethod ResStatus createFile (CreateFileReq args);
 
-	@WebMethod StatusRes createDirectory (CreateDirectoryReq args);
+	@WebMethod ResStatus createDirectory (ReqCreateDirectory args);
 
-	@WebMethod StatusRes deleteFile (DeleteFileReq args);
+	@WebMethod ResStatus deleteFile (ReqDeleteFile args);
 
-	@WebMethod ListFileRes listFiles (ListFileReq args);
+	@WebMethod ResListFile listFiles (ReqListFile args);
 
-	@WebMethod DownloadFileRes downloadFile (DownloadFileReq args);
+	@WebMethod ResDownloadFile downloadFile (ReqDownloadFile args);
 
-	@WebMethod StatusRes moveFile (MoveFileReq args);
+	@WebMethod ResStatus moveFile (ReqMoveFile args);
 
 	// sharing
 
-	@WebMethod StatusRes shareWith (ShareWithReq args);
+	@WebMethod ResStatus shareWith (ReqShareWith args);
 
-	@WebMethod StatusRes unShareWith (UnShareWithReq args);
+	@WebMethod ResStatus unShareWith (ReqUnShareWith args);
 
-	@WebMethod SharedWithWhoRes sharedWithWho (SharedWithWhoReq args);
+	@WebMethod ResSharedWithWho sharedWithWho (ReqSharedWithWho args);
 
-	@WebMethod ListSharedWithMeRes listSharedWithMe (Authorization auth);
+	@WebMethod ResListSharedWithMe listSharedWithMe (Authorization auth);
 }

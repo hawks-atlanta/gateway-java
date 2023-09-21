@@ -1,6 +1,7 @@
 package gateway.soap;
 
 import capyfile.rmi.*;
+import com.auth0.jwt.JWT;
 import gateway.config.Config;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
@@ -21,7 +22,6 @@ import java.util.UUID;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import org.json.JSONObject;
-import com.auth0.jwt.JWT;
 
 @WebService (endpointInterface = "gateway.soap.Service") public class ServiceImp implements Service
 {
@@ -111,16 +111,14 @@ import com.auth0.jwt.JWT;
 		UUID userUUID;
 		UUID fileUUID;
 
-		// authenticate
-
 		StatusRes authRes = ManagerAuth.authenticate (args.token);
 		if (!authRes.success) {
 			return authRes;
 		}
 
-		userUUID = UUID.fromString(JWT.decode(args.token).getClaim("uuid").asString());
+		userUUID = UUID.fromString (JWT.decode (args.token).getClaim ("uuid").asString ());
 
-		// get file type
+		// mimetype from bytes
 
 		try {
 			InputStream is = new ByteArrayInputStream (args.fileContent);
@@ -129,7 +127,18 @@ import com.auth0.jwt.JWT;
 			System.err.println ("Couldn't determine mimetype. Continuing");
 		}
 
-		// TODO: save file metadata
+		fileUUID = ManagerMetadata.saveFile (
+			s, args.token, userUUID, args.location, mimetype, args.fileName,
+			args.fileContent.length);
+
+		if (fileUUID == null) {
+			s.success = false;
+			return s;
+		}
+
+		System.out.println (userUUID);
+		System.out.println (mimetype);
+		System.out.println (fileUUID);
 
 		// store file
 

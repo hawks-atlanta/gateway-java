@@ -45,7 +45,7 @@ dependencies {
     // ---
 
     // Use subproject
-    implementation project(':capyfile.rmi.interfaces')
+    implementation project(':capyfile.rmi')
 
 }
 

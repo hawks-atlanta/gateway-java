@@ -136,10 +136,6 @@ import org.json.JSONObject;
 			return s;
 		}
 
-		System.out.println (userUUID);
-		System.out.println (mimetype);
-		System.out.println (fileUUID);
-
 		// store file
 
 		try {

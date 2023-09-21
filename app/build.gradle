@@ -28,6 +28,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.json/json
     implementation 'org.json:json:20230618'
 
+    // JWT
+    implementation 'com.auth0:java-jwt:4.4.0'
+
     // --- SOAP service ---
 
     // https://mvnrepository.com/artifact/javax.xml.ws/jaxws-api

@@ -1,12 +1,7 @@
 package gateway;
 
-import capyfile.rmi.interfaces.*;
 import gateway.config.Config;
 import gateway.soap.*;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import javax.xml.ws.Endpoint;
 
 public class App

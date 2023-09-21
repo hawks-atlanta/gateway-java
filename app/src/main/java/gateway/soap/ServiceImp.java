@@ -1,15 +1,18 @@
 package gateway.soap;
 
-import java.net.URLConnection;
-import capyfile.rmi.interfaces.*;
+import capyfile.rmi.*;
 import gateway.config.Config;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
 import gateway.utils.ManagerAuth;
+import gateway.utils.ManagerMetadata;
 import gateway.utils.ManagerRMI;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.Exception;
 import java.net.URI;
+import java.net.URLConnection;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
@@ -18,8 +21,7 @@ import java.util.UUID;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import org.json.JSONObject;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import com.auth0.jwt.JWT;
 
 @WebService (endpointInterface = "gateway.soap.Service") public class ServiceImp implements Service
 {
@@ -107,6 +109,7 @@ import java.io.InputStream;
 		StatusRes s = new StatusRes ();
 		String mimetype = "";
 		UUID userUUID;
+		UUID fileUUID;
 
 		// authenticate
 
@@ -115,26 +118,14 @@ import java.io.InputStream;
 			return authRes;
 		}
 
-		// get user uuid
-
-		try {
-			userUUID = ManagerAuth.getUserUUID (args.token, "woynert"); // TODO: issue auth#39
-			System.out.println (userUUID);
-		} catch (Exception e) {
-			System.err.println (e);
-			s.success = false;
-			s.message = "Internal error, try again later";
-			return s;
-		}
+		userUUID = UUID.fromString(JWT.decode(args.token).getClaim("uuid").asString());
 
 		// get file type
 
 		try {
-			InputStream is = new ByteArrayInputStream(args.fileContent);
-			mimetype = URLConnection.guessContentTypeFromStream(is);
-			System.out.println (mimetype);
+			InputStream is = new ByteArrayInputStream (args.fileContent);
+			mimetype = URLConnection.guessContentTypeFromStream (is);
 		} catch (Exception e) {
-			System.err.println (e);
 			System.err.println ("Couldn't determine mimetype. Continuing");
 		}
 
@@ -142,20 +133,16 @@ import java.io.InputStream;
 
 		// store file
 
-		String uuid = java.util.UUID.randomUUID ().toString ();
-
 		try {
-
-			// TODO: Merge dev branch
 			IWorkerService server = ManagerRMI.getServer ();
-
-			UploadFileArgs queryUpload = new UploadFileArgs (uuid, args.fileContent);
+			UploadFileArgs queryUpload =
+				new UploadFileArgs (fileUUID.toString (), args.fileContent);
 			server.uploadFile (queryUpload);
 
 			s.success = true;
 			s.message = "Your file is being uploaded";
 		} catch (Exception e) {
-			System.err.println (e);
+			e.printStackTrace ();
 			s.success = false;
 			s.message = "Internal error, try again later";
 		}

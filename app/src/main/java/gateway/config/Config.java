@@ -8,8 +8,11 @@ public class Config
 	private static int workerPort;
 
 	public static String getAuthBaseUrl () { return authBaseUrl; }
+
 	public static String getMetadataBaseUrl () { return metadataBaseUrl; }
+
 	public static String getWorkerHost () { return workerHost; }
+
 	public static int getWorkerPort () { return workerPort; }
 
 	public static void initializeFromEnv ()

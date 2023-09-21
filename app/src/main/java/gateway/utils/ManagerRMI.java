@@ -1,14 +1,13 @@
 package gateway.utils;
 
-import capyfile.rmi.interfaces.IWorkerService;
+import capyfile.rmi.IWorkerService;
 import gateway.config.Config;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class ManagerRMI
 {
-
-	// TODO: Use pool
+	// TODO: Use worker pool
 	public static IWorkerService getServer () throws Exception
 	{
 		try {

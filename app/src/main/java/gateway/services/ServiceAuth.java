@@ -1,4 +1,4 @@
-package gateway.utils;
+package gateway.services;
 
 import gateway.config.Config;
 import gateway.soap.response.ResStatus;
@@ -11,7 +11,7 @@ import java.net.http.HttpResponse;
 import java.util.UUID;
 import org.json.JSONObject;
 
-public class ManagerAuth
+public class ServiceAuth
 {
 	public static ResStatus authenticate (String token)
 	{

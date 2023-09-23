@@ -1,4 +1,4 @@
-package gateway.utils;
+package gateway.services;
 
 import gateway.config.Config;
 import gateway.soap.response.*;
@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.UUID;
 import org.json.JSONObject;
 
-public class ManagerMetadata
+public class ServiceMetadata
 {
 
 	// TODO: use inner class

@@ -5,9 +5,9 @@ import com.auth0.jwt.JWT;
 import gateway.config.Config;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
-import gateway.utils.ManagerAuth;
-import gateway.utils.ManagerMetadata;
-import gateway.utils.ManagerRMI;
+import gateway.services.ServiceAuth;
+import gateway.services.ServiceMetadata;
+import gateway.services.ServiceWorker;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -153,7 +153,7 @@ import org.json.JSONObject;
 			return s;
 		}
 
-		ResStatus authRes = ManagerAuth.authenticate (args.token);
+		ResStatus authRes = ServiceAuth.authenticate (args.token);
 		if (authRes.error) {
 			return (ResFileNew)authRes;
 		}
@@ -169,7 +169,7 @@ import org.json.JSONObject;
 			System.err.println ("Couldn't determine mimetype. Continuing");
 		}
 
-		fileUUID = ManagerMetadata.saveFile (
+		fileUUID = ServiceMetadata.saveFile (
 			s, args.token, userUUID, args.location, mimetype, args.fileName,
 			args.fileContent.length);
 
@@ -183,7 +183,7 @@ import org.json.JSONObject;
 		// store file
 
 		try {
-			IWorkerService server = ManagerRMI.getServer ();
+			IWorkerService server = ServiceWorker.getServer ();
 			UploadFileArgs queryUpload =
 				new UploadFileArgs (fileUUID.toString (), args.fileContent);
 			server.uploadFile (queryUpload);

@@ -2,7 +2,7 @@ package gateway.soap.request;
 
 import java.util.UUID;
 
-public class DeleteFileReq extends Operation
+public class RedFileDelete extends Authorization
 {
 	public UUID[] fileUUID; // 1+
 }

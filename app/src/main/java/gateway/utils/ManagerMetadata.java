@@ -20,7 +20,7 @@ public class ManagerMetadata
 	//}
 
 	public static UUID saveFile (
-		StatusRes statusRes, String token, UUID userUUID, UUID directoryUUID, String filetype,
+		ResStatus statusRes, String token, UUID userUUID, UUID directoryUUID, String filetype,
 		String filename, int filesize)
 	{
 		UUID fileUUID = null;

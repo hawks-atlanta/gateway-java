@@ -60,13 +60,13 @@ import org.json.JSONObject;
 				// If the status code is 201, indicating login succeed, initialize an Authorization
 				// object in the response and extract the JWT token.
 				res.auth = new Authorization ();
-				res.success = true;
+				res.error = false;
 				res.auth.token = jsonObject.getString ("jwt");
 			} else {
 				// If the status code is different from 201, indicating an error response, extract
 				// success status and message from the JSON object.
-				res.success = jsonObject.getBoolean ("succeed");
-				res.message = jsonObject.getString ("msg");
+				res.error = true;
+				res.msg = jsonObject.getString ("msg");
 			}
 
 		} catch (IOException | InterruptedException e) {
@@ -112,11 +112,11 @@ import org.json.JSONObject;
 
 			if (statusCode == 201) {
 				res.auth = new Authorization ();
-				res.success = true;
+				res.error = false;
 				res.auth.token = jsonObject.getString ("jwt");
 			} else {
-				res.success = jsonObject.getBoolean ("succeed");
-				res.message = jsonObject.getString ("msg");
+				res.error = true;
+				res.msg = jsonObject.getString ("msg");
 			}
 
 		} catch (IOException | InterruptedException e) {
@@ -139,8 +139,8 @@ import org.json.JSONObject;
 		System.out.println (args.fileName);
 		System.out.println ("---");
 		ResStatus s = new ResStatus ();
-		s.success = true;
-		s.message = "File created successfully";
+		s.error = false;
+		s.msg = "File created successfully";
 		return (ResFileNew)s;
 	}
 

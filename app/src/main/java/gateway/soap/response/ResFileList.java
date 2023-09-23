@@ -1,6 +1,6 @@
 package gateway.soap.response;
 
-public class ResListFile extends ResStatus
+public class ResFileList extends ResStatus
 {
 	public File[] files;
 }

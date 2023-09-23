@@ -9,33 +9,39 @@ import javax.jws.WebService;
 public interface Service {
 	// auth
 
-	@WebMethod ResSession login (Credentials credentials);
+	@WebMethod ResSession auth_login (Credentials credentials);
 
-	@WebMethod ResSession register(Credentials credentials);
+	@WebMethod ResSession auth_refresh (Authorization auth);
 
-	@WebMethod ResStatus updatePassword (ReqUpdatePassword parameters);
+	// account
+
+	@WebMethod ResSession account_register (Credentials credentials);
+
+	@WebMethod ResStatus account_password (ReqAccPassword parameters);
 
 	// file system
 
-	@WebMethod ResStatus createFile (CreateFileReq args);
+	@WebMethod ResFileList file_list (ReqFileList args);
 
-	@WebMethod ResStatus createDirectory (ReqCreateDirectory args);
+	@WebMethod ResFileNew file_upload (ReqFileUpload args);
 
-	@WebMethod ResStatus deleteFile (ReqDeleteFile args);
+	@WebMethod ResFileNew file_new_dir (ReqFileNewDir args);
 
-	@WebMethod ResListFile listFiles (ReqListFile args);
+	@WebMethod ResFileCheck file_check (ReqFile args);
 
-	@WebMethod ResDownloadFile downloadFile (ReqDownloadFile args);
+	@WebMethod ResStatus file_delete (RedFileDelete args);
 
-	@WebMethod ResStatus moveFile (ReqMoveFile args);
+	@WebMethod ResFileDownload file_download (ReqFile args);
+
+	@WebMethod ResStatus file_move (ReqFileMove args);
 
 	// sharing
 
-	@WebMethod ResStatus shareWith (ReqShareWith args);
+	@WebMethod ResStatus share_file (ReqShareFile args);
 
-	@WebMethod ResStatus unShareWith (ReqUnShareWith args);
+	@WebMethod ResStatus share_remove (ReqShareRemove args);
 
-	@WebMethod ResSharedWithWho sharedWithWho (ReqSharedWithWho args);
+	@WebMethod ResShareList share_list (Authorization auth);
 
-	@WebMethod ResListSharedWithMe listSharedWithMe (Authorization auth);
+	@WebMethod ResShareListWithWho share_list_with_who (ReqFile args);
 }

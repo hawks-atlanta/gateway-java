@@ -2,8 +2,7 @@ package gateway.soap.request;
 
 import java.util.UUID;
 
-public class ReqCreateDirectory extends Operation
+public class ReqFileList extends Authorization
 {
-	public String directoryName;
 	public UUID location;
 }

@@ -1,6 +1,6 @@
 package gateway.soap.response;
 
-public class ResSharedWithWho extends ResStatus
+public class ResShareListWithWho extends ResStatus
 {
 	public String[] usernames;
 }

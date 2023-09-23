@@ -6,6 +6,7 @@ public class Config
 	private static String metadataBaseUrl;
 	private static String workerHost;
 	private static int workerPort;
+	public static final int MAX_FILE_SIZE = 100000000; // 100 MB
 
 	public static String getAuthBaseUrl () { return authBaseUrl; }
 	public static String getMetadataBaseUrl () { return metadataBaseUrl; }

@@ -149,6 +149,18 @@ import org.json.JSONObject;
 		UUID userUUID;
 		UUID fileUUID;
 
+		// check size
+
+		if (args.fileContent.length == 0) {
+			s.success = false;
+			s.message = "File is empty";
+			return s;
+		} else if (args.fileContent.length > Config.MAX_FILE_SIZE) {
+			s.success = false;
+			s.message = "File is too large";
+			return s;
+		}
+
 		ResStatus authRes = ManagerAuth.authenticate (args.token);
 		if (!authRes.success) {
 			return (ResFileNew)authRes;

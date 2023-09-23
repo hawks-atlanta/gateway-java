@@ -1,6 +1,6 @@
 package gateway.soap.response;
 
-public class ListSharedWithMeRes extends StatusRes
+public class ResShareList extends ResStatus
 {
 	public SharedFile[] sharedFiles;
 }

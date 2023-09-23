@@ -2,9 +2,9 @@ package gateway.soap.request;
 
 import java.util.UUID;
 
-public class CreateFileReq extends Operation
+public class ReqFileUpload extends Authorization
 {
 	public String fileName;
-	public Byte[] fileContent;
+	public byte[] fileContent;
 	public UUID location;
 }

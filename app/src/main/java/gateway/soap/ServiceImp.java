@@ -160,7 +160,7 @@ import org.json.JSONObject;
 
 	@WebMethod public ResStatus share_file (ReqShareFile args) { return null; }
 
-	@WebMethod public ResStatus share_remove (ReqShareRemove args) { return null; }
+	@WebMethod public ResStatus unshare_file (ReqShareRemove args) { return null; }
 
 	@WebMethod public ResShareList share_list (Authorization auth) { return null; }
 

@@ -71,7 +71,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResSession'
         'default':
-          description: An error occurred, see other codes at [Authentication API Spec](https://github.com/hawks-atlanta/authentication-go/blob/main/docs/spec.openapi.yaml)
+          description: An error occurred, see other codes at [Authentication API Spec `POST /challenge`](https://github.com/hawks-atlanta/authentication-go/blob/main/docs/spec.openapi.yaml)
           content:
             Object:
               schema:
@@ -336,7 +336,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResStatus'
 
-  /share_remove:
+  /unshare_file:
     post:
       tags:
         - Share

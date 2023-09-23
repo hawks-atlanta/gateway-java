@@ -39,7 +39,7 @@ public interface Service {
 
 	@WebMethod ResStatus share_file (ReqShareFile args);
 
-	@WebMethod ResStatus share_remove (ReqShareRemove args);
+	@WebMethod ResStatus unshare_file (ReqShareRemove args);
 
 	@WebMethod ResShareList share_list (Authorization auth);
 

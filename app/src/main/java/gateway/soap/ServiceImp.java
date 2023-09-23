@@ -27,7 +27,7 @@ import org.json.JSONObject;
 {
 	// auth
 
-	@WebMethod public ResSession login (Credentials credentials)
+	@WebMethod public ResSession auth_login (Credentials credentials)
 	{
 		// TODO: Replace me
 
@@ -51,8 +51,10 @@ import org.json.JSONObject;
 		return res;
 	}
 
+	@WebMethod public ResSession auth_refresh (Authorization auth) { return null; }
+
 	// user register in auth service, returns an access token
-	@WebMethod public ResSession register(Credentials credentials)
+	@WebMethod public ResSession account_register (Credentials credentials)
 	{
 		ResSession res = new ResSession ();
 
@@ -97,23 +99,25 @@ import org.json.JSONObject;
 		return res;
 	}
 
-	@WebMethod public ResStatus updatePassword (ReqUpdatePassword parameters)
+	@WebMethod public ResStatus account_password (ReqAccPassword parameters)
 	{
 		return new ResStatus ();
 	}
 
 	// file system
 
-	@WebMethod public ResStatus createFile (CreateFileReq args)
+	@WebMethod public ResFileList file_list (ReqFileList args) { return null; }
+
+	@WebMethod public ResFileNew file_upload (ReqFileUpload args)
 	{
-		ResStatus s = new ResStatus ();
+		ResFileNew s = new ResFileNew ();
 		String mimetype = "";
 		UUID userUUID;
 		UUID fileUUID;
 
 		ResStatus authRes = ManagerAuth.authenticate (args.token);
 		if (!authRes.success) {
-			return authRes;
+			return (ResFileNew)authRes;
 		}
 
 		userUUID = UUID.fromString (JWT.decode (args.token).getClaim ("uuid").asString ());
@@ -155,26 +159,23 @@ import org.json.JSONObject;
 		return s;
 	}
 
-	@WebMethod public ResStatus createDirectory (ReqCreateDirectory args)
-	{
-		return new ResStatus ();
-	}
+	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args) { return null; }
 
-	@WebMethod public ResStatus deleteFile (ReqDeleteFile args) { return new ResStatus (); }
+	@WebMethod public ResFileCheck file_check (ReqFile args) { return null; }
 
-	@WebMethod public ResListFile listFiles (ReqListFile args) { return null; }
+	@WebMethod public ResStatus file_delete (RedFileDelete args) { return new ResStatus (); }
 
-	@WebMethod public ResDownloadFile downloadFile (ReqDownloadFile args) { return null; }
+	@WebMethod public ResFileDownload file_download (ReqFile args) { return null; }
 
-	@WebMethod public ResStatus moveFile (ReqMoveFile args) { return new ResStatus (); }
+	@WebMethod public ResStatus file_move (ReqFileMove args) { return new ResStatus (); }
 
 	// sharing
 
-	@WebMethod public ResStatus shareWith (ReqShareWith args) { return new ResStatus (); }
+	@WebMethod public ResStatus share_file (ReqShareFile args) { return new ResStatus (); }
 
-	@WebMethod public ResStatus unShareWith (ReqUnShareWith args) { return new ResStatus (); }
+	@WebMethod public ResStatus share_remove (ReqShareRemove args) { return new ResStatus (); }
 
-	@WebMethod public ResSharedWithWho sharedWithWho (ReqSharedWithWho args) { return null; }
+	@WebMethod public ResShareList share_list (Authorization auth) { return null; }
 
-	@WebMethod public ResListSharedWithMe listSharedWithMe (Authorization auth) { return null; }
+	@WebMethod public ResShareListWithWho share_list_with_who (ReqFile args) { return null; }
 }

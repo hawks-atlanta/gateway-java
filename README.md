@@ -10,12 +10,13 @@ Microservice to expose main CapyFile services.
 
 ## Documentation
 
-| Document                | URL                                                                                |
-|-------------------------|------------------------------------------------------------------------------------|
-| CLI documentation       | [CLI.md](CLI.md)                                                                   |
-| CICD                    | [CICD.md](https://github.com/hawks-atlanta/docs/blob/main/CICD.md)                 |
-| CONTRIBUTING            | [CONTRIBUTING.md](https://github.com/hawks-atlanta/docs/blob/main/CONTRIBUTING.md) |
-| SOAP service definition | [Service.java](app/src/main/java/gateway/soap/Service.java)                        |
+| Document                    | URL                                                                                |
+|-----------------------------|------------------------------------------------------------------------------------|
+| CLI documentation           | [CLI.md](CLI.md)                                                                   |
+| CICD                        | [CICD.md](https://github.com/hawks-atlanta/docs/blob/main/CICD.md)                 |
+| CONTRIBUTING                | [CONTRIBUTING.md](https://github.com/hawks-atlanta/docs/blob/main/CONTRIBUTING.md) |
+| SOAP Java interfaces        | [Service.java](app/src/main/java/gateway/soap/Service.java)                        |
+| SOAP service API definition | [Specification](docs/spec.openapi.yml)                                             |
 
 ## Development
 

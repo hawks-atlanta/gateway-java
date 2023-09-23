@@ -10,17 +10,16 @@ from zeep import Client
 client = Client('http://localhost:8080/service?wsdl')
 
 # consume methods
-result = client.service.login({
+result = client.service.account_register({
             'username':  'woynert',
             'password': 'password'
             })
 
 print(result)
 
-result = client.service.createFile({
-                'token': 'my-token',
-                'fileName': 'notwoynert',
-                'fileContent':  [],
-                'location': '164dcb6e-7dd7-45ea-bab7-96829307f084'
+result = client.service.auth_login({
+            'username':  'woynert',
+            'password': 'password'
             })
+
 print(result)

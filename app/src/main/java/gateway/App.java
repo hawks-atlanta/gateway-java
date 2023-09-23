@@ -1,7 +1,7 @@
 package gateway;
 
 import gateway.config.Config;
-import gateway.soap.*;
+import gateway.soap.ServiceImp;
 import javax.xml.ws.Endpoint;
 
 public class App

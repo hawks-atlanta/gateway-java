@@ -1,0 +1,658 @@
+openapi: 3.0.3
+
+info:
+  title: Capyfile Gateway Service
+
+  license:
+    name: MIT
+    url: https://github.com/hawks-atlanta/gateway-java/blob/main/LICENSE
+
+  version: TBA
+  
+  description: |
+    Describes requests exposed in the gateway SOAP service. Despite it not being a REST API this specification was created for developers convenience, so that they don't have to deal with the WSDL file. This document is for reference only.
+    
+    How to read this document:
+    - Endpoints → SOAP requests
+    - Response codes → ResStatus code field
+
+tags:
+  - name: Auth
+  - name: Account
+  - name: File
+  - name: Share
+
+paths:
+
+  # authorization / authentication
+  
+  /auth_login:
+    post:
+      tags:
+        - Auth
+      description: Authenticates to the server
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+      responses:
+        '200':
+          description: Login succeeded
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResSession'
+        'default':
+          description: An error occurred, see other codes at [Authentication API Spec](https://github.com/hawks-atlanta/authentication-go/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+
+                
+  /auth_refresh:
+    post:
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      description: Returns a new token
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/Authorization'
+      responses:
+        '200':
+          description: Refresh succeeded
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResSession'
+        'default':
+          description: An error occurred, see other codes at [Authentication API Spec `POST /challenge`](https://github.com/hawks-atlanta/authentication-go/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+
+  # account
+                
+  /account_register:
+    post:
+      tags:
+        - Account
+      description: Creates a new account
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+      responses:
+        '200':
+          description: Register succeeded
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResSession'
+        'default':
+          description: An error occurred, see other codes at [Authentication API Spec](https://github.com/hawks-atlanta/authentication-go/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+                
+  /account_password:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Account
+      description: Updates the user's password
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/ReqAccPassword'
+      responses:
+        '200':
+          description: Password updated successfully
+          content:
+            object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+        'default':
+          description: An error occurred, see other codes at [Authentication API Spec](https://github.com/hawks-atlanta/authentication-go/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+
+  # file system
+
+  /file_list:
+    post:
+      tags: ["File"]
+      description: List files in a given directory. List the user's root directory when the location field is Null.
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/ReqFileList'
+      responses:
+        "200":
+          description: Ok. The directory was listed.
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResFileList'
+        'default':
+          description: An error occurred, error code and message returned. See possible responses at [Metadata API Spec](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+                
+  /file_upload:
+    post:
+      tags:
+        - File
+      description: Stores a new file in the given location UUID and registers it in the user account. The file is not immediately uploaded so you can check it's state later with the `/file_check` request.
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/ReqFileUpload'
+      responses:
+        "200":
+          description: File is being uploaded. You can check it's state later with the `/file_check` request.
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResFileNew'
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `POST /files`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+                
+  /file_new_directory:
+    post:
+      tags:
+        - File
+      description: Creates a new directory in the given location UUID.
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/ReqFileNewDir'
+      responses:
+        "200":
+          description: Directory created.
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResFileNew'
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `POST /File`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+
+  /file_check:
+    post:
+      tags:
+        - File
+      description: Returns a boolean value describing whether an uploaded file is ready or not, i.e. fully written in storage.
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/ReqFile'
+      responses:
+        "200":
+          description: Ok, checking completed, and result returned.
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResFileCheck'
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+                
+  /file_download:
+    post:
+      tags:
+        - File
+      description: Return the byte contents of a stored file.
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/ReqFile'
+      responses:
+        "200":
+          description: Ok. Contents returned.
+          content:
+            object:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResFileDownload"
+        "500":
+          description: Internal server error
+          content:
+            object:
+              schema:
+                $ref: "#/components/schemas/ResStatus"
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `GET /files/metadata/{file_uuid}`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+
+  /file_delete:
+    post:
+      tags: ["File"]
+      description: Delete one or multiple files from the user account.
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/ReqFileDelete'
+      responses:
+        "200":
+          description: The file was deleted.
+          content:
+            object:
+              schema:
+                $ref: "#/components/schemas/ResStatus"
+        "500":
+          description: Internal server error
+          content:
+            object:
+              schema:
+                $ref: "#/components/schemas/ResStatus"
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `DELETE /files/{user_uuid}/{file_uuid}`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+                
+  /file_move:
+    put:
+      tags: ["File"]
+      description: Move or rename the given file. If `targetDirectoryUUID` is provided the file will be moved. If `newName` is provided the name will be renamed. 
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/ReqFileMove'
+      responses:
+        "200":
+          description: The file was moved / renamed.
+          content:
+            object:
+              schema:
+                $ref: "#/components/schemas/ResStatus"
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `PUT /files/rename/{user_uuid}/{file_uuid}` and `PUT /files/move/{user_uuid}/{file_uuid}`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+
+  # share
+
+  /share_file:
+    post:
+      tags:
+        - Share
+      description: Share the given file with the given user
+      requestBody:
+        content:
+          object:
+            schema:
+              $ref: "#/components/schemas/ReqShareFile"
+      responses:
+        "200":
+          description: The file was shared
+          content:
+            object:
+              schema:
+                $ref: "#/components/schemas/ResStatus"
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `POST /files/share/{user_uuid}/{file_uuid}`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+
+  /unshare_file:
+    post:
+      tags:
+        - Share
+      description: Unshare the given file with the given user
+      requestBody:
+        content:
+          object:
+            schema:
+              $ref: "#/components/schemas/ReqShareRemove"
+      responses:
+        "200":
+          description: The file was unshared
+          content:
+            object:
+              schema:
+                $ref: "#/components/schemas/ResStatus"
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `POST /files/unshare/{user_uuid}/{file_uuid}`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+
+  /share_list:
+    post:
+      tags:
+        - Share
+      description: List the files that have been shared with this account (you).
+      requestBody:
+        content:
+          object:
+            schema:
+              $ref: "#/components/schemas/Authorization"
+      responses:
+        "200":
+          description: Ok. List returned.
+          content:
+            object:
+              schema:
+                $ref: "#/components/schemas/ResShareList"
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `GET /files/shared_with_me/{user_uuid}`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+                
+  /share_list_with_who:
+    post:
+      tags:
+        - Share
+      description: List the users which this file has been shared with.
+      requestBody:
+        content:
+          object:
+            schema:
+              $ref: "#/components/schemas/ReqFile"
+      responses:
+        "200":
+          description: The list of usernames of the users which the file was shared is returned.
+          content:
+            object:
+              schema:
+                $ref: "#/components/schemas/ResShareListWithWho"
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `GET /files/shared_with_who/{file_uuid}`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+  
+    # Base types
+    
+    Authorization:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxMjM0NTY3ODkwIiwidXVpZCI6IjY0MTg1NjZmLWNhMDgtNGI0Ny1iMzQzLWNkNjliNDU0OGYwNyJ9.P45Rr8IfPKCwinKKceRjD0Syeygoa_9R6RsWkXFy4sU
+
+    ResStatus:
+      type: object
+      properties:
+        code:
+          type: number
+          example: 200
+        error:
+          type: boolean
+          example: false
+        msg:
+          type: string
+          example: ""
+
+    ResSession:
+      allOf:
+        - type: object
+          properties:
+            auth:
+              $ref: '#/components/schemas/Authorization'
+        - $ref: '#/components/schemas/ResStatus'
+          
+    Credentials:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          
+    # account types
+    
+    ReqAccPassword:
+      allOf:
+        - type: object
+          properties:
+            oldpassword:
+              type: string
+            newpassword:
+              type: string
+        - $ref: '#/components/schemas/Authorization'
+     
+    # file types
+    
+    File:
+      type: object
+      properties:
+        name:
+          type: string
+          example: picture.png
+        isFile:
+          type: boolean
+        uuid:
+          type: string
+          example: 5295d524-aafc-407c-96ed-adae2cd5047a
+        size:
+          type: number
+          example: 46350
+    
+    ReqFileList:
+      allOf:
+        - type: object
+          properties:
+            location:
+              type: string
+              example: 5295d524-aafc-407c-96ed-adae2cd5047a
+        - $ref: '#/components/schemas/Authorization'
+    
+    ResFileList:
+      allOf:
+        - type: object
+          properties:
+            files:
+              type: array
+              items:
+                $ref: '#/components/schemas/File'
+        - $ref: '#/components/schemas/ResStatus'
+    
+    ReqFileUpload:
+      allOf:
+        - type: object
+          properties:
+            fileName:
+              type: string
+              example: picture.png
+            fileContent:
+              type: array
+              items:
+                type: number
+              example: byte[]
+            location:
+              type: string
+              example: 5295d524-aafc-407c-96ed-adae2cd5047a
+        - $ref: '#/components/schemas/Authorization'
+    
+    ReqFileNewDir:
+      allOf:
+        - type: object
+          properties:
+            directoryName:
+              type: string
+              example: my_secret_folder
+            location:
+              type: string
+              example: 5295d524-aafc-407c-96ed-adae2cd5047a
+        - $ref: '#/components/schemas/Authorization'
+    
+    ResFileNew:
+      allOf:
+        - type: object
+          properties:
+            fileUUID:
+              type: string
+              example: 5295d524-aafc-407c-96ed-adae2cd5047a
+        - $ref: '#/components/schemas/ResStatus'
+    
+    ResFileCheck:
+      allOf:
+        - type: object
+          properties:
+            ready:
+              type: boolean
+        - $ref: '#/components/schemas/ResStatus'
+      
+    ReqFileDelete:
+      allOf:
+        - type: object
+          properties:
+            fileUUID:
+              type: array
+              items:
+                type: string
+                example: 5295d524-aafc-407c-96ed-adae2cd5047a
+        - $ref: '#/components/schemas/Authorization'
+    
+    ResFileDownload:
+      allOf:
+        - type: object
+          properties:
+            fileName:
+              type: string
+              example: picture.png
+            fileContent:
+              type: array
+              items:
+                type: number
+              example: []
+        - $ref: '#/components/schemas/ResStatus'
+    
+    ReqFileMove:
+      allOf:
+        - type: object
+          required:
+            - fileUUID
+            - token
+          properties:
+            fileUUID:
+              type: string
+              example: 5295d524-aafc-407c-96ed-adae2cd5047a
+            targetDirectoryUUID:
+              type: string
+              example: 5295d524-aafc-407c-96ed-adae2cd5047a
+            newName:
+              type: string
+              example: picture_new_name.png
+        - $ref: '#/components/schemas/Authorization'
+        
+    # share types
+  
+    SharedFile:
+      allOf:
+        - type: object
+          properties:
+            ownerUsername:
+              type: string
+              example: CocoTheCat
+        - $ref: '#/components/schemas/File'
+          
+    ReqShareFile:
+      allOf:
+        - type: object
+          properties:
+            fileUUID:
+              type: string
+              example: 5295d524-aafc-407c-96ed-adae2cd5047a
+            otherUsername:
+              type: string
+              example: whosthenert67
+        - $ref: '#/components/schemas/Authorization'
+        
+    ReqShareRemove:
+      allOf:
+        - type: object
+          properties:
+            fileUUID:
+              type: string
+              example: 5295d524-aafc-407c-96ed-adae2cd5047a
+            otherUsername:
+              type: string
+              example: whosthenert67
+        - $ref: '#/components/schemas/Authorization'
+    
+    ResShareList:
+      allOf:
+        - type: object
+          properties:
+            sharedFiles:
+              type: array
+              items:
+                $ref: '#/components/schemas/SharedFile'
+        - $ref: '#/components/schemas/ResStatus'
+        
+    ReqFile:
+      allOf:
+        - type: object
+          properties:
+            fileUUID:
+              type: string
+              example: 5295d524-aafc-407c-96ed-adae2cd5047a
+        - $ref: '#/components/schemas/Authorization'
+        
+    ResShareListWithWho:
+      allOf:
+        - type: object
+          properties:
+            usernames:
+              type: array
+              items:
+                type: string
+                example: Hubert Cumberdale
+        - $ref: '#/components/schemas/ResStatus'

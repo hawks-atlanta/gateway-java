@@ -17,10 +17,10 @@ import org.json.JSONObject;
 {
 	// auth
 
-	@WebMethod public SessionRes login (Credentials credentials)
+	@WebMethod public ResSession auth_login (Credentials credentials)
 	{
-		// Create a new SessionRes object to hold the response data
-		SessionRes res = new SessionRes ();
+		// Create a new ResSession object to hold the response data
+		ResSession res = new ResSession ();
 
 		// Define the URL for the authentication request
 		String url = Config.getAuthBaseUrl () + "/login";
@@ -60,13 +60,13 @@ import org.json.JSONObject;
 				// If the status code is 201, indicating login succeed, initialize an Authorization
 				// object in the response and extract the JWT token.
 				res.auth = new Authorization ();
-				res.success = true;
+				res.error = false;
 				res.auth.token = jsonObject.getString ("jwt");
 			} else {
 				// If the status code is different from 201, indicating an error response, extract
 				// success status and message from the JSON object.
-				res.success = jsonObject.getBoolean ("succeed");
-				res.message = jsonObject.getString ("msg");
+				res.error = true;
+				res.msg = jsonObject.getString ("msg");
 			}
 
 		} catch (IOException | InterruptedException e) {
@@ -78,10 +78,12 @@ import org.json.JSONObject;
 		return res;
 	}
 
+	@WebMethod public ResSession auth_refresh (Authorization auth) { return null; }
+
 	// user register in auth service, returns an access token
-	@WebMethod public SessionRes register(Credentials credentials)
+	@WebMethod public ResSession account_register (Credentials credentials)
 	{
-		SessionRes res = new SessionRes ();
+		ResSession res = new ResSession ();
 
 		String url = Config.getAuthBaseUrl () + "/register";
 
@@ -110,11 +112,11 @@ import org.json.JSONObject;
 
 			if (statusCode == 201) {
 				res.auth = new Authorization ();
-				res.success = true;
+				res.error = false;
 				res.auth.token = jsonObject.getString ("jwt");
 			} else {
-				res.success = jsonObject.getBoolean ("succeed");
-				res.message = jsonObject.getString ("msg");
+				res.error = true;
+				res.msg = jsonObject.getString ("msg");
 			}
 
 		} catch (IOException | InterruptedException e) {
@@ -124,14 +126,11 @@ import org.json.JSONObject;
 		return res;
 	}
 
-	@WebMethod public StatusRes updatePassword (UpdatePasswordReq parameters)
-	{
-		return new StatusRes ();
-	}
+	@WebMethod public ResStatus account_password (ReqAccPassword parameters) { return null; }
 
 	// file system
 
-	@WebMethod public StatusRes createFile (CreateFileReq args)
+	@WebMethod public ResFileNew file_upload (ReqFileUpload args)
 	{
 		// TODO: Replace me
 		System.out.println ("---");
@@ -139,32 +138,31 @@ import org.json.JSONObject;
 		System.out.println (args.token);
 		System.out.println (args.fileName);
 		System.out.println ("---");
-		StatusRes s = new StatusRes ();
-		s.success = true;
-		s.message = "File created successfully";
-		return s;
+		ResStatus s = new ResStatus ();
+		s.error = false;
+		s.msg = "File created successfully";
+		return (ResFileNew)s;
 	}
 
-	@WebMethod public StatusRes createDirectory (CreateDirectoryReq args)
-	{
-		return new StatusRes ();
-	}
+	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args) { return null; }
 
-	@WebMethod public StatusRes deleteFile (DeleteFileReq args) { return new StatusRes (); }
+	@WebMethod public ResFileCheck file_check (ReqFile args) { return null; }
 
-	@WebMethod public ListFileRes listFiles (ListFileReq args) { return null; }
+	@WebMethod public ResStatus file_delete (ReqFileDelete args) { return null; }
 
-	@WebMethod public DownloadFileRes downloadFile (DownloadFileReq args) { return null; }
+	@WebMethod public ResFileList file_list (ReqFileList args) { return null; }
 
-	@WebMethod public StatusRes moveFile (MoveFileReq args) { return new StatusRes (); }
+	@WebMethod public ResFileDownload file_download (ReqFile args) { return null; }
+
+	@WebMethod public ResStatus file_move (ReqFileMove args) { return null; }
 
 	// sharing
 
-	@WebMethod public StatusRes shareWith (ShareWithReq args) { return new StatusRes (); }
+	@WebMethod public ResStatus share_file (ReqShareFile args) { return null; }
 
-	@WebMethod public StatusRes unShareWith (UnShareWithReq args) { return new StatusRes (); }
+	@WebMethod public ResStatus unshare_file (ReqShareRemove args) { return null; }
 
-	@WebMethod public SharedWithWhoRes sharedWithWho (SharedWithWhoReq args) { return null; }
+	@WebMethod public ResShareList share_list (Authorization auth) { return null; }
 
-	@WebMethod public ListSharedWithMeRes listSharedWithMe (Authorization auth) { return null; }
+	@WebMethod public ResShareListWithWho share_list_with_who (ReqFile args) { return null; }
 }

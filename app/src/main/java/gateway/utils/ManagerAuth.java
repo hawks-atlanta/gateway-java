@@ -35,14 +35,14 @@ public class ManagerAuth
 			int statusCode = response.statusCode ();
 
 			if (statusCode == 200) {
-				s.success = true;
+				s.error = false;
 			} else {
-				s.success = false;
-				s.message = jsonObject.getString ("msg");
+				s.error = true;
+				s.msg = jsonObject.getString ("msg");
 			}
 		} catch (Exception e) {
-			s.success = false;
-			s.message = "Internal server error. Try again later";
+			s.error = true;
+			s.msg = "Internal server error. Try again later";
 		}
 
 		return s;

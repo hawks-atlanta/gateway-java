@@ -70,13 +70,13 @@ import org.json.JSONObject;
 				// If the status code is 201, indicating login succeed, initialize an Authorization
 				// object in the response and extract the JWT token.
 				res.auth = new Authorization ();
-				res.success = true;
+				res.error = false;
 				res.auth.token = jsonObject.getString ("jwt");
 			} else {
 				// If the status code is different from 201, indicating an error response, extract
 				// success status and message from the JSON object.
-				res.success = jsonObject.getBoolean ("succeed");
-				res.message = jsonObject.getString ("msg");
+				res.error = true;
+				res.msg = jsonObject.getString ("msg");
 			}
 
 		} catch (IOException | InterruptedException e) {
@@ -122,11 +122,11 @@ import org.json.JSONObject;
 
 			if (statusCode == 201) {
 				res.auth = new Authorization ();
-				res.success = true;
+				res.error = false;
 				res.auth.token = jsonObject.getString ("jwt");
 			} else {
-				res.success = jsonObject.getBoolean ("succeed");
-				res.message = jsonObject.getString ("msg");
+				res.error = true;
+				res.msg = jsonObject.getString ("msg");
 			}
 
 		} catch (IOException | InterruptedException e) {
@@ -152,17 +152,17 @@ import org.json.JSONObject;
 		// check size
 
 		if (args.fileContent.length == 0) {
-			s.success = false;
-			s.message = "File is empty";
+			s.error = true;
+			s.msg = "File is empty";
 			return s;
 		} else if (args.fileContent.length > Config.MAX_FILE_SIZE) {
-			s.success = false;
-			s.message = "File is too large";
+			s.error = true;
+			s.msg = "File is too large";
 			return s;
 		}
 
 		ResStatus authRes = ManagerAuth.authenticate (args.token);
-		if (!authRes.success) {
+		if (authRes.error) {
 			return (ResFileNew)authRes;
 		}
 
@@ -182,9 +182,11 @@ import org.json.JSONObject;
 			args.fileContent.length);
 
 		if (fileUUID == null) {
-			s.success = false;
+			s.error = true;
+			// msg is set in fileUUID
 			return s;
 		}
+		s.fileUUID = fileUUID;
 
 		// store file
 
@@ -194,12 +196,12 @@ import org.json.JSONObject;
 				new UploadFileArgs (fileUUID.toString (), args.fileContent);
 			server.uploadFile (queryUpload);
 
-			s.success = true;
-			s.message = "Your file is being uploaded";
+			s.error = false;
+			s.msg = "Your file is being uploaded";
 		} catch (Exception e) {
 			e.printStackTrace ();
-			s.success = false;
-			s.message = "Internal error, try again later";
+			s.error = true;
+			s.msg = "Internal error, try again later";
 		}
 
 		return s;

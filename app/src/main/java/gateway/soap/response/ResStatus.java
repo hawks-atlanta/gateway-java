@@ -2,6 +2,6 @@ package gateway.soap.response;
 
 public class ResStatus
 {
-	public boolean success = false;
-	public String message = "";
+	public boolean error = true;
+	public String msg = "";
 }

@@ -52,10 +52,12 @@ public class ManagerMetadata
 			if (res.statusCode () == 201) {
 				fileUUID = UUID.fromString (resBody.getString ("uuid"));
 			} else {
-				statusRes.message = resBody.getString ("message");
+				statusRes.error = true;
+				statusRes.msg = resBody.getString ("message");
 			}
 		} catch (Exception e) {
-			statusRes.message = "Internal server error. Try again later";
+			statusRes.error = true;
+			statusRes.msg = "Internal server error. Try again later";
 		}
 
 		return fileUUID;

@@ -37,14 +37,13 @@ public class ManagerMetadata
 		// post
 
 		try {
-			HttpRequest request =
+			HttpResponse<String> res = HttpClient.newHttpClient ().send (
 				HttpRequest.newBuilder ()
 					.uri (URI.create (Config.getMetadataBaseUrl () + "/api/v1/files"))
 					.POST (BodyPublishers.ofString (body.toString ()))
 					.header ("Authorization", "Bearer " + token)
-					.build ();
-			HttpClient client = HttpClient.newHttpClient ();
-			HttpResponse<String> res = client.send (request, HttpResponse.BodyHandlers.ofString ());
+					.build (),
+				HttpResponse.BodyHandlers.ofString ());
 
 			// Response
 			JSONObject resBody = new JSONObject (res.body ());

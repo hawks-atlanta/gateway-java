@@ -44,20 +44,14 @@ import org.json.JSONObject;
 		requestBody.put ("password", credentials.password);
 
 		try {
-			// Create an HttpClient instance for making HTTP requests
-			HttpClient client = HttpClient.newHttpClient ();
-
-			// Build an HTTP POST request with the specified URL, request body, and headers.
-			HttpRequest request = HttpRequest.newBuilder ()
-									  .uri (URI.create (url))
-									  .POST (BodyPublishers.ofString (requestBody.toString ()))
-									  .uri (URI.create (url))
-									  .header ("Content-Type", "application/json")
-									  .build ();
-
-			// Send the HTTP request and retrieve the response.
-			HttpResponse<String> response =
-				client.send (request, HttpResponse.BodyHandlers.ofString ());
+			HttpResponse<String> response = HttpClient.newHttpClient ().send (
+				HttpRequest.newBuilder ()
+					.uri (URI.create (url))
+					.POST (BodyPublishers.ofString (requestBody.toString ()))
+					.uri (URI.create (url))
+					.header ("Content-Type", "application/json")
+					.build (),
+				HttpResponse.BodyHandlers.ofString ());
 
 			// Create a JSONObject to hold the response body received from the HTTP request.
 			JSONObject jsonObject = new JSONObject (response.body ());
@@ -104,17 +98,15 @@ import org.json.JSONObject;
 
 		try {
 			// Configs and make HTTP POST request to user register.
-			HttpClient client = HttpClient.newHttpClient ();
 
-			HttpRequest request = HttpRequest.newBuilder ()
-									  .uri (URI.create (url))
-									  .POST (BodyPublishers.ofString (requestBody.toString ()))
-									  .uri (URI.create (url))
-									  .header ("Content-Type", "application/json")
-									  .build ();
-
-			HttpResponse<String> response =
-				client.send (request, HttpResponse.BodyHandlers.ofString ());
+			HttpResponse<String> response = HttpClient.newHttpClient ().send (
+				HttpRequest.newBuilder ()
+					.uri (URI.create (url))
+					.POST (BodyPublishers.ofString (requestBody.toString ()))
+					.uri (URI.create (url))
+					.header ("Content-Type", "application/json")
+					.build (),
+				HttpResponse.BodyHandlers.ofString ());
 
 			// Response
 			JSONObject jsonObject = new JSONObject (response.body ());

@@ -20,15 +20,13 @@ public class ManagerAuth
 		// post
 
 		try {
-			HttpRequest request = HttpRequest.newBuilder ()
-									  .uri (URI.create (Config.getAuthBaseUrl () + "/challenge"))
-									  .POST (HttpRequest.BodyPublishers.noBody ())
-									  .header ("Authorization", "Bearer " + token)
-									  .build ();
-
-			HttpClient client = HttpClient.newHttpClient ();
-			HttpResponse<String> response =
-				client.send (request, HttpResponse.BodyHandlers.ofString ());
+			HttpResponse<String> response = HttpClient.newHttpClient ().send (
+				HttpRequest.newBuilder ()
+					.uri (URI.create (Config.getAuthBaseUrl () + "/challenge"))
+					.POST (HttpRequest.BodyPublishers.noBody ())
+					.header ("Authorization", "Bearer " + token)
+					.build (),
+				HttpResponse.BodyHandlers.ofString ());
 
 			// Response
 			JSONObject jsonObject = new JSONObject (response.body ());
@@ -52,15 +50,14 @@ public class ManagerAuth
 	{
 		try {
 			String uri = String.format ("%s/user/uuid/%s", Config.getAuthBaseUrl (), username);
-			HttpRequest request = HttpRequest.newBuilder ()
-									  .uri (URI.create (uri))
-									  .GET ()
-									  .header ("Authorization", "Bearer " + token)
-									  .build ();
 
-			HttpClient client = HttpClient.newHttpClient ();
-			HttpResponse<String> response =
-				client.send (request, HttpResponse.BodyHandlers.ofString ());
+			HttpResponse<String> response = HttpClient.newHttpClient ().send (
+				HttpRequest.newBuilder ()
+					.uri (URI.create (uri))
+					.GET ()
+					.header ("Authorization", "Bearer " + token)
+					.build (),
+				HttpResponse.BodyHandlers.ofString ());
 
 			// Response
 			JSONObject jsonObject = new JSONObject (response.body ());

@@ -163,7 +163,7 @@ import org.json.JSONObject;
 
 	@WebMethod public ResFileCheck file_check (ReqFile args) { return null; }
 
-	@WebMethod public ResStatus file_delete (RedFileDelete args) { return new ResStatus (); }
+	@WebMethod public ResStatus file_delete (ReqFileDelete args) { return new ResStatus (); }
 
 	@WebMethod public ResFileDownload file_download (ReqFile args) { return null; }
 

@@ -29,7 +29,7 @@ public interface Service {
 
 	@WebMethod ResFileCheck file_check (ReqFile args);
 
-	@WebMethod ResStatus file_delete (RedFileDelete args);
+	@WebMethod ResStatus file_delete (ReqFileDelete args);
 
 	@WebMethod ResFileDownload file_download (ReqFile args);
 

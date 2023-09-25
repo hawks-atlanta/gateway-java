@@ -28,7 +28,7 @@ public class ServiceAuth
 					.build (),
 				HttpResponse.BodyHandlers.ofString ());
 
-			// Response
+			// response
 			JSONObject jsonObject = new JSONObject (response.body ());
 			s.code = response.statusCode();
 			s.msg = jsonObject.getString ("msg");

@@ -12,19 +12,16 @@ import org.json.JSONObject;
 
 public class ServiceMetadata
 {
+	public static class ResSaveFile extends ResStatus {
+		public UUID fileUUID;
+	}
 
-	// TODO: use inner class
-	// class saveFileRes {
-	// UUID uuid;
-	// String message;
-	//}
-
-	public static UUID saveFile (
-		ResStatus statusRes, String token, UUID userUUID, UUID directoryUUID, String filetype,
+	public static ResSaveFile saveFile (
+		UUID userUUID, UUID directoryUUID, String filetype,
 		String filename, int filesize)
 	{
-		UUID fileUUID = null;
-
+		
+		ServiceMetadata.ResSaveFile s = new ServiceMetadata.ResSaveFile();
 		JSONObject body = new JSONObject ();
 
 		body.put ("userUUID", userUUID);
@@ -41,24 +38,25 @@ public class ServiceMetadata
 				HttpRequest.newBuilder ()
 					.uri (URI.create (Config.getMetadataBaseUrl () + "/api/v1/files"))
 					.POST (BodyPublishers.ofString (body.toString ()))
-					.header ("Authorization", "Bearer " + token)
 					.build (),
 				HttpResponse.BodyHandlers.ofString ());
 
-			// Response
+			// response
 			JSONObject resBody = new JSONObject (res.body ());
+			s.code = res.statusCode();
+			s.error = true;
+			s.msg = resBody.getString ("message");
 
-			if (res.statusCode () == 201) {
-				fileUUID = UUID.fromString (resBody.getString ("uuid"));
-			} else {
-				statusRes.error = true;
-				statusRes.msg = resBody.getString ("message");
+			if (s.code == 201) {
+				s.error = false;
+				s.fileUUID = UUID.fromString (resBody.getString ("uuid"));
 			}
 		} catch (Exception e) {
-			statusRes.error = true;
-			statusRes.msg = "Internal server error. Try again later";
+			s.code = 500;
+			s.error = true;
+			s.msg = "Internal server error. Try again later";
 		}
 
-		return fileUUID;
+		return s;
 	}
 }

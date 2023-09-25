@@ -30,14 +30,17 @@ public class ServiceAuth
 
 			// response
 			JSONObject jsonObject = new JSONObject (response.body ());
-			s.code = response.statusCode();
-			s.msg = jsonObject.getString ("msg");
+			System.out.println (jsonObject);
+			s.code = response.statusCode ();
 			s.error = true;
 
 			if (s.code == 200) {
 				s.error = false;
+			} else {
+				s.msg = jsonObject.getString ("msg");
 			}
 		} catch (Exception e) {
+			e.printStackTrace ();
 			s.code = 500;
 			s.error = true;
 			s.msg = "Internal server error. Try again later";

@@ -12,16 +12,16 @@ import org.json.JSONObject;
 
 public class ServiceMetadata
 {
-	public static class ResSaveFile extends ResStatus {
+	public static class ResSaveFile extends ResStatus
+	{
 		public UUID fileUUID;
 	}
 
-	public static ResSaveFile saveFile (
-		UUID userUUID, UUID directoryUUID, String filetype,
-		String filename, int filesize)
+	public static ResSaveFile
+	saveFile (UUID userUUID, UUID directoryUUID, String filetype, String filename, int filesize)
 	{
-		
-		ServiceMetadata.ResSaveFile s = new ServiceMetadata.ResSaveFile();
+
+		ServiceMetadata.ResSaveFile s = new ServiceMetadata.ResSaveFile ();
 		JSONObject body = new JSONObject ();
 
 		body.put ("userUUID", userUUID);
@@ -43,13 +43,14 @@ public class ServiceMetadata
 
 			// response
 			JSONObject resBody = new JSONObject (res.body ());
-			s.code = res.statusCode();
+			s.code = res.statusCode ();
 			s.error = true;
-			s.msg = resBody.getString ("message");
 
 			if (s.code == 201) {
 				s.error = false;
 				s.fileUUID = UUID.fromString (resBody.getString ("uuid"));
+			} else {
+				s.msg = resBody.getString ("message");
 			}
 		} catch (Exception e) {
 			s.code = 500;

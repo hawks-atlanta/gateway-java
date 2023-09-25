@@ -1,10 +1,13 @@
 package gateway.soap.request;
 
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public class ReqFileUpload extends Authorization
 {
-	public String fileName;
-	public byte[] fileContent;
+	@NotNull public String fileName;
+
+	@NotNull public byte[] fileContent;
+
 	public UUID location;
 }

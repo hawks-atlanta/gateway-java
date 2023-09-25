@@ -31,6 +31,15 @@ dependencies {
     // JWT
     implementation 'com.auth0:java-jwt:4.4.0'
 
+    // --- Validator lib ---
+
+    // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+
+    // https://mvnrepository.com/artifact/org.glassfish.expressly/expressly
+    implementation 'org.glassfish.expressly:expressly:5.0.0'
+
+
     // --- SOAP service ---
 
     // https://mvnrepository.com/artifact/javax.xml.ws/jaxws-api

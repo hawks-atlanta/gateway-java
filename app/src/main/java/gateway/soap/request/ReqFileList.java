@@ -2,7 +2,7 @@ package gateway.soap.request;
 
 import java.util.UUID;
 
-public class ListFileReq extends Operation
+public class ReqFileList extends Authorization
 {
 	public UUID location;
 }

@@ -6,7 +6,7 @@ services:
     container_name: worker
     restart: on-failure
     ports:
-      - "127.0.0.1:1900:1900" # RMI
+      - "127.0.0.1:1099:1099" # RMI
 
   metadata:
     image: ghcr.io/hawks-atlanta/metadata-scala:latest

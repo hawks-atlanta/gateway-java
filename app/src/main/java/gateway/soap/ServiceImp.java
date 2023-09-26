@@ -2,8 +2,6 @@ package gateway.soap;
 
 import capyfile.rmi.*;
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import gateway.config.Config;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
@@ -185,7 +183,6 @@ import org.json.JSONObject;
 
 			// obtain uuid from user and otheruser
 			UUID userUUID = UUID.fromString (JWT.decode (args.token).getClaim ("uuid").asString ());
-
 			UUID otherUserUUID = ManagerAuth.getUserUUID (args.token, args.otherUsername);
 
 			JSONObject requestBody = new JSONObject ();
@@ -202,18 +199,16 @@ import org.json.JSONObject;
 									  .header ("Content-Type", "application/json")
 									  .build ();
 
+			// Response
 			HttpResponse<String> response =
 				client.send (request, HttpResponse.BodyHandlers.ofString ());
-
-			// Response
-			JSONObject jsonObject = new JSONObject (response.body ());
 			int statusCode = response.statusCode ();
 
 			if (statusCode == 204) {
 				statusRes.success = true;
 				statusRes.message = "The file have been shared";
 			} else {
-				System.out.println (statusCode);
+				JSONObject jsonObject = new JSONObject (response.body ());
 				statusRes.success = !jsonObject.getBoolean ("error");
 				statusRes.message = jsonObject.getString ("message");
 			}

@@ -38,9 +38,9 @@ public class CtrlAccountRegister
 
 			// Response
 			JSONObject jsonObject = new JSONObject (response.body ());
-			int statusCode = response.statusCode ();
+			res.code = response.statusCode ();
 
-			if (statusCode == 201) {
+			if (res.code == 201) {
 				res.auth = new Authorization ();
 				res.error = false;
 				res.auth.token = jsonObject.getString ("jwt");

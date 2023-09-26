@@ -2,7 +2,6 @@ package gateway.controller;
 
 import capyfile.rmi.IWorkerService;
 import capyfile.rmi.UploadFileArgs;
-import com.auth0.jwt.JWT;
 import gateway.config.Config;
 import gateway.services.ServiceAuth;
 import gateway.services.ServiceMetadata;
@@ -46,7 +45,7 @@ public class CtrlFileUpload
 		if (resAuth.error) {
 			return ResStatus.downCast (ResFileNew.class, resAuth);
 		}
-		userUUID = UUID.fromString (JWT.decode (args.token).getClaim ("uuid").asString ());
+		userUUID = UUID.fromString (ServiceAuth.tokenGetClaim (args.token, "uuid"));
 
 		// mimetype from bytes
 
@@ -60,7 +59,7 @@ public class CtrlFileUpload
 		ServiceMetadata.ResSaveFile resMeta = ServiceMetadata.saveFile (
 			userUUID, args.location, mimetype, args.fileName, args.fileContent.length);
 		if (resMeta.error) {
-			return ResStatus.downCast (ResFileNew.class, (ResStatus)resAuth);
+			return ResStatus.downCast (ResFileNew.class, (ResStatus)resMeta);
 		}
 		s.fileUUID = resMeta.fileUUID;
 
@@ -76,7 +75,9 @@ public class CtrlFileUpload
 			s.error = false;
 			s.msg = "Your file is being uploaded";
 		} catch (Exception e) {
+			System.err.println ("Can't connect to RMI");
 			e.printStackTrace ();
+
 			s.code = 500;
 			s.error = true;
 			s.msg = "Internal error, try again later";

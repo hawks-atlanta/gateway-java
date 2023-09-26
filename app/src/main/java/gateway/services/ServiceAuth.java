@@ -1,8 +1,8 @@
 package gateway.services;
 
+import com.auth0.jwt.JWT;
 import gateway.config.Config;
 import gateway.soap.response.ResStatus;
-import java.io.IOException;
 import java.lang.Exception;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -13,6 +13,11 @@ import org.json.JSONObject;
 
 public class ServiceAuth
 {
+	public static String tokenGetClaim (String token, String claim)
+	{
+		return JWT.decode (token).getClaim (claim).asString ();
+	}
+
 	public static ResStatus authenticate (String token)
 	{
 		ResStatus s = new ResStatus ();
@@ -31,7 +36,6 @@ public class ServiceAuth
 			// handle it
 
 			JSONObject jsonObject = new JSONObject (response.body ());
-			System.out.println (jsonObject);
 			s.code = response.statusCode ();
 			s.error = true;
 

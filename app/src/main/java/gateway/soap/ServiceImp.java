@@ -28,8 +28,6 @@ import javax.jws.WebService;
 
 	// file system
 
-	@WebMethod public ResFileList file_list (ReqFileList args) { return null; }
-
 	@WebMethod public ResFileNew file_upload (ReqFileUpload args)
 	{
 		return CtrlFileUpload.file_upload (args);
@@ -39,17 +37,19 @@ import javax.jws.WebService;
 
 	@WebMethod public ResFileCheck file_check (ReqFile args) { return null; }
 
-	@WebMethod public ResStatus file_delete (ReqFileDelete args) { return new ResStatus (); }
+	@WebMethod public ResStatus file_delete (ReqFileDelete args) { return null; }
+
+	@WebMethod public ResFileList file_list (ReqFileList args) { return null; }
 
 	@WebMethod public ResFileDownload file_download (ReqFile args) { return null; }
 
-	@WebMethod public ResStatus file_move (ReqFileMove args) { return new ResStatus (); }
+	@WebMethod public ResStatus file_move (ReqFileMove args) { return null; }
 
 	// sharing
 
-	@WebMethod public ResStatus share_file (ReqShareFile args) { return new ResStatus (); }
+	@WebMethod public ResStatus share_file (ReqShareFile args) { return null; }
 
-	@WebMethod public ResStatus share_remove (ReqShareRemove args) { return new ResStatus (); }
+	@WebMethod public ResStatus unshare_file (ReqShareRemove args) { return null; }
 
 	@WebMethod public ResShareList share_list (Authorization auth) { return null; }
 

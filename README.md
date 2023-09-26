@@ -53,8 +53,22 @@ gradle run
 ### Run tests
 
 ```sh
-gradle test
+gradle test # only run tests
+gradle testCodeCoverageReport # run tests & generate coverage
+
+# rerun tests
+gradle cleanTest test
+gradle cleanTest testCodeCoverageReport
 ```
+
+See test results
+```sh
+app/build/reports/tests/test/index.html # general
+app/build/reports/jacoco/testCodeCoverageReport/html/index.html # coverage
+```
+
+
+
 
 ### Format
 

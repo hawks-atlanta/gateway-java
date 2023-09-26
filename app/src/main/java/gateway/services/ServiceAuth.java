@@ -28,7 +28,8 @@ public class ServiceAuth
 					.build (),
 				HttpResponse.BodyHandlers.ofString ());
 
-			// response
+			// handle it
+
 			JSONObject jsonObject = new JSONObject (response.body ());
 			System.out.println (jsonObject);
 			s.code = response.statusCode ();
@@ -49,30 +50,42 @@ public class ServiceAuth
 		return s;
 	}
 
-	public static UUID getUserUUID (String token, String username) throws Exception
+	public static class ResUUID extends ResStatus
 	{
-		try {
-			String uri = String.format ("%s/user/uuid/%s", Config.getAuthBaseUrl (), username);
+		public UUID uuid;
+	}
 
+	public static ResUUID getUserUUID (String token, String username)
+	{
+		ResUUID s = new ResUUID ();
+
+		try {
 			HttpResponse<String> response = HttpClient.newHttpClient ().send (
 				HttpRequest.newBuilder ()
-					.uri (URI.create (uri))
+					.uri (URI.create (
+						String.format ("%s/user/uuid/%s", Config.getAuthBaseUrl (), username)))
 					.GET ()
 					.header ("Authorization", "Bearer " + token)
 					.build (),
 				HttpResponse.BodyHandlers.ofString ());
 
-			// Response
 			JSONObject jsonObject = new JSONObject (response.body ());
-			int statusCode = response.statusCode ();
+			s.code = response.statusCode ();
+			s.error = true;
 
-			if (statusCode == 200) {
-				return UUID.fromString (jsonObject.getString ("uuid"));
+			if (s.code == 200) {
+				s.error = false;
+				s.uuid = UUID.fromString (jsonObject.getString ("uuid"));
+			} else {
+				s.msg = jsonObject.getString ("msg");
 			}
-		} catch (IOException | InterruptedException e) {
-			throw e;
+		} catch (Exception e) {
+			e.printStackTrace ();
+			s.code = 500;
+			s.error = true;
+			s.msg = "Internal server error. Try again later";
 		}
 
-		throw new Exception ("Internal server error");
+		return s;
 	}
 }

@@ -62,7 +62,7 @@ services:
       POSTGRES_USER: username
     volumes:
       - ./.docker-psql-mult-db:/docker-entrypoint-initdb.d/init.sh
-      - ../docker-mounts/capydb:/var/lib/postgresql/data
+      #- ../docker-mounts/capydb:/var/lib/postgresql/data
     networks:
       - net
 

@@ -35,7 +35,7 @@ git submodule update --init
 - (Optional) Use the **gradle wrapper script** (`./gradlew`) for all `gradle` commands. For example:
 
     ```sh
-    ./gradlew build
+    ./gradlew run
     ```
 
 - (Optional) Use the provided `nix-shell` to get into a shell with all required dependecies [[install Nix](https://nixos.org/download)].

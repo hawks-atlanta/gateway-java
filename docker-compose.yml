@@ -8,8 +8,16 @@ services:
     image: ghcr.io/hawks-atlanta/worker-java:latest
     container_name: worker
     restart: on-failure
+    depends_on:
+      - metadata
     ports:
       - "127.0.0.1:1099:1099" # RMI
+    environment:
+      METADATA_BASEURL: "http://metadata:8080/api/v1"
+      VOLUME_BASE_PATH: "/var/capy/store"
+      AVAILABLE_VOLUMES: "1,2,3"
+    networks:
+      - net
 
   metadata:
     image: ghcr.io/hawks-atlanta/metadata-scala:latest
@@ -49,22 +57,27 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     environment:
-      - POSTGRES_MULTIPLE_DATABASES=authdb,metadatadb
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=username
+      POSTGRES_MULTIPLE_DATABASES: authdb,metadatadb
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: username
     volumes:
       - ./.docker-psql-mult-db:/docker-entrypoint-initdb.d/init.sh
-      - ./volumes/db:/var/lib/postgresql/data
+      - ../docker-mounts/capydb:/var/lib/postgresql/data
     networks:
       - net
 
   postgres-admin:
-    image: dpage/pgadmin4
-    container_name: postgres-admin
+    image: adminer
     ports:
-      - "127.0.0.1:5050:80"
+      - "127.0.0.1:5050:8080"
     environment:
-      - PGADMIN_DEFAULT_EMAIL=p@p.com
-      - PGADMIN_DEFAULT_PASSWORD=p
+      ADMINER_DESIGN: hever
+      ADMINER_DEFAULT_SERVER: postgres-db
+      ADMINER_DEFAULT_USER: username
+      ADMINER_DEFAULT_PASSWORD: password
+      ADMINER_DEFAULT_TYPE: postgresql
+      ADMINER_DEFAULT_PORT: 5432
+      ADMINER_DEFAULT_DB: metadatadb
     networks:
       - net
+    attach: false

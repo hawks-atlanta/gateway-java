@@ -67,9 +67,6 @@ app/build/reports/tests/test/index.html # general
 app/build/reports/jacoco/testCodeCoverageReport/html/index.html # coverage
 ```
 
-
-
-
 ### Format
 
 You need to have `clang-format` installed.

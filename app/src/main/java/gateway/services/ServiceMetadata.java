@@ -36,7 +36,7 @@ public class ServiceMetadata
 		try {
 			HttpResponse<String> res = HttpClient.newHttpClient ().send (
 				HttpRequest.newBuilder ()
-					.uri (URI.create (Config.getMetadataBaseUrl () + "/api/v1/files"))
+					.uri (URI.create (String.format ("%s/files", Config.getMetadataBaseUrl ())))
 					.POST (BodyPublishers.ofString (body.toString ()))
 					.build (),
 				HttpResponse.BodyHandlers.ofString ());

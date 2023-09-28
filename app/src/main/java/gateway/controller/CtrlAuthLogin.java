@@ -42,10 +42,10 @@ public class CtrlAuthLogin
 			JSONObject jsonObject = new JSONObject (response.body ());
 
 			// Get the HTTP status code from the response.
-			int statusCode = response.statusCode ();
+			res.code = response.statusCode ();
 
 			// Check if the response status code is 201 (Login succeed)
-			if (statusCode == 201) {
+			if (res.code == 201) {
 				// If the status code is 201, indicating login succeed, initialize an Authorization
 				// object in the response and extract the JWT token.
 				res.auth = new Authorization ();

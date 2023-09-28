@@ -4,29 +4,45 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import gateway.config.Config;
 import gateway.controller.CtrlAccountRegister;
+import gateway.controller.CtrlAuthLogin;
+import gateway.controller.CtrlFileDownload;
 import gateway.controller.CtrlFileUpload;
 import gateway.soap.request.Credentials;
+import gateway.soap.request.ReqFile;
 import gateway.soap.request.ReqFileUpload;
+import gateway.soap.response.ResFileDownload;
+import gateway.soap.response.ResFileNew;
 import gateway.soap.response.ResSession;
 import gateway.testutils.TestUtilConfig;
 import gateway.testutils.TestUtilGenerator;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
-class ITFileIO
+@TestMethodOrder (OrderAnnotation.class) class ITFileIO
 {
+	static class State
+	{
+		public static String username;
+		public static UUID fileUUID;
+		public static int fileSize;
+	}
+
 	@BeforeEach void setup () { Config.initializeFromEnv (); }
 
-	@Test void uploadFile ()
+	@Test @Order (1) void uploadFile ()
 	{
 
 		// register
 
-		ResSession res = CtrlAccountRegister.account_register (
-			new Credentials (UUID.randomUUID ().toString (), "pass"));
-		String token = res.auth.token;
-		assertEquals (201, res.code, "Login successfully");
+		State.username = UUID.randomUUID ().toString ();
+		ResSession resR =
+			CtrlAccountRegister.account_register (new Credentials (State.username, "pass"));
+		assertEquals (201, resR.code, "Login successfully");
+		String token = resR.auth.token;
 
 		// 400 field validation
 
@@ -54,8 +70,11 @@ class ITFileIO
 
 		// 201 file uploaded
 
-		args.fileContent = TestUtilGenerator.randomBytes (1);
-		assertEquals (201, CtrlFileUpload.file_upload (args).code, "File upload success");
+		State.fileSize = 8;
+		args.fileContent = TestUtilGenerator.randomASCIIBytes ((int)State.fileSize);
+		ResFileNew resU = CtrlFileUpload.file_upload (args);
+		assertEquals (201, resU.code, "File upload success");
+		State.fileUUID = resU.fileUUID;
 
 		args.fileName = UUID.randomUUID ().toString ();
 		TestUtilConfig.makeInvalidWorker ();

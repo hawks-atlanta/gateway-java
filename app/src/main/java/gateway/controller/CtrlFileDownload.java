@@ -8,7 +8,6 @@ import gateway.services.UtilValidator;
 import gateway.soap.request.ReqFile;
 import gateway.soap.response.ResFileDownload;
 import gateway.soap.response.ResStatus;
-
 import java.io.FileNotFoundException;
 import java.util.UUID;
 
@@ -65,15 +64,14 @@ public class CtrlFileDownload
 		} catch (Exception e) {
 
 			e.printStackTrace ();
-			if (e instanceof FileNotFoundException){
+			if (e instanceof FileNotFoundException) {
 				System.err.println ("File not found");
 				s.code = 404;
 				s.msg = "File not found";
 
 				// NOTE: At this point the metadata service claims a file
 				// exists in this volume. But it wasn't found.
-			}
-			else {
+			} else {
 				System.err.println ("Can't connect to RMI");
 				s.code = 500;
 				s.msg = "Internal error, try again later";

@@ -53,6 +53,7 @@ public class ServiceMetadata
 				s.msg = resBody.getString ("message");
 			}
 		} catch (Exception e) {
+			e.printStackTrace ();
 			s.code = 500;
 			s.error = true;
 			s.msg = "Internal server error. Try again later";
@@ -60,4 +61,42 @@ public class ServiceMetadata
 
 		return s;
 	}
+
+	public static ResStatus canRead (UUID userUUID, UUID fileUUID)
+	{
+		ResStatus s = new ResStatus ();
+
+		try {
+			System.err.println (String.format (
+				"%s/files/can_read/%s/%s", Config.getMetadataBaseUrl (), userUUID.toString (),
+				fileUUID.toString ()));
+			HttpResponse<String> res = HttpClient.newHttpClient ().send (
+				HttpRequest.newBuilder ()
+					.uri (URI.create (String.format (
+						"%s/files/can_read/%s/%s", Config.getMetadataBaseUrl (),
+						userUUID.toString (), fileUUID.toString ())))
+					.GET ()
+					.build (),
+				HttpResponse.BodyHandlers.ofString ());
+
+			// response
+			s.code = res.statusCode ();
+			s.error = true;
+
+			if (s.code == 204) {
+				s.error = false;
+			} else {
+				JSONObject resBody = new JSONObject (res.body ());
+				s.msg = resBody.getString ("message");
+			}
+		} catch (Exception e) {
+			e.printStackTrace ();
+			s.code = 500;
+			s.error = true;
+			s.msg = "Internal server error. Try again later";
+		}
+
+		return s;
+	}
+
 }

@@ -53,7 +53,7 @@ public class ServiceMetadata
 				s.msg = resBody.getString ("message");
 			}
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
 			s.code = 500;
 			s.error = true;
 			s.msg = "Internal server error. Try again later";
@@ -67,9 +67,6 @@ public class ServiceMetadata
 		ResStatus s = new ResStatus ();
 
 		try {
-			System.err.println (String.format (
-				"%s/files/can_read/%s/%s", Config.getMetadataBaseUrl (), userUUID.toString (),
-				fileUUID.toString ()));
 			HttpResponse<String> res = HttpClient.newHttpClient ().send (
 				HttpRequest.newBuilder ()
 					.uri (URI.create (String.format (
@@ -90,7 +87,7 @@ public class ServiceMetadata
 				s.msg = resBody.getString ("message");
 			}
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
 			s.code = 500;
 			s.error = true;
 			s.msg = "Internal server error. Try again later";
@@ -113,8 +110,6 @@ public class ServiceMetadata
 		ResFileMetadata s = new ResFileMetadata ();
 
 		try {
-			System.err.println (String.format (
-				"%s/files/metadata/%s", Config.getMetadataBaseUrl (), fileUUID.toString ()));
 			HttpResponse<String> res = HttpClient.newHttpClient ().send (
 				HttpRequest.newBuilder ()
 					.uri (URI.create (String.format (
@@ -141,7 +136,7 @@ public class ServiceMetadata
 				s.msg = resBody.getString ("message");
 			}
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
 			s.code = 500;
 			s.error = true;
 			s.msg = "Internal server error. Try again later";

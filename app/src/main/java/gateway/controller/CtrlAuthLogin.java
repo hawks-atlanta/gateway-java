@@ -60,7 +60,7 @@ public class CtrlAuthLogin
 
 		} catch (IOException | InterruptedException e) {
 			// Handle exceptions such as IOException and InterruptedException, if they occur.
-			e.printStackTrace ();
+			System.err.println (e);
 		}
 
 		// Return the res object containing the response data.

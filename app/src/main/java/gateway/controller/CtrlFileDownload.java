@@ -18,13 +18,10 @@ public class CtrlFileDownload
 		ResFileDownload s = new ResFileDownload ();
 		UUID userUUID;
 
-		System.err.println (args.fileUUID);
-
 		ResStatus resValidate = UtilValidator.validate (args);
 		if (resValidate.error) {
 			return ResStatus.downCast (ResFileDownload.class, resValidate);
 		}
-		System.err.println ("resValidate");
 
 		// auth
 
@@ -33,7 +30,6 @@ public class CtrlFileDownload
 			return ResStatus.downCast (ResFileDownload.class, resAuth);
 		}
 		userUUID = UUID.fromString (ServiceAuth.tokenGetClaim (args.token, "uuid"));
-		System.err.println ("resAuth");
 
 		// file exists & user has access
 
@@ -41,7 +37,6 @@ public class CtrlFileDownload
 		if (resRead.error) {
 			return ResStatus.downCast (ResFileDownload.class, resRead);
 		}
-		System.err.println ("resRead");
 
 		// which volume
 
@@ -63,7 +58,7 @@ public class CtrlFileDownload
 			s.msg = "";
 		} catch (Exception e) {
 
-			e.printStackTrace ();
+			System.err.println (e);
 			if (e instanceof FileNotFoundException) {
 				System.err.println ("File not found");
 				s.code = 404;

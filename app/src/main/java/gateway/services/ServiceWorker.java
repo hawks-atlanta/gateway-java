@@ -23,7 +23,7 @@ public class ServiceWorker
 	}
 
 	public static byte[] downloadFile (IWorkerService worker, UUID fileUUID, int volume)
-		throws IOException
+		throws Exception
 	{
 		InputStream istream = null;
 

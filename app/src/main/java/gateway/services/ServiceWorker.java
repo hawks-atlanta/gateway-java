@@ -36,7 +36,7 @@ public class ServiceWorker
 
 			// copy data from stream by chunks
 
-			byte[] buf = new byte[1024];
+			byte[] buf = new byte[102400]; // 100KB
 			int bytesPos = 0;
 			int bytesRead = 0;
 

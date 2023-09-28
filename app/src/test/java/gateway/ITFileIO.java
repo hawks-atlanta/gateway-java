@@ -86,4 +86,42 @@ import org.junit.jupiter.api.TestMethodOrder;
 		TestUtilConfig.makeInvalidAll ();
 		assertEquals (500, CtrlFileUpload.file_upload (args).code, "Can't reach Auth");
 	}
+
+	@Test @Order (2) void downloadFile ()
+	{
+
+		// field validation fail
+
+		ReqFile args = new ReqFile ();
+		assertEquals (400, CtrlFileDownload.file_download (args).code, "Field validation failed");
+
+		ResSession resL = CtrlAuthLogin.auth_login (new Credentials (State.username, "pass"));
+		assertEquals (201, resL.code, "Login successfully");
+
+		// auth fail
+
+		args.token = "invalid token";
+		args.fileUUID = State.fileUUID;
+		assertEquals (401, CtrlFileDownload.file_download (args).code, "Authorization failed");
+
+		// can't read
+
+		args.token = resL.auth.token;
+		args.fileUUID = UUID.randomUUID ();
+		assertEquals (
+			404, CtrlFileDownload.file_download (args).code, "Can't read file: Not found");
+
+		// download success
+
+		args.fileUUID = State.fileUUID;
+		ResFileDownload resD = CtrlFileDownload.file_download (args);
+		assertAll (
+			"File downloaded",
+			()
+				-> assertEquals (200, resD.code, "Download success"),
+			() -> assertEquals (State.fileSize, resD.fileContent.length, "Correct file size"));
+
+		TestUtilConfig.makeInvalidWorker ();
+		assertEquals (500, CtrlFileDownload.file_download (args).code, "Can't reach Worker");
+	}
 }

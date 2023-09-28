@@ -99,4 +99,54 @@ public class ServiceMetadata
 		return s;
 	}
 
+	public static class ResFileMetadata extends ResStatus
+	{
+		public String name;
+		public String extension;
+		public int volume;
+		public long size;
+		public boolean isShared;
+	}
+
+	public static ResFileMetadata getFileMetadata (UUID fileUUID)
+	{
+		ResFileMetadata s = new ResFileMetadata ();
+
+		try {
+			System.err.println (String.format (
+				"%s/files/metadata/%s", Config.getMetadataBaseUrl (), fileUUID.toString ()));
+			HttpResponse<String> res = HttpClient.newHttpClient ().send (
+				HttpRequest.newBuilder ()
+					.uri (URI.create (String.format (
+						"%s/files/metadata/%s", Config.getMetadataBaseUrl (),
+						fileUUID.toString ())))
+					.GET ()
+					.build (),
+				HttpResponse.BodyHandlers.ofString ());
+
+			// response
+			JSONObject resBody = new JSONObject (res.body ());
+			s.code = res.statusCode ();
+			s.error = true;
+
+			if (s.code == 200) {
+				s.error = false;
+				s.name = resBody.getString ("name");
+				s.extension = resBody.getString ("extension");
+				s.volume = resBody.getInt ("volume");
+				s.size = resBody.getLong ("size");
+				s.isShared =
+					resBody.getBoolean ("is_shared"); // TODO make a test for true and false
+			} else {
+				s.msg = resBody.getString ("message");
+			}
+		} catch (Exception e) {
+			e.printStackTrace ();
+			s.code = 500;
+			s.error = true;
+			s.msg = "Internal server error. Try again later";
+		}
+
+		return s;
+	}
 }

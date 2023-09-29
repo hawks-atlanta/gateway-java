@@ -1,39 +1,58 @@
 #!/usr/bin/env python3
 
 # Simple SOAP client to test the service
-# ---
 # Install Zeep SOAP client https://docs.python-zeep.org/
-#     $ pip install zeep
+# $ pip install zeep
 
-from zeep import Client
 import random
+import time
+from zeep import Client
 
-# connect
+# session
+
 client = Client('http://localhost:8080/service?wsdl')
 
-# consume methods
-result = client.service.account_register({
-            'username':  'woynert',
-            'password': 'password'
-            })
+resR = client.service.account_register({
+    'username':  'woynert',
+    'password': 'password'
+})
+print(resR)
 
-print(result)
+session = client.service.auth_login({
+    'username':  'woynert',
+    'password': 'password'
+})
+print (session)
 
-result = client.service.auth_login({
-            'username':  'woynert',
-            'password': 'password'
-            })
+# upload
+# NOTE: Put a file here
 
-print(result)
+with open ("/home/woynert/Pictures/karolsticker.png", "rb") as in_file:
 
-# upload demo
-with open ("./LICENSE", "rb") as in_file:
-
-    result = client.service.file_upload({
+    resU = client.service.file_upload({
         'fileName': f"karolsticker{random.random()}.png",
         'fileContent': in_file.read(),
         'location': 'None',
-        'token': 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTgwNTc1MTYsInV1aWQiOiIyNGVlOWU4Ni0zNmFjLTQyNWMtYWU4Mi04Nzk3MjFmODI5NTMifQ.0IlrR1KTNa_SnJwvDsf-q9TkmP_DrEaPCP-1xVVSsQArL3-AHjp0YJETaS4sQjSNtkzhN2Fz0WkEqV-TnDDXCQ'
+        'token': session.auth.token
+    })
+    print (resU)
+
+time.sleep(1)
+
+# download
+
+res = client.service.file_download({
+    'fileUUID': resU.fileUUID,
+    'token': session.auth.token
     })
 
-print(result)
+# write to file
+# NOTE: Put a destination here
+
+if res.fileContent:
+    with open(f"/tmp/dudu/{res.fileName}", 'wb') as f: 
+        f.write(res.fileContent)
+        print ("INFO: File successfully written in disk")
+
+res.fileContent = f"{len(res.fileContent)} bytes"
+print (res)

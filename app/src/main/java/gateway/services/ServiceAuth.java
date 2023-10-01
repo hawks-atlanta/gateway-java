@@ -2,6 +2,8 @@ package gateway.services;
 
 import com.auth0.jwt.JWT;
 import gateway.config.Config;
+import gateway.soap.request.Authorization;
+import gateway.soap.response.ResSession;
 import gateway.soap.response.ResStatus;
 import java.lang.Exception;
 import java.net.URI;
@@ -18,9 +20,9 @@ public class ServiceAuth
 		return JWT.decode (token).getClaim (claim).asString ();
 	}
 
-	public static ResStatus authenticate (String token)
+	public static ResSession authenticate (String token)
 	{
-		ResStatus s = new ResStatus ();
+		ResSession s = new ResSession ();
 
 		// post
 
@@ -41,6 +43,8 @@ public class ServiceAuth
 
 			if (s.code == 200) {
 				s.error = false;
+				s.auth = new Authorization ();
+				s.auth.token = jsonObject.getString ("jwt");
 			} else {
 				s.msg = jsonObject.getString ("msg");
 			}

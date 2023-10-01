@@ -41,7 +41,7 @@ public class CtrlFileUpload
 			return s;
 		}
 
-		ResStatus resAuth = ServiceAuth.authenticate (args.token);
+		ResSession resAuth = ServiceAuth.authenticate (args.token);
 		if (resAuth.error) {
 			return ResStatus.downCast (ResFileNew.class, resAuth);
 		}

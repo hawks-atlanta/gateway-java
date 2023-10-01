@@ -7,6 +7,7 @@ import gateway.services.ServiceWorker;
 import gateway.services.UtilValidator;
 import gateway.soap.request.ReqFile;
 import gateway.soap.response.ResFileDownload;
+import gateway.soap.response.ResSession;
 import gateway.soap.response.ResStatus;
 import java.io.FileNotFoundException;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class CtrlFileDownload
 
 		// auth
 
-		ResStatus resAuth = ServiceAuth.authenticate (args.token);
+		ResSession resAuth = ServiceAuth.authenticate (args.token);
 		if (resAuth.error) {
 			return ResStatus.downCast (ResFileDownload.class, resAuth);
 		}

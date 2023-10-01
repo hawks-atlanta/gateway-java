@@ -65,13 +65,18 @@ class ITServiceAuth
 		assertEquals (201, res.code, "Login successfully");
 
 		ResSession login = CtrlAuthLogin.auth_login (cred);
-		assertEquals (200, login.code, "Login succeed");
+		assertEquals (201, login.code, "Login succeed");
 
 		cred.username = UUID.randomUUID ().toString ();
 		login = CtrlAuthLogin.auth_login (cred);
 		assertEquals (401, login.code, "Empty files");
 
+		cred.username = null;
+		login = CtrlAuthLogin.auth_login (cred);
+		assertEquals (400, login.code, "Empty files");
+
 		TestUtilConfig.makeInvalidAll ();
+		cred.username = UUID.randomUUID ().toString ();
 		login = CtrlAuthLogin.auth_login (cred);
 		assertEquals (500, login.code, "Internal error, try again later");
 	}

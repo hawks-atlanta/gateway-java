@@ -19,6 +19,11 @@ public class CtrlAuthLogin
 		ResFileNew resFileNew = new ResFileNew ();
 		ResSession res = new ResSession ();
 
+		ResStatus resValidate = UtilValidator.validate (credentials);
+		if (resValidate.error) {
+			return ResStatus.downCast (ResSession.class, resValidate);
+		}
+
 		// Define the URL for the authentication request
 		String url = Config.getAuthBaseUrl () + "/login";
 
@@ -50,7 +55,7 @@ public class CtrlAuthLogin
 			if (statusCode == 201) {
 				// If the status code is 201, indicating login succeed, initialize an Authorization
 				// object in the response and extract the JWT token.
-				res.code = 200;
+				res.code = response.statusCode ();
 				res.auth = new Authorization ();
 				res.auth.token = jsonObject.getString ("jwt");
 				res.error = false;
@@ -58,7 +63,7 @@ public class CtrlAuthLogin
 			} else {
 				// If the status code is different from 201, indicating an error response, extract
 				// success status and message from the JSON object.
-				res.code = 401;
+				res.code = response.statusCode ();
 				res.error = true;
 				res.msg = "Invalid credentials";
 			}

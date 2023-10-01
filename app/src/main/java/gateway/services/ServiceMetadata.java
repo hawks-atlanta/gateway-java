@@ -127,7 +127,7 @@ public class ServiceMetadata
 			if (s.code == 200) {
 				s.error = false;
 				s.name = resBody.getString ("name");
-				s.extension = resBody.getString ("extension");
+				s.extension = resBody.isNull ("extension") ? null : resBody.getString ("extension");
 				s.volume = resBody.getInt ("volume");
 				s.size = resBody.getLong ("size");
 				s.isShared =

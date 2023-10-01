@@ -55,8 +55,6 @@ public class CtrlFileUpload
 		} catch (Exception e) {
 			System.err.println ("Couldn't determine mimetype. Continuing");
 		}
-		if (mimetype == null)
-			mimetype = "null";
 
 		ServiceMetadata.ResSaveFile resMeta = ServiceMetadata.saveFile (
 			userUUID, args.location, mimetype, args.fileName, args.fileContent.length);

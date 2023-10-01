@@ -67,8 +67,7 @@ public class CtrlFileUpload
 
 		try {
 			IWorkerService server = ServiceWorker.getServer ();
-			UploadFileArgs queryUpload =
-				new UploadFileArgs (s.fileUUID, args.fileContent);
+			UploadFileArgs queryUpload = new UploadFileArgs (s.fileUUID, args.fileContent);
 			server.uploadFile (queryUpload);
 
 			s.code = 201;

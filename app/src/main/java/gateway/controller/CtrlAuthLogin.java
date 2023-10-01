@@ -63,7 +63,7 @@ public class CtrlAuthLogin
 				// If the status code is different from 201, indicating an error response, extract
 				// success status and message from the JSON object.
 				res.error = true;
-				res.msg = jsonObject.getString ("msg");;
+				res.msg = jsonObject.getString ("msg");
 			}
 
 		} catch (Exception e) {

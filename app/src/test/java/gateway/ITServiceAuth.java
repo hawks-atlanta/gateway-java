@@ -61,18 +61,18 @@ class ITServiceAuth
 		// register
 
 		ResSession res = CtrlAccountRegister.account_register (cred);
-		assertEquals (201, res.code, "Login successfully");
+		assertEquals (201, res.code, "Register successfully");
 
 		ResSession login = CtrlAuthLogin.auth_login (cred);
 		assertEquals (201, login.code, "Login succeed");
 
 		cred.username = UUID.randomUUID ().toString ();
 		login = CtrlAuthLogin.auth_login (cred);
-		assertEquals (401, login.code, "Empty files");
+		assertEquals (401, login.code, "Invalid credentials");
 
 		cred.username = null;
 		login = CtrlAuthLogin.auth_login (cred);
-		assertEquals (400, login.code, "Empty files");
+		assertEquals (400, login.code, "Bad Request: Invalid Field");
 
 		TestUtilConfig.makeInvalidAll ();
 		cred.username = UUID.randomUUID ().toString ();

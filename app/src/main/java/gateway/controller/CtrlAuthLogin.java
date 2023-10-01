@@ -1,5 +1,6 @@
 package gateway.controller;
 import gateway.config.Config;
+import gateway.services.UtilValidator;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class CtrlAuthLogin
 	public static ResSession auth_login (Credentials credentials)
 	{
 		// Create a new ResSession object to hold the response data
+		ResFileNew resFileNew = new ResFileNew ();
 		ResSession res = new ResSession ();
 
 		// Define the URL for the authentication request
@@ -48,19 +50,24 @@ public class CtrlAuthLogin
 			if (statusCode == 201) {
 				// If the status code is 201, indicating login succeed, initialize an Authorization
 				// object in the response and extract the JWT token.
+				res.code = 200;
 				res.auth = new Authorization ();
-				res.error = false;
 				res.auth.token = jsonObject.getString ("jwt");
+				res.error = false;
+				res.msg = "Login succeed";
 			} else {
 				// If the status code is different from 201, indicating an error response, extract
 				// success status and message from the JSON object.
+				res.code = 401;
 				res.error = true;
-				res.msg = jsonObject.getString ("msg");
+				res.msg = "Invalid credentials";
 			}
 
-		} catch (IOException | InterruptedException e) {
+		} catch (Exception e) {
 			// Handle exceptions such as IOException and InterruptedException, if they occur.
-			e.printStackTrace ();
+			resFileNew.code = 500;
+			resFileNew.error = true;
+			resFileNew.msg = "Internal error, try again later";
 		}
 
 		// Return the res object containing the response data.

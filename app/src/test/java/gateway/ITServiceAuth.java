@@ -1,6 +1,7 @@
 package gateway;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import gateway.config.Config;
 import gateway.controller.CtrlAccountRegister;
@@ -21,7 +22,7 @@ class ITServiceAuth
 		// 200
 		Credentials cred = new Credentials (UUID.randomUUID ().toString (), "pass");
 		ResSession res = CtrlAccountRegister.account_register (cred);
-		assertEquals (201, res.code, "Login successfully");
+		assertEquals (201, res.code, "Register successfully");
 		assertEquals (
 			200, ServiceAuth.authenticate (res.auth.token).code, () -> "Auth'd successful");
 
@@ -38,7 +39,7 @@ class ITServiceAuth
 		// 200
 		Credentials cred = new Credentials (UUID.randomUUID ().toString (), "pass");
 		ResSession res = CtrlAccountRegister.account_register (cred);
-		assertEquals (201, res.code, "Login successfully");
+		assertEquals (201, res.code, "Register successfully");
 		assertEquals (
 			200, ServiceAuth.getUserUUID (res.auth.token, cred.username).code,
 			"Ok. Username retrieved");
@@ -52,5 +53,23 @@ class ITServiceAuth
 		assertEquals (
 			500, ServiceAuth.getUserUUID (res.auth.token, cred.username).code,
 			"Can't reach Auth Server");
+	}
+
+	@Test void authRefresh () throws Exception
+	{
+		// register
+		Credentials cred = new Credentials (UUID.randomUUID ().toString (), "pass");
+		ResSession resReg = CtrlAccountRegister.account_register (cred);
+		assertEquals (201, resReg.code, "Register successfully");
+
+		// 200 auth
+		ResSession resAuth = ServiceAuth.authenticate (resReg.auth.token);
+		assertEquals (200, resAuth.code, () -> "Auth'd successful");
+
+		// check new token
+		Long expNew = ServiceAuth.tokenGetClaimLong (resAuth.auth.token, "exp");
+		Long currentTime = System.currentTimeMillis () / 1000;
+
+		assertTrue (expNew > currentTime, () -> "New token fresh");
 	}
 }

@@ -1,6 +1,7 @@
 package gateway.soap;
 
 import gateway.controller.*;
+import gateway.services.ServiceAuth;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
 import javax.jws.WebMethod;
@@ -15,7 +16,10 @@ import javax.jws.WebService;
 		return CtrlAuthLogin.auth_login (credentials);
 	}
 
-	@WebMethod public ResSession auth_refresh (Authorization auth) { return null; }
+	@WebMethod public ResSession auth_refresh (Authorization auth)
+	{
+		return ServiceAuth.authenticate (auth.token);
+	}
 
 	// account
 

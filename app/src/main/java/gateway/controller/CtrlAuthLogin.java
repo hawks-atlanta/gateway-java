@@ -1,9 +1,9 @@
 package gateway.controller;
+
 import gateway.config.Config;
 import gateway.services.UtilValidator;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -49,13 +49,12 @@ public class CtrlAuthLogin
 			JSONObject jsonObject = new JSONObject (response.body ());
 
 			// Get the HTTP status code from the response.
-			int statusCode = response.statusCode ();
+			res.code = response.statusCode ();
 
 			// Check if the response status code is 201 (Login succeed)
-			if (statusCode == 201) {
+			if (res.code == 201) {
 				// If the status code is 201, indicating login succeed, initialize an Authorization
 				// object in the response and extract the JWT token.
-				res.code = response.statusCode ();
 				res.auth = new Authorization ();
 				res.auth.token = jsonObject.getString ("jwt");
 				res.error = false;
@@ -63,9 +62,8 @@ public class CtrlAuthLogin
 			} else {
 				// If the status code is different from 201, indicating an error response, extract
 				// success status and message from the JSON object.
-				res.code = response.statusCode ();
 				res.error = true;
-				res.msg = "Invalid credentials";
+				res.msg = jsonObject.getString ("msg");;
 			}
 
 		} catch (Exception e) {

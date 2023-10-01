@@ -61,7 +61,6 @@ class ITServiceAuth
 		// register
 
 		ResSession res = CtrlAccountRegister.account_register (cred);
-		String token = res.auth.token;
 		assertEquals (201, res.code, "Login successfully");
 
 		ResSession login = CtrlAuthLogin.auth_login (cred);

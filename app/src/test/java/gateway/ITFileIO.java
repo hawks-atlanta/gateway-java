@@ -33,7 +33,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 	@BeforeEach void setup () { Config.initializeFromEnv (); }
 
-	@Test @Order (1) void uploadFile ()
+	@Test @Order (1) void uploadFile () throws InterruptedException
 	{
 
 		// register
@@ -75,6 +75,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 		ResFileNew resU = CtrlFileUpload.file_upload (args);
 		assertEquals (201, resU.code, "File upload success");
 		State.fileUUID = resU.fileUUID;
+
+		// wait until file it's ready
+		Thread.sleep (2_000);
 
 		args.fileName = UUID.randomUUID ().toString ();
 		TestUtilConfig.makeInvalidWorker ();

@@ -15,9 +15,14 @@ import org.json.JSONObject;
 
 public class ServiceAuth
 {
-	public static String tokenGetClaim (String token, String claim)
+	public static String tokenGetClaimStr (String token, String claim)
 	{
 		return JWT.decode (token).getClaim (claim).asString ();
+	}
+
+	public static Long tokenGetClaimLong (String token, String claim)
+	{
+		return JWT.decode (token).getClaim (claim).asLong ();
 	}
 
 	public static ResSession authenticate (String token)

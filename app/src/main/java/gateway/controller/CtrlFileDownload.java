@@ -30,7 +30,7 @@ public class CtrlFileDownload
 		if (resAuth.error) {
 			return ResStatus.downCast (ResFileDownload.class, resAuth);
 		}
-		userUUID = UUID.fromString (ServiceAuth.tokenGetClaim (args.token, "uuid"));
+		userUUID = UUID.fromString (ServiceAuth.tokenGetClaimStr (args.token, "uuid"));
 
 		// file exists & user has access
 

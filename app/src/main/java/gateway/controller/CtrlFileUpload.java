@@ -45,7 +45,7 @@ public class CtrlFileUpload
 		if (resAuth.error) {
 			return ResStatus.downCast (ResFileNew.class, resAuth);
 		}
-		userUUID = UUID.fromString (ServiceAuth.tokenGetClaim (args.token, "uuid"));
+		userUUID = UUID.fromString (ServiceAuth.tokenGetClaimStr (args.token, "uuid"));
 
 		// mimetype from bytes
 

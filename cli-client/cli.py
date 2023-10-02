@@ -41,7 +41,7 @@ def get_menu_selection():
                 return selection
             else:
                 print("Invalid selection")
-        except:
+        except ValueError:
             print("Invalid selection")
 
 

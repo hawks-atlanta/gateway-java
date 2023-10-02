@@ -15,7 +15,10 @@ import javax.jws.WebService;
 		return CtrlAuthLogin.auth_login (credentials);
 	}
 
-	@WebMethod public ResSession auth_refresh (Authorization auth) { return null; }
+	@WebMethod public ResSession auth_refresh (Authorization auth) {
+
+		return CtrlAuthRefresh.auth_refresh (auth);
+	}
 
 	// account
 

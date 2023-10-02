@@ -16,6 +16,10 @@ node_modules
 
 # python envs
 pyenv
+venv
+
+# python cache
+**/__pycache__
 
 # JDTLS
 bin

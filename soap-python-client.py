@@ -26,6 +26,13 @@ result = client.service.auth_login({
 
 print(result)
 
+token = result['auth']['token']
+result = client.service.auth_refresh({
+            'token':  token
+            })
+
+print(result)
+
 # upload demo
 with open ("./LICENSE", "rb") as in_file:
 

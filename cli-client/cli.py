@@ -7,7 +7,6 @@
 import handlers
 
 available_features = [
-    {"name": "🧪 All (testing)", "handler": handlers.runWithHardcodedValuesHandler},
     {"name": "👥 Register default user", "handler": handlers.registerDefaultUserHandler},
     {"name": "👥 Register", "handler": handlers.registerHandler},
     {"name": "🔑 Login", "handler": handlers.loginHandler},

@@ -76,49 +76,5 @@ def downloadHandler():
     print(res)
 
 
-def runWithHardcodedValuesHandler():
-    # session
-    resR = client.service.account_register(
-        {"username": "woynert", "password": "password"}
-    )
-    print(resR)
-
-    session = client.service.auth_login({"username": "woynert", "password": "password"})
-    print(session)
-
-    # upload
-    # NOTE: Put a file here
-    file = "/home/woynert/Pictures/karolsticker.png"
-    with open(file, "rb") as in_file:
-        resU = client.service.file_upload(
-            {
-                "fileName": f"karolsticker{random.random()}.png",
-                "fileContent": in_file.read(),
-                "location": "None",
-                "token": session.auth.token,
-            }
-        )
-        print(resU)
-
-    time.sleep(1)
-
-    # download
-    res = client.service.file_download(
-        {"fileUUID": resU.fileUUID, "token": session.auth.token}
-    )
-
-    # write to file
-    # NOTE: Put a destination here
-    destination = "/tmp/dudu"
-
-    if res.fileContent:
-        with open(f"{destination}{res.fileName}", "wb") as f:
-            f.write(res.fileContent)
-            print("INFO: File successfully written in disk")
-
-    res.fileContent = f"{len(res.fileContent)} bytes"
-    print(res)
-
-
 def exitHandler():
     os._exit(0)

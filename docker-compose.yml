@@ -80,4 +80,3 @@ services:
       ADMINER_DEFAULT_DB: metadatadb
     networks:
       - net
-    attach: false

@@ -70,12 +70,18 @@ paths:
             Object:
               schema:
                 $ref: '#/components/schemas/ResSession'
+        '401':
+          description: Unauthorized
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResSession'
         'default':
           description: An error occurred, see other codes at [Authentication API Spec `POST /challenge`](https://github.com/hawks-atlanta/authentication-go/blob/main/docs/spec.openapi.yaml)
           content:
             Object:
               schema:
-                $ref: '#/components/schemas/ResStatus'
+                $ref: '#/components/schemas/ResSession'
 
   # account
                 

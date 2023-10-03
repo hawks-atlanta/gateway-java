@@ -1,16 +1,11 @@
 package gateway.controller;
 
-import gateway.config.Config;
 import gateway.services.ServiceAuth;
+import gateway.services.ServiceMetadata;
 import gateway.services.UtilValidator;
 import gateway.soap.request.ReqFile;
 import gateway.soap.response.ResFileCheck;
 import gateway.soap.response.ResStatus;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import org.json.JSONObject;
 
 public class CtrlFileCheck
 {
@@ -32,32 +27,14 @@ public class CtrlFileCheck
 
 		// get metadata
 
-		try {
-			HttpResponse<String> response = HttpClient.newHttpClient ().send (
-				HttpRequest.newBuilder ()
-					.uri (URI.create (String.format (
-						"%s/files/metadata/%s", Config.getMetadataBaseUrl (),
-						args.fileUUID.toString ())))
-					.GET ()
-					.header ("Content-Type", "application/json")
-					.build (),
-				HttpResponse.BodyHandlers.ofString ());
-			s.code = response.statusCode ();
+		ServiceMetadata.ResFileMetadata resM = ServiceMetadata.getFileMetadata(args.fileUUID);
+		s.code = resM.code;
+		s.error = resM.error;
+		s.msg = resM.msg;
 
-			if (s.code == 200) {
-				s.ready = true;
-				s.error = false;
-				s.msg = "File ready";
-			} else {
-				s.ready = false;
-				s.error = true;
-				s.msg = new JSONObject (response.body ()).getString ("message");
-			}
-
-		} catch (Exception e) {
-			s.code = 500;
-			s.error = true;
-			s.msg = "Internal error, try again later";
+		if (s.code == 200) {
+			s.ready = true;
+			s.msg = "File ready";
 		}
 
 		return s;

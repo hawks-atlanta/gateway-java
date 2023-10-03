@@ -1,4 +1,5 @@
 package gateway.controller;
+
 import gateway.config.Config;
 import gateway.soap.request.*;
 import gateway.soap.response.*;

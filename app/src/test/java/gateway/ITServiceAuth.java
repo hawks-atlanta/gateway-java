@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import gateway.config.Config;
 import gateway.controller.CtrlAccountRegister;
+import gateway.controller.CtrlAuthLogin;
 import gateway.services.ServiceAuth;
 import gateway.soap.request.Credentials;
 import gateway.soap.response.ResSession;
@@ -52,5 +53,30 @@ class ITServiceAuth
 		assertEquals (
 			500, ServiceAuth.getUserUUID (res.auth.token, cred.username).code,
 			"Can't reach Auth Server");
+	}
+
+	@Test void Login ()
+	{
+		Credentials cred = new Credentials (UUID.randomUUID ().toString (), "pass");
+		// register
+
+		ResSession res = CtrlAccountRegister.account_register (cred);
+		assertEquals (201, res.code, "Register successfully");
+
+		ResSession login = CtrlAuthLogin.auth_login (cred);
+		assertEquals (201, login.code, "Login succeed");
+
+		cred.username = UUID.randomUUID ().toString ();
+		login = CtrlAuthLogin.auth_login (cred);
+		assertEquals (401, login.code, "Invalid credentials");
+
+		cred.username = null;
+		login = CtrlAuthLogin.auth_login (cred);
+		assertEquals (400, login.code, "Bad Request: Invalid Field");
+
+		TestUtilConfig.makeInvalidAll ();
+		cred.username = UUID.randomUUID ().toString ();
+		login = CtrlAuthLogin.auth_login (cred);
+		assertEquals (500, login.code, "Internal error, try again later");
 	}
 }

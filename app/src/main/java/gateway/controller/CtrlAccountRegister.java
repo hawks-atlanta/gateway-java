@@ -31,7 +31,6 @@ public class CtrlAccountRegister
 				HttpRequest.newBuilder ()
 					.uri (URI.create (url))
 					.POST (BodyPublishers.ofString (requestBody.toString ()))
-					.uri (URI.create (url))
 					.header ("Content-Type", "application/json")
 					.build (),
 				HttpResponse.BodyHandlers.ofString ());
@@ -50,7 +49,7 @@ public class CtrlAccountRegister
 			}
 
 		} catch (IOException | InterruptedException e) {
-			e.printStackTrace ();
+			System.err.println (e);
 		}
 
 		return res;

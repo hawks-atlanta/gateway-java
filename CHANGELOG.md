@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.25 (2023-10-03)
+
+### 0.0.24 (2023-10-03)
+
+
+### Features
+
+* file check ready ([#57](https://github.com/hawks-atlanta/gateway-java/issues/57)) ([20f12ba](https://github.com/hawks-atlanta/gateway-java/commit/20f12bad87cd0e1f273c1d0d2d58072ca23803c9))
+
+### 0.0.23 (2023-10-03)
+
+### 0.0.22 (2023-10-03)
+
+
+### Features
+
+* download file ([#46](https://github.com/hawks-atlanta/gateway-java/issues/46)) ([0d2eaa1](https://github.com/hawks-atlanta/gateway-java/commit/0d2eaa11f2c0149e6cf29a93a5e2b65348f9f2e4)), closes [Metadata#74](https://github.com/hawks-atlanta/Metadata/issues/74) [#55](https://github.com/hawks-atlanta/gateway-java/issues/55)
+
+### 0.0.21 (2023-10-01)
+
 ### 0.0.20 (2023-09-28)
 
 

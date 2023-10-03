@@ -35,13 +35,19 @@ import javax.jws.WebService;
 
 	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args) { return null; }
 
-	@WebMethod public ResFileCheck file_check (ReqFile args) { return null; }
+	@WebMethod public ResFileCheck file_check (ReqFile args)
+	{
+		return CtrlFileCheck.file_check (args);
+	}
 
 	@WebMethod public ResStatus file_delete (ReqFileDelete args) { return null; }
 
 	@WebMethod public ResFileList file_list (ReqFileList args) { return null; }
 
-	@WebMethod public ResFileDownload file_download (ReqFile args) { return null; }
+	@WebMethod public ResFileDownload file_download (ReqFile args)
+	{
+		return CtrlFileDownload.file_download (args);
+	}
 
 	@WebMethod public ResStatus file_move (ReqFileMove args) { return null; }
 

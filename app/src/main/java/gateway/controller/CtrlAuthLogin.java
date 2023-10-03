@@ -1,8 +1,9 @@
 package gateway.controller;
+
 import gateway.config.Config;
+import gateway.services.UtilValidator;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -15,7 +16,13 @@ public class CtrlAuthLogin
 	public static ResSession auth_login (Credentials credentials)
 	{
 		// Create a new ResSession object to hold the response data
+		ResFileNew resFileNew = new ResFileNew ();
 		ResSession res = new ResSession ();
+
+		ResStatus resValidate = UtilValidator.validate (credentials);
+		if (resValidate.error) {
+			return ResStatus.downCast (ResSession.class, resValidate);
+		}
 
 		// Define the URL for the authentication request
 		String url = Config.getAuthBaseUrl () + "/login";
@@ -33,7 +40,6 @@ public class CtrlAuthLogin
 				HttpRequest.newBuilder ()
 					.uri (URI.create (url))
 					.POST (BodyPublishers.ofString (requestBody.toString ()))
-					.uri (URI.create (url))
 					.header ("Content-Type", "application/json")
 					.build (),
 				HttpResponse.BodyHandlers.ofString ());
@@ -42,25 +48,28 @@ public class CtrlAuthLogin
 			JSONObject jsonObject = new JSONObject (response.body ());
 
 			// Get the HTTP status code from the response.
-			int statusCode = response.statusCode ();
+			res.code = response.statusCode ();
 
 			// Check if the response status code is 201 (Login succeed)
-			if (statusCode == 201) {
+			if (res.code == 201) {
 				// If the status code is 201, indicating login succeed, initialize an Authorization
 				// object in the response and extract the JWT token.
 				res.auth = new Authorization ();
-				res.error = false;
 				res.auth.token = jsonObject.getString ("jwt");
+				res.error = false;
+				res.msg = "Login succeed";
 			} else {
 				// If the status code is different from 201, indicating an error response, extract
 				// success status and message from the JSON object.
 				res.error = true;
 				res.msg = jsonObject.getString ("msg");
 			}
-
-		} catch (IOException | InterruptedException e) {
+		} catch (Exception e) {
 			// Handle exceptions such as IOException and InterruptedException, if they occur.
-			e.printStackTrace ();
+			System.err.println (e);
+			resFileNew.code = 500;
+			resFileNew.error = true;
+			resFileNew.msg = "Internal error, try again later";
 		}
 
 		// Return the res object containing the response data.

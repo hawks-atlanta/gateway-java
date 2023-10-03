@@ -48,24 +48,24 @@ public class CtrlShareFile {
 
             // Response
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            int statusCode = response.statusCode();
+            statusRes.code = response.statusCode();
 
-            if (statusCode == 204) {
+            if (statusRes.code == 204) {
                 statusRes.error = false;
                 statusRes.msg = "The file have been shared";
             } else {
-                // JSONObject jsonObject = new JSONObject(response.body());
-                // statusRes.error = !jsonObject.getBoolean("error");
-                // statusRes.msg = jsonObject.getString("message");
+                JSONObject jsonObject = new JSONObject(response.body());
+                statusRes.error = true;
+                statusRes.msg = jsonObject.getString("msg");
             }
         } catch (Exception e) {
             e.printStackTrace();
             statusRes.code = 500;
             statusRes.error = true;
             statusRes.msg = "Internal server error. Try again later";
-            return statusRes;
         }
 
         return statusRes;
     }
 }
+// TODO WORKER?

@@ -5,8 +5,8 @@ plugins {
 
 rootProject.name = 'gateway'
 
-include ('app', ':capyfile.rmi.interfaces')
+include ('app', ':capyfile.rmi')
 
 // Include subproject
-project (':capyfile.rmi.interfaces').projectDir = file ('./rmi/lib/')
+project (':capyfile.rmi').projectDir = file ('./rmi/lib/')
 

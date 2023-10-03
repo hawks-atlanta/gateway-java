@@ -37,7 +37,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Credentials'
       responses:
-        '200':
+        '201':
           description: Login succeeded
           content:
             Object:
@@ -165,12 +165,29 @@ paths:
             schema:
               $ref: '#/components/schemas/ReqFileUpload'
       responses:
-        "200":
+        "201":
           description: File is being uploaded. You can check it's state later with the `/file_check` request.
           content:
             Object:
               schema:
                 $ref: '#/components/schemas/ResFileNew'
+        "400":
+          description: Failed field validation.
+          content:
+            Object:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ResStatus'
+                  - type: object
+                    properties:
+                      msg:
+                        example: '"fileContent: must not be null","fileName: must not be null"'
+        "413":
+          description: Bad request. File is too large.
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
         'default':
           description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `POST /files`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
           content:

@@ -35,7 +35,7 @@ git submodule update --init
 - (Optional) Use the **gradle wrapper script** (`./gradlew`) for all `gradle` commands. For example:
 
     ```sh
-    ./gradlew build
+    ./gradlew run
     ```
 
 - (Optional) Use the provided `nix-shell` to get into a shell with all required dependecies [[install Nix](https://nixos.org/download)].
@@ -53,7 +53,18 @@ gradle run
 ### Run tests
 
 ```sh
-gradle test
+gradle test # only run tests
+gradle testCodeCoverageReport # run tests & generate coverage
+
+# rerun tests
+gradle cleanTest test
+gradle cleanTest testCodeCoverageReport
+```
+
+See test results
+```sh
+app/build/reports/tests/test/index.html # general
+app/build/reports/jacoco/testCodeCoverageReport/html/index.html # coverage
 ```
 
 ### Format

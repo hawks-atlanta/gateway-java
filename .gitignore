@@ -13,3 +13,18 @@ node_modules
 
 # Ignore internal config staff about some IDEs
 **.vscode/
+
+# python envs
+pyenv
+venv
+
+# python cache
+**/__pycache__
+
+# JDTLS
+bin
+.settings
+.classpath
+.project
+/workspace
+/*/workspace

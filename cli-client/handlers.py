@@ -4,7 +4,7 @@ import os
 from zeep import Client
 
 # Soap client
-client = Client("http://localhost:8080/service?wsdl")
+client = Client("http://localhost:8080/gw/service?wsdl")
 
 
 # Handlers

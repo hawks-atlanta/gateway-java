@@ -10,7 +10,7 @@ from zeep import Client
 
 # session
 
-client = Client("http://localhost:8080/service?wsdl")
+client = Client("http://localhost:8080/gw/service?wsdl")
 
 resR = client.service.account_register({"username": "woynert", "password": "password"})
 print(resR)

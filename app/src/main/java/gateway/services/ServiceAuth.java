@@ -45,7 +45,7 @@ public class ServiceAuth
 				s.msg = jsonObject.getString ("msg");
 			}
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
 			s.code = 500;
 			s.error = true;
 			s.msg = "Internal server error. Try again later";
@@ -84,7 +84,7 @@ public class ServiceAuth
 				s.msg = jsonObject.getString ("msg");
 			}
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
 			s.code = 500;
 			s.error = true;
 			s.msg = "Internal server error. Try again later";

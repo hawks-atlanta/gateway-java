@@ -1,8 +1,9 @@
 package gateway.soap.request;
 
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public class ReqFile extends Authorization
 {
-	public UUID fileUUID;
+	@NotNull public UUID fileUUID;
 }

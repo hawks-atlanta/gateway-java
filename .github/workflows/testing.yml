@@ -2,7 +2,7 @@ name: Test
 
 on:
   pull_request:
-    branches: ["dev"]
+    branches: ["dev", "main"]
 
 jobs:
   build:
@@ -14,12 +14,12 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
-          java-version: '11'
+          distribution: "adopt"
+          java-version: "11"
 
       - name: Build
         run: chmod +x ./gradlew && ./gradlew build -x test
-  
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -29,8 +29,8 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
-          java-version: '11'
+          distribution: "adopt"
+          java-version: "11"
 
       - name: Set up docker environment
         run: docker compose up -d

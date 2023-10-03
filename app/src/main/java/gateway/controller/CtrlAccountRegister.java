@@ -50,7 +50,7 @@ public class CtrlAccountRegister
 			}
 
 		} catch (IOException | InterruptedException e) {
-			e.printStackTrace ();
+			System.err.println (e);
 		}
 
 		return res;

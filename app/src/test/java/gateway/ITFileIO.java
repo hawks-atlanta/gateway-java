@@ -4,29 +4,45 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import gateway.config.Config;
 import gateway.controller.CtrlAccountRegister;
+import gateway.controller.CtrlAuthLogin;
+import gateway.controller.CtrlFileDownload;
 import gateway.controller.CtrlFileUpload;
 import gateway.soap.request.Credentials;
+import gateway.soap.request.ReqFile;
 import gateway.soap.request.ReqFileUpload;
+import gateway.soap.response.ResFileDownload;
+import gateway.soap.response.ResFileNew;
 import gateway.soap.response.ResSession;
 import gateway.testutils.TestUtilConfig;
 import gateway.testutils.TestUtilGenerator;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
-class ITFileIO
+@TestMethodOrder (OrderAnnotation.class) class ITFileIO
 {
+	static class State
+	{
+		public static String username;
+		public static UUID fileUUID;
+		public static int fileSize;
+	}
+
 	@BeforeEach void setup () { Config.initializeFromEnv (); }
 
-	@Test void uploadFile ()
+	@Test @Order (1) void uploadFile () throws InterruptedException
 	{
 
 		// register
 
-		ResSession res = CtrlAccountRegister.account_register (
-			new Credentials (UUID.randomUUID ().toString (), "pass"));
-		String token = res.auth.token;
-		assertEquals (201, res.code, "Login successfully");
+		State.username = UUID.randomUUID ().toString ();
+		ResSession resR =
+			CtrlAccountRegister.account_register (new Credentials (State.username, "pass"));
+		assertEquals (201, resR.code, "Login successfully");
+		String token = resR.auth.token;
 
 		// 400 field validation
 
@@ -54,8 +70,14 @@ class ITFileIO
 
 		// 201 file uploaded
 
-		args.fileContent = TestUtilGenerator.randomBytes (1);
-		assertEquals (201, CtrlFileUpload.file_upload (args).code, "File upload success");
+		State.fileSize = 8;
+		args.fileContent = TestUtilGenerator.randomASCIIBytes ((int)State.fileSize);
+		ResFileNew resU = CtrlFileUpload.file_upload (args);
+		assertEquals (201, resU.code, "File upload success");
+		State.fileUUID = resU.fileUUID;
+
+		// wait until file it's ready
+		Thread.sleep (2_000);
 
 		args.fileName = UUID.randomUUID ().toString ();
 		TestUtilConfig.makeInvalidWorker ();
@@ -66,5 +88,43 @@ class ITFileIO
 
 		TestUtilConfig.makeInvalidAll ();
 		assertEquals (500, CtrlFileUpload.file_upload (args).code, "Can't reach Auth");
+	}
+
+	@Test @Order (2) void downloadFile ()
+	{
+
+		// field validation fail
+
+		ReqFile args = new ReqFile ();
+		assertEquals (400, CtrlFileDownload.file_download (args).code, "Field validation failed");
+
+		ResSession resL = CtrlAuthLogin.auth_login (new Credentials (State.username, "pass"));
+		assertEquals (201, resL.code, "Login successfully");
+
+		// auth fail
+
+		args.token = "invalid token";
+		args.fileUUID = State.fileUUID;
+		assertEquals (401, CtrlFileDownload.file_download (args).code, "Authorization failed");
+
+		// can't read
+
+		args.token = resL.auth.token;
+		args.fileUUID = UUID.randomUUID ();
+		assertEquals (
+			404, CtrlFileDownload.file_download (args).code, "Can't read file: Not found");
+
+		// download success
+
+		args.fileUUID = State.fileUUID;
+		ResFileDownload resD = CtrlFileDownload.file_download (args);
+		assertAll (
+			"File downloaded",
+			()
+				-> assertEquals (200, resD.code, "Download success"),
+			() -> assertEquals (State.fileSize, resD.fileContent.length, "Correct file size"));
+
+		TestUtilConfig.makeInvalidWorker ();
+		assertEquals (500, CtrlFileDownload.file_download (args).code, "Can't reach Worker");
 	}
 }

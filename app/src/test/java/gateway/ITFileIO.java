@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import gateway.config.Config;
 import gateway.controller.CtrlAccountRegister;
 import gateway.controller.CtrlAuthLogin;
+import gateway.controller.CtrlFileCheck;
 import gateway.controller.CtrlFileDownload;
 import gateway.controller.CtrlFileUpload;
 import gateway.soap.request.Credentials;
@@ -35,7 +36,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 	@Test @Order (1) void uploadFile () throws InterruptedException
 	{
-
 		// register
 
 		State.username = UUID.randomUUID ().toString ();
@@ -90,9 +90,63 @@ import org.junit.jupiter.api.TestMethodOrder;
 		assertEquals (500, CtrlFileUpload.file_upload (args).code, "Can't reach Auth");
 	}
 
-	@Test @Order (2) void downloadFile ()
+	@Test @Order (2) void file_check () throws InterruptedException
 	{
+		UUID smallFile;
+		UUID bigFile;
+		String token;
 
+		// register
+
+		ResSession resR = CtrlAccountRegister.account_register (
+			new Credentials (UUID.randomUUID ().toString (), "pass"));
+		assertEquals (201, resR.code, "Login successfully");
+		token = resR.auth.token;
+
+		// upload small file
+
+		ReqFileUpload reqU = new ReqFileUpload ();
+		reqU.location = null;
+		reqU.token = token;
+
+		reqU.fileName = UUID.randomUUID ().toString ();
+		reqU.fileContent = TestUtilGenerator.randomBytes (16);
+		ResFileNew resU = CtrlFileUpload.file_upload (reqU);
+
+		assertEquals (201, resU.code, "Small file upload success");
+		smallFile = resU.fileUUID;
+
+		// upload large file that takes longer
+
+		reqU.fileName = UUID.randomUUID ().toString ();
+		reqU.fileContent = TestUtilGenerator.randomBytes (99999999);
+		resU = CtrlFileUpload.file_upload (reqU);
+
+		assertEquals (201, resU.code, "Big file upload success");
+		bigFile = resU.fileUUID;
+
+		// 202 not ready
+
+		ReqFile reqC = new ReqFile ();
+		reqC.token = token;
+		reqC.fileUUID = bigFile;
+		assertEquals (202, CtrlFileCheck.file_check (reqC).code, "File not ready");
+
+		// 200 ready
+
+		Thread.sleep (2_000); // wait till is fully uploaded
+		reqC.fileUUID = smallFile;
+		assertEquals (200, CtrlFileCheck.file_check (reqC).code, "File ready");
+
+		reqC.token = "invalid token";
+		assertEquals (401, CtrlFileCheck.file_check (reqC).code, "Auth failed");
+
+		reqC.fileUUID = null;
+		assertEquals (400, CtrlFileCheck.file_check (reqC).code, "Wrong fields");
+	}
+
+	@Test @Order (3) void downloadFile ()
+	{
 		// field validation fail
 
 		ReqFile args = new ReqFile ();

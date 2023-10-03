@@ -21,7 +21,7 @@ print(session)
 # upload
 # NOTE: Put a file here
 
-with open("/home/woynert/Pictures/karolsticker.png", "rb") as in_file:
+with open ("./LICENSE", "rb") as in_file:
     resU = client.service.file_upload(
         {
             "fileName": f"karolsticker{random.random()}.png",

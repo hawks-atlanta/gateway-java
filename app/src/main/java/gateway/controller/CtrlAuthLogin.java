@@ -40,7 +40,6 @@ public class CtrlAuthLogin
 				HttpRequest.newBuilder ()
 					.uri (URI.create (url))
 					.POST (BodyPublishers.ofString (requestBody.toString ()))
-					.uri (URI.create (url))
 					.header ("Content-Type", "application/json")
 					.build (),
 				HttpResponse.BodyHandlers.ofString ());

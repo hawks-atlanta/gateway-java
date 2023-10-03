@@ -35,7 +35,10 @@ import javax.jws.WebService;
 
 	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args) { return null; }
 
-	@WebMethod public ResFileCheck file_check (ReqFile args) { return null; }
+	@WebMethod public ResFileCheck file_check (ReqFile args)
+	{
+		return CtrlFileCheck.file_check (args);
+	}
 
 	@WebMethod public ResStatus file_delete (ReqFileDelete args) { return null; }
 

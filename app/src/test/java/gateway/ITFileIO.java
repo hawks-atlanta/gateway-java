@@ -100,8 +100,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 		ResSession resR = CtrlAccountRegister.account_register (
 			new Credentials (UUID.randomUUID ().toString (), "pass"));
-		token = resR.auth.token;
 		assertEquals (201, resR.code, "Login successfully");
+		token = resR.auth.token;
 
 		// upload small file
 
@@ -112,18 +112,18 @@ import org.junit.jupiter.api.TestMethodOrder;
 		reqU.fileName = UUID.randomUUID ().toString ();
 		reqU.fileContent = TestUtilGenerator.randomBytes (16);
 		ResFileNew resU = CtrlFileUpload.file_upload (reqU);
-		smallFile = resU.fileUUID;
 
 		assertEquals (201, resU.code, "Small file upload success");
+		smallFile = resU.fileUUID;
 
 		// upload large file that takes longer
 
 		reqU.fileName = UUID.randomUUID ().toString ();
 		reqU.fileContent = TestUtilGenerator.randomBytes (99999999);
 		resU = CtrlFileUpload.file_upload (reqU);
-		bigFile = resU.fileUUID;
 
 		assertEquals (201, resU.code, "Big file upload success");
+		bigFile = resU.fileUUID;
 
 		// 202 not ready
 
@@ -137,6 +137,12 @@ import org.junit.jupiter.api.TestMethodOrder;
 		Thread.sleep (2_000); // wait till is fully uploaded
 		reqC.fileUUID = smallFile;
 		assertEquals (200, CtrlFileCheck.file_check (reqC).code, "File ready");
+
+		reqC.token = "invalid token";
+		assertEquals (401, CtrlFileCheck.file_check (reqC).code, "Auth failed");
+
+		reqC.fileUUID = null;
+		assertEquals (400, CtrlFileCheck.file_check (reqC).code, "Wrong fields");
 	}
 
 	@Test @Order (3) void downloadFile ()

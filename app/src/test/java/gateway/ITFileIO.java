@@ -4,10 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import gateway.config.Config;
 import gateway.controller.CtrlAccountRegister;
+import gateway.controller.CtrlFileCheck;
 import gateway.controller.CtrlFileUpload;
 import gateway.soap.request.Credentials;
 import gateway.soap.request.ReqFileUpload;
+import gateway.soap.request.ReqFile;
 import gateway.soap.response.ResSession;
+import gateway.soap.response.ResFileNew;
 import gateway.testutils.TestUtilConfig;
 import gateway.testutils.TestUtilGenerator;
 import java.util.UUID;
@@ -20,7 +23,6 @@ class ITFileIO
 
 	@Test void uploadFile ()
 	{
-
 		// register
 
 		ResSession res = CtrlAccountRegister.account_register (
@@ -66,5 +68,52 @@ class ITFileIO
 
 		TestUtilConfig.makeInvalidAll ();
 		assertEquals (500, CtrlFileUpload.file_upload (args).code, "Can't reach Auth");
+	}
+
+	@Test void file_check () throws InterruptedException {
+
+		UUID smallFile;
+		UUID bigFile;
+		
+		// register
+
+		ResSession resR = CtrlAccountRegister.account_register (
+			new Credentials (UUID.randomUUID ().toString (), "pass"));
+		String token = resR.auth.token;
+		assertEquals (201, resR.code, "Login successfully");
+
+		// upload small file that takes little time
+
+		ReqFileUpload reqU = new ReqFileUpload ();
+		reqU.fileName = UUID.randomUUID ().toString ();
+		reqU.location = null;
+		reqU.token = token;
+
+		reqU.fileContent = TestUtilGenerator.randomBytes (16);
+		ResFileNew resU = CtrlFileUpload.file_upload (reqU);
+		smallFile = resU.fileUUID;
+
+		assertEquals (201, resU.code, "Small file upload success");
+
+		// upload large file so takes longer
+
+		reqU.fileContent = TestUtilGenerator.randomBytes (100000001);
+		resU = CtrlFileUpload.file_upload (reqU);
+		bigFile = resU.fileUUID;
+
+		assertEquals (201, resU.code, "Big file upload success");
+
+		// 202 not ready
+
+		ReqFile reqC = new ReqFile();
+		reqC.fileUUID = bigFile;
+		assertEquals (202, CtrlFileCheck.file_check(reqC).code, "File not ready");
+
+		// 200 ready
+
+		Thread.sleep(2_000); // wait till is fully uploaded
+		reqC.fileUUID = smallFile;
+		assertEquals (200, CtrlFileCheck.file_check(reqC).code, "File ready");
+
 	}
 }

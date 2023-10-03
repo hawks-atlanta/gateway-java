@@ -13,27 +13,37 @@ client = Client('http://localhost:8080/service?wsdl')
 
 # consume methods
 result = client.service.account_register({
-            'username':  'woynert',
-            'password': 'password'
-            })
+    'username':  'woynert',
+    'password': 'password'
+})
 
 print(result)
 
-result = client.service.auth_login({
-            'username':  'woynert',
-            'password': 'password'
-            })
+resA = client.service.auth_login({
+    'username':  'woynert',
+    'password': 'password'
+})
 
-print(result)
+print(resA)
 
 # upload demo
-with open ("./LICENSE", "rb") as in_file:
+# with open ("./LICENSE", "rb") as in_file:
+with open ("/home/woynert/Downloads/Sequence1.gif", "rb") as in_file:
 
-    result = client.service.file_upload({
+    resU = client.service.file_upload({
         'fileName': f"karolsticker{random.random()}.png",
         'fileContent': in_file.read(),
         'location': 'None',
-        'token': 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTgwNTc1MTYsInV1aWQiOiIyNGVlOWU4Ni0zNmFjLTQyNWMtYWU4Mi04Nzk3MjFmODI5NTMifQ.0IlrR1KTNa_SnJwvDsf-q9TkmP_DrEaPCP-1xVVSsQArL3-AHjp0YJETaS4sQjSNtkzhN2Fz0WkEqV-TnDDXCQ'
+        'token': resA.auth.token
     })
+
+    print(resU)
+
+# check file is ready
+
+result = client.service.file_check({
+    'fileUUID': resU.fileUUID,
+    'token': resA.auth.token
+})
 
 print(result)

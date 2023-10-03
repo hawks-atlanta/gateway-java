@@ -44,7 +44,10 @@ import javax.jws.WebService;
 
 	@WebMethod public ResFileList file_list (ReqFileList args) { return null; }
 
-	@WebMethod public ResFileDownload file_download (ReqFile args) { return null; }
+	@WebMethod public ResFileDownload file_download (ReqFile args)
+	{
+		return CtrlFileDownload.file_download (args);
+	}
 
 	@WebMethod public ResStatus file_move (ReqFileMove args) { return null; }
 

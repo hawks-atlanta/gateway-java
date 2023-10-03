@@ -27,7 +27,7 @@ public class CtrlFileCheck
 
 		// get metadata
 
-		ServiceMetadata.ResFileMetadata resM = ServiceMetadata.getFileMetadata(args.fileUUID);
+		ServiceMetadata.ResFileMetadata resM = ServiceMetadata.getFileMetadata (args.fileUUID);
 		s.code = resM.code;
 		s.error = resM.error;
 		s.msg = resM.msg;

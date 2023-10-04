@@ -40,7 +40,6 @@ public class CtrlAuthLogin
 				HttpRequest.newBuilder ()
 					.uri (URI.create (url))
 					.POST (BodyPublishers.ofString (requestBody.toString ()))
-					.uri (URI.create (url))
 					.header ("Content-Type", "application/json")
 					.build (),
 				HttpResponse.BodyHandlers.ofString ());
@@ -65,9 +64,9 @@ public class CtrlAuthLogin
 				res.error = true;
 				res.msg = jsonObject.getString ("msg");
 			}
-
 		} catch (Exception e) {
 			// Handle exceptions such as IOException and InterruptedException, if they occur.
+			System.err.println (e);
 			resFileNew.code = 500;
 			resFileNew.error = true;
 			resFileNew.msg = "Internal error, try again later";

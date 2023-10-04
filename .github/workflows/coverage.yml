@@ -14,8 +14,8 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
-          java-version: '11'
+          distribution: "adopt"
+          java-version: "11"
 
       - name: Set up docker environment
         run: docker compose up -d

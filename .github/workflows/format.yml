@@ -2,7 +2,7 @@ name: Format
 
 on:
   pull_request:
-    branches: ["dev"]
+    branches: ["dev", "main"]
 
 jobs:
   formatter:
@@ -14,4 +14,3 @@ jobs:
 
       - name: Clang check
         run: chmod +x ./format.sh && ./format.sh clang-check
-

@@ -35,7 +35,7 @@ jobs:
           release_name: Release ${{ needs.versioning.outputs.version }}
           draft: false
           prerelease: false
-  
+
   build-docker:
     runs-on: ubuntu-latest
     permissions:

@@ -13,6 +13,6 @@ public class App
 
 		// serve SOAP
 		System.out.println ("Gateway: Starting SOAP");
-		Endpoint.publish ("http://0.0.0.0:8080/service", new ServiceImp ());
+		Endpoint.publish ("http://0.0.0.0:8080/gw/service", new ServiceImp ());
 	}
 }

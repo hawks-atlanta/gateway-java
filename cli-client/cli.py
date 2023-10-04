@@ -10,6 +10,7 @@ available_features = [
     {"name": "👥 Register default user", "handler": handlers.registerDefaultUserHandler},
     {"name": "👥 Register", "handler": handlers.registerHandler},
     {"name": "🔑 Login", "handler": handlers.loginHandler},
+    {"name": "🔑 Auth refresh", "handler": handlers.authRefreshHandler},
     {"name": "📄 Upload file", "handler": handlers.uploadHandler},
     {"name": "📄 Download file", "handler": handlers.downloadHandler},
     {"name": "🚪 Finish program", "handler": handlers.exitHandler},

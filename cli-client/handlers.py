@@ -27,6 +27,11 @@ def loginHandler():
     password = input("Password: ")
     res = client.service.auth_login({"username": username, "password": password})
     print(res)
+    
+def authRefreshHandler():
+    token = input("Token: ")
+    res = client.service.auth_refresh({'token':  token})
+    print(res)
 
 
 def uploadHandler():

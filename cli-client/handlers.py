@@ -29,6 +29,12 @@ def loginHandler():
     print(res)
 
 
+def authRefreshHandler():
+    token = input("Token: ")
+    res = client.service.auth_refresh({'token':  token})
+    print(res)
+
+
 def uploadHandler():
     filePath = input("File absolute path (Eg. /home/user/file.jpeg): ")
 

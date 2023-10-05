@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.26 (2023-10-05)
+
+
+### Features
+
+* challenge endpoint ([#56](https://github.com/hawks-atlanta/gateway-java/issues/56)) ([613d108](https://github.com/hawks-atlanta/gateway-java/commit/613d1089e4a36e47a4d07377426c687762efaccf))
+
 ### 0.0.25 (2023-10-03)
 
 ### 0.0.24 (2023-10-03)

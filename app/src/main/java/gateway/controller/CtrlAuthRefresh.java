@@ -16,7 +16,6 @@ public class CtrlAuthRefresh
 	public static ResSession auth_refresh (Authorization authorization)
 	{
 		ResSession res = new ResSession ();
-
 		String url = Config.getAuthBaseUrl () + "/challenge";
 
 		try {

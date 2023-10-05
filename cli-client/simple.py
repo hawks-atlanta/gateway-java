@@ -20,7 +20,6 @@ print(session)
 
 token = session['auth']['token']
 result = client.service.auth_refresh({'token':  token})
-
 print(result)
 
 # upload

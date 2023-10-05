@@ -17,7 +17,6 @@ import javax.jws.WebService;
 
 	@WebMethod public ResSession auth_refresh (Authorization auth)
 	{
-
 		return CtrlAuthRefresh.auth_refresh (auth);
 	}
 

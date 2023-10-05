@@ -18,8 +18,7 @@ print(resR)
 session = client.service.auth_login({"username": "woynert", "password": "password"})
 print(session)
 
-token = session['auth']['token']
-result = client.service.auth_refresh({'token':  token})
+result = client.service.auth_refresh({'token': session.auth.token})
 print(result)
 
 # upload

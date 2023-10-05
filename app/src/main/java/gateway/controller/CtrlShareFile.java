@@ -20,30 +20,30 @@ public class CtrlShareFile
 	{
 		ResStatus statusRes = new ResStatus ();
 
+		// validations of all fields
+		ResStatus resValidate = UtilValidator.validate (args);
+		if (resValidate.error) {
+			return ResStatus.downCast (ResStatus.class, resValidate);
+		}
+
+		// validation of auth
+		ResStatus resAuth = ServiceAuth.authenticate (args.token);
+		if (resAuth.error) {
+			return ResStatus.downCast (ResStatus.class, resAuth);
+		}
+
+		// obtain uuid from user and otheruser
+		UUID userUUID = UUID.fromString (ServiceAuth.tokenGetClaim (args.token, "uuid"));
+		ResUUID otherUserUUID = ServiceAuth.getUserUUID (args.token, args.otherUsername);
+
+		// request to share file with otheruser
+		JSONObject requestBody = new JSONObject ();
+		requestBody.put ("otherUserUUID", otherUserUUID.uuid);
+
+		String url =
+			Config.getMetadataBaseUrl () + "/files/share/" + userUUID + "/" + args.fileUUID;
+
 		try {
-			// validations of all fields
-			ResStatus resValidate = UtilValidator.validate (args);
-			if (resValidate.error) {
-				return ResStatus.downCast (ResStatus.class, resValidate);
-			}
-
-			// validation of auth
-			ResStatus resAuth = ServiceAuth.authenticate (args.token);
-			if (resAuth.error) {
-				return ResStatus.downCast (ResStatus.class, resAuth);
-			}
-
-			// obtain uuid from user and otheruser
-			UUID userUUID = UUID.fromString (ServiceAuth.tokenGetClaim (args.token, "uuid"));
-			ResUUID otherUserUUID = ServiceAuth.getUserUUID (args.token, args.otherUsername);
-
-			// request to share file with otheruser
-
-			JSONObject requestBody = new JSONObject ();
-			requestBody.put ("otherUserUUID", otherUserUUID.uuid);
-
-			String url =
-				Config.getMetadataBaseUrl () + "/files/share/" + userUUID + "/" + args.fileUUID;
 
 			HttpClient client = HttpClient.newHttpClient ();
 			HttpRequest request = HttpRequest.newBuilder ()

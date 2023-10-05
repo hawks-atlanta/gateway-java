@@ -17,6 +17,25 @@ class ITServiceAuth
 {
 	@BeforeEach void setup () { Config.initializeFromEnv (); }
 
+	@Test void Register ()
+	{
+
+		Credentials credentials = new Credentials (UUID.randomUUID ().toString (), "pass");
+
+		Credentials credentialsCopy = credentials;
+
+		ResSession res = CtrlAccountRegister.account_register (credentials);
+		assertEquals (201, res.code, "Register successfully");
+
+		res = CtrlAccountRegister.account_register (credentialsCopy);
+		assertEquals (500, res.code, "Internal server error");
+
+		TestUtilConfig.makeInvalidAll ();
+		credentials.username = UUID.randomUUID ().toString ();
+		res = CtrlAuthLogin.auth_login (credentials);
+		assertEquals (500, res.code, "Internal error");
+	}
+
 	@Test void Authenticate ()
 	{
 		// 200

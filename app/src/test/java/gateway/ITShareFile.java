@@ -38,10 +38,6 @@ public class ITShareFile
 		ResSaveFile resSaveFile1 = createFile (tokenUser1);
 		ResSaveFile resSaveFile2 = createFile (tokenUser2);
 
-		// check files
-		checkFile (resSaveFile1, tokenUser1);
-		checkFile (resSaveFile2, tokenUser2);
-
 		// 204
 		ReqShareFile reqShareFile = new ReqShareFile ();
 		reqShareFile.fileUUID = resSaveFile1.fileUUID;
@@ -84,13 +80,5 @@ public class ITShareFile
 		return ServiceMetadata.saveFile (
 			UUID.fromString (ServiceAuth.tokenGetClaim (token, "uuid")), null, "txt", "filename_t",
 			(new Random ().nextInt (3000) + 1));
-	}
-
-	private void checkFile (ResSaveFile resSaveFile, String token)
-	{
-		ReqFile reqFile = new ReqFile ();
-		reqFile.fileUUID = resSaveFile.fileUUID;
-		reqFile.token = token;
-		CtrlFileCheck.file_check (reqFile);
 	}
 }

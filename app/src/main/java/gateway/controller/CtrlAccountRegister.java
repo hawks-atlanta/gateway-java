@@ -54,7 +54,6 @@ public class CtrlAccountRegister
 				res.error = true;
 				res.msg = jsonObject.getString ("msg");
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace ();
 			res.code = 500;

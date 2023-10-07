@@ -34,6 +34,10 @@ dependencies {
     // JWT
     implementation 'com.auth0:java-jwt:4.4.0'
 
+    // RMI remote stream
+    // https://mvnrepository.com/artifact/com.healthmarketscience.rmiio/rmiio
+    implementation 'com.healthmarketscience.rmiio:rmiio:2.1.2'
+
     // --- Validator lib ---
 
     // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
@@ -41,7 +45,6 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.glassfish.expressly/expressly
     implementation 'org.glassfish.expressly:expressly:5.0.0'
-
 
     // --- SOAP service ---
 
@@ -81,7 +84,7 @@ tasks.named('test') {
         events TestLogEvent.FAILED,
                TestLogEvent.PASSED,
                TestLogEvent.SKIPPED,
-               TestLogEvent.STANDARD_ERROR
+               TestLogEvent.STANDARD_ERROR,
                TestLogEvent.STANDARD_OUT
         exceptionFormat TestExceptionFormat.FULL
         showExceptions true

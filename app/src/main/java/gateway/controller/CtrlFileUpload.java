@@ -75,7 +75,7 @@ public class CtrlFileUpload
 			s.msg = "Your file is being uploaded";
 		} catch (Exception e) {
 			System.err.println ("Can't connect to RMI");
-			e.printStackTrace ();
+			System.err.println (e);
 
 			s.code = 500;
 			s.error = true;

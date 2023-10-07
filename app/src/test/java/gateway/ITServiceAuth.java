@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import gateway.config.Config;
 import gateway.controller.CtrlAccountRegister;
 import gateway.controller.CtrlAuthLogin;
+import gateway.controller.CtrlAuthRefresh;
 import gateway.services.ServiceAuth;
+import gateway.soap.request.Authorization;
 import gateway.soap.request.Credentials;
 import gateway.soap.response.ResSession;
 import gateway.testutils.TestUtilConfig;
@@ -103,5 +105,26 @@ class ITServiceAuth
 		cred.username = UUID.randomUUID ().toString ();
 		login = CtrlAuthLogin.auth_login (cred);
 		assertEquals (500, login.code, "Internal error, try again later");
+	}
+
+	@Test void challenge ()
+	{
+		// User register
+
+		Credentials cred = new Credentials (UUID.randomUUID ().toString (), "pass");
+
+		ResSession res = CtrlAccountRegister.account_register (cred);
+		assertEquals (201, res.code, "Register successfully");
+
+		// Challenge validation
+
+		Authorization authorization = res.auth;
+
+		ResSession challenge = CtrlAuthRefresh.auth_refresh (authorization);
+		assertEquals (200, challenge.code, "JWT refresh succesfully");
+
+		res.auth.token = res.auth.token + "unauthorized";
+		challenge = CtrlAuthRefresh.auth_refresh (authorization);
+		assertEquals (401, challenge.code, "Unauthorized");
 	}
 }

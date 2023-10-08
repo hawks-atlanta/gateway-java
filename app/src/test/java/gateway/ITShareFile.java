@@ -4,13 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import gateway.config.Config;
 import gateway.controller.CtrlAccountRegister;
-import gateway.controller.CtrlFileCheck;
 import gateway.controller.CtrlShareFile;
 import gateway.services.ServiceAuth;
 import gateway.services.ServiceMetadata;
 import gateway.services.ServiceMetadata.ResSaveFile;
 import gateway.soap.request.Credentials;
-import gateway.soap.request.ReqFile;
 import gateway.soap.request.ReqShareFile;
 import gateway.soap.response.ResSession;
 import gateway.soap.response.ResStatus;

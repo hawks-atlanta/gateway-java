@@ -10,13 +10,16 @@ from zeep import Client
 
 # session
 
-client = Client("http://localhost:8080/service?wsdl")
+client = Client("http://localhost:8080/gw/service?wsdl")
 
 resR = client.service.account_register({"username": "woynert", "password": "password"})
 print(resR)
 
 session = client.service.auth_login({"username": "woynert", "password": "password"})
 print(session)
+
+result = client.service.auth_refresh({'token': session.auth.token})
+print(result)
 
 # upload
 # NOTE: Put a file here

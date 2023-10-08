@@ -4,7 +4,7 @@ import os
 from zeep import Client
 
 # Soap client
-client = Client("http://localhost:8080/service?wsdl")
+client = Client("http://localhost:8080/gw/service?wsdl")
 
 
 # Handlers
@@ -26,6 +26,12 @@ def loginHandler():
     username = input("Username: ")
     password = input("Password: ")
     res = client.service.auth_login({"username": username, "password": password})
+    print(res)
+
+
+def authRefreshHandler():
+    token = input("Token: ")
+    res = client.service.auth_refresh({'token':  token})
     print(res)
 
 

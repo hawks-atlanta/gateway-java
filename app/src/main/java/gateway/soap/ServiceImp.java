@@ -15,7 +15,10 @@ import javax.jws.WebService;
 		return CtrlAuthLogin.auth_login (credentials);
 	}
 
-	@WebMethod public ResSession auth_refresh (Authorization auth) { return null; }
+	@WebMethod public ResSession auth_refresh (Authorization auth)
+	{
+		return CtrlAuthRefresh.auth_refresh (auth);
+	}
 
 	// account
 
@@ -53,7 +56,10 @@ import javax.jws.WebService;
 
 	// sharing
 
-	@WebMethod public ResStatus share_file (ReqShareFile args) { return null; }
+	@WebMethod public ResStatus share_file (ReqShareFile args)
+	{
+		return CtrlShareFile.share_file (args);
+	}
 
 	@WebMethod public ResStatus unshare_file (ReqShareRemove args) { return null; }
 

@@ -1,8 +1,9 @@
 package gateway.controller;
+
 import gateway.config.Config;
+import gateway.services.UtilValidator;
 import gateway.soap.request.*;
 import gateway.soap.response.*;
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -17,6 +18,12 @@ public class CtrlAccountRegister
 	{
 		ResSession res = new ResSession ();
 
+		// validations of all fields
+		ResStatus resValidate = UtilValidator.validate (credentials);
+		if (resValidate.error) {
+			return ResStatus.downCast (ResSession.class, resValidate);
+		}
+
 		String url = Config.getAuthBaseUrl () + "/register";
 
 		// Request
@@ -26,7 +33,6 @@ public class CtrlAccountRegister
 
 		try {
 			// Configs and make HTTP POST request to user register.
-
 			HttpResponse<String> response = HttpClient.newHttpClient ().send (
 				HttpRequest.newBuilder ()
 					.uri (URI.create (url))
@@ -41,15 +47,18 @@ public class CtrlAccountRegister
 
 			if (res.code == 201) {
 				res.auth = new Authorization ();
-				res.error = false;
 				res.auth.token = jsonObject.getString ("jwt");
+				res.error = false;
+				res.msg = "Register succeed";
 			} else {
 				res.error = true;
 				res.msg = jsonObject.getString ("msg");
 			}
-
-		} catch (IOException | InterruptedException e) {
-			System.err.println (e);
+		} catch (Exception e) {
+			e.printStackTrace ();
+			res.code = 500;
+			res.error = true;
+			res.msg = "Internal error, try again later";
 		}
 
 		return res;

@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.30 (2023-10-08)
+
+### 0.0.29 (2023-10-08)
+
+
+### Features
+
+* share file feature ([#61](https://github.com/hawks-atlanta/gateway-java/issues/61)) ([ff0efa6](https://github.com/hawks-atlanta/gateway-java/commit/ff0efa69503dbedc6ce1b7f6f50d4b0082b1abe6))
+
+### 0.0.28 (2023-10-08)
+
+### 0.0.27 (2023-10-07)
+
+
+### Bug Fixes
+
+* Delete Unnecesary resFileNew ([#63](https://github.com/hawks-atlanta/gateway-java/issues/63)) ([4eea954](https://github.com/hawks-atlanta/gateway-java/commit/4eea9541c85fe44f8a758328b551c194a0037538))
+
+### 0.0.26 (2023-10-05)
+
+
+### Features
+
+* challenge endpoint ([#56](https://github.com/hawks-atlanta/gateway-java/issues/56)) ([613d108](https://github.com/hawks-atlanta/gateway-java/commit/613d1089e4a36e47a4d07377426c687762efaccf))
+
+### 0.0.25 (2023-10-03)
+
 ### 0.0.24 (2023-10-03)
 
 

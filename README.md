@@ -80,3 +80,4 @@ You need to have `clang-format` installed.
 
 |![coverage](https://codecov.io/gh/hawks-atlanta/gateway-java/graphs/sunburst.svg?token=0FSRVUD6AD)|![coverage](https://codecov.io/gh/hawks-atlanta/gateway-java/graphs/tree.svg?token=0FSRVUD6AD)|
 |---|---|
+

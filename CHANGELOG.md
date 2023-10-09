@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.31 (2023-10-09)
+
+
+### Bug Fixes
+
+* Move /api/version base path ([f424acc](https://github.com/hawks-atlanta/gateway-java/commit/f424accb83ca30ce70364c19be432f0b37d90e68))
+
 ### 0.0.30 (2023-10-08)
 
 ### 0.0.29 (2023-10-08)

@@ -13,6 +13,7 @@ available_features = [
     {"name": "🔑 Auth refresh", "handler": handlers.authRefreshHandler},
     {"name": "📄 Upload file", "handler": handlers.uploadHandler},
     {"name": "📄 Download file", "handler": handlers.downloadHandler},
+    {"name": "📄 Move file", "handler": handlers.moveFileHandler},
     {"name": "🚪 Finish program", "handler": handlers.exitHandler},
 ]
 

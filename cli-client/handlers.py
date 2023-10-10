@@ -81,6 +81,18 @@ def downloadHandler():
     res.fileContent = f"{len(res.fileContent)} bytes"
     print(res)
 
+def moveFileHandler():
+    fileUUID = input("File UUID: ")
+    targetDirectoryUUID = input("targetDirectoryUUID: ")
+
+    # Login with the default user
+    session = client.service.auth_login({"username": "woynert", "password": "password"})
+
+    # TODO: NewName?
+    res = client.service.file_move(
+        {"fileUUID": fileUUID, "targetDirectoryUUID": targetDirectoryUUID, "newName": "", "token": session.auth.token}
+    )
+
 
 def exitHandler():
     os._exit(0)

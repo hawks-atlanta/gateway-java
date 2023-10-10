@@ -33,9 +33,15 @@ public class CtrlFileMove
 
 		// obtain uuid from user
 		UUID userUUID = UUID.fromString (ServiceAuth.tokenGetClaim (args.token, "uuid"));
+
 		// request to move file
 		JSONObject requestBody = new JSONObject ();
-		requestBody.put ("parentUUID", args.targetDirectoryUUID);
+		if (args.targetDirectoryUUID != null) {
+			requestBody.put ("parentUUID", args.targetDirectoryUUID);
+		} else {
+			// move it to root
+			requestBody.put ("parentUUID", JSONObject.NULL);
+		}
 
 		String url = Config.getMetadataBaseUrl () + "/files/move/" + userUUID + "/" + args.fileUUID;
 
@@ -52,7 +58,7 @@ public class CtrlFileMove
 			HttpResponse<String> response =
 				client.send (request, HttpResponse.BodyHandlers.ofString ());
 			statusRes.code = response.statusCode ();
-
+			System.out.println (response.body ().toString ());
 			if (statusRes.code == 204) {
 				statusRes.error = false;
 				statusRes.msg = "The file have been moved";

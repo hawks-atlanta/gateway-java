@@ -22,13 +22,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder (OrderAnnotation.class) class ITFileManagment
 {
-	static class State
-	{
-		public static String username;
-		public static UUID fileUUID;
-		public static int fileSize;
-	}
-
 	@BeforeEach void setup () { Config.initializeFromEnv (); }
 
 	@Test @Order (1) void renameFile () throws InterruptedException

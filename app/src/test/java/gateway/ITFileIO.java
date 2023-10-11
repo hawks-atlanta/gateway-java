@@ -7,9 +7,11 @@ import gateway.controller.CtrlAccountRegister;
 import gateway.controller.CtrlAuthLogin;
 import gateway.controller.CtrlFileCheck;
 import gateway.controller.CtrlFileDownload;
+import gateway.controller.CtrlFileNewDir;
 import gateway.controller.CtrlFileUpload;
 import gateway.soap.request.Credentials;
 import gateway.soap.request.ReqFile;
+import gateway.soap.request.ReqFileNewDir;
 import gateway.soap.request.ReqFileUpload;
 import gateway.soap.response.ResFileDownload;
 import gateway.soap.response.ResFileNew;
@@ -90,7 +92,43 @@ import org.junit.jupiter.api.TestMethodOrder;
 		assertEquals (500, CtrlFileUpload.file_upload (args).code, "Can't reach Auth");
 	}
 
-	@Test @Order (2) void file_check () throws InterruptedException
+	@Test @Order (3) void uploadFileOnDirectory ()
+	{
+
+		ResSession resL = CtrlAuthLogin.auth_login (new Credentials (State.username, "pass"));
+		assertEquals (201, resL.code, "Login successfully");
+
+		// create three level deep subdirectory
+
+		ReqFileNewDir reqD = new ReqFileNewDir ();
+		reqD.directoryName = UUID.randomUUID ().toString ();
+		reqD.token = resL.auth.token;
+		reqD.location = null;
+
+		ResFileNew resD = CtrlFileNewDir.file_new_dir (reqD);
+		assertEquals (201, resD.code, "Subdirectory #1 created");
+
+		reqD.location = resD.fileUUID;
+		resD = CtrlFileNewDir.file_new_dir (reqD);
+		assertEquals (201, resD.code, "Subdirectory #2 created");
+
+		reqD.location = resD.fileUUID;
+		resD = CtrlFileNewDir.file_new_dir (reqD);
+		assertEquals (201, resD.code, "Subdirectory #3 created");
+
+		// upload file on directory
+
+		ReqFileUpload args = new ReqFileUpload ();
+		args.fileName = UUID.randomUUID ().toString ();
+		args.fileContent = TestUtilGenerator.randomBytes (1);
+		args.location = resD.fileUUID;
+		args.token = resL.auth.token;
+
+		ResFileNew resU = CtrlFileUpload.file_upload (args);
+		assertEquals (201, resU.code, "File upload on subdirectory success");
+	}
+
+	@Test @Order (2) void fileCheck () throws InterruptedException
 	{
 		UUID smallFile;
 		UUID bigFile;

@@ -18,8 +18,8 @@ print(resR)
 session = client.service.auth_login({"username": "woynert", "password": "password"})
 print(session)
 
-result = client.service.auth_refresh({'token': session.auth.token})
-print(result)
+res = client.service.auth_refresh({'token': session.auth.token})
+print(res)
 
 # upload
 # NOTE: Put a file here
@@ -52,4 +52,13 @@ if res.fileContent:
         print("INFO: File successfully written in disk")
 
 res.fileContent = f"{len(res.fileContent)} bytes"
+print(res)
+
+# rename file
+
+res = client.service.file_rename({
+    "fileUUID": resU.fileUUID,
+    "newName": f"woysticker{random.random()}.png",
+    "token": session.auth.token
+})
 print(res)

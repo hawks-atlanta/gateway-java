@@ -57,7 +57,7 @@ public class CtrlFileUpload
 		}
 
 		ServiceMetadata.ResSaveFile resMeta = ServiceMetadata.saveFile (
-			userUUID, args.location, mimetype, args.fileName, args.fileContent.length);
+			userUUID, args.location, true, mimetype, args.fileName, args.fileContent.length);
 		if (resMeta.error) {
 			return ResStatus.downCast (ResFileNew.class, (ResStatus)resMeta);
 		}

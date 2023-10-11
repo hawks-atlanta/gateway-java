@@ -17,8 +17,9 @@ public class ServiceMetadata
 		public UUID fileUUID;
 	}
 
-	public static ResSaveFile
-	saveFile (UUID userUUID, UUID directoryUUID, String filetype, String filename, int filesize)
+	public static ResSaveFile saveFile (
+		UUID userUUID, UUID directoryUUID, Boolean isFile, String filetype, String filename,
+		int filesize)
 	{
 
 		ServiceMetadata.ResSaveFile s = new ServiceMetadata.ResSaveFile ();
@@ -26,7 +27,7 @@ public class ServiceMetadata
 
 		body.put ("userUUID", userUUID);
 		body.put ("parentUUID", directoryUUID == null ? JSONObject.NULL : directoryUUID);
-		body.put ("fileType", "archive");
+		body.put ("fileType", isFile ? "archive" : "directory");
 		body.put ("fileName", filename);
 		body.put ("fileExtension", filetype == null ? JSONObject.NULL : filetype);
 		body.put ("fileSize", filesize);

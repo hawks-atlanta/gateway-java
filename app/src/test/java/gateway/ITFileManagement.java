@@ -17,7 +17,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ITMoveFile
+public class ITFileManagement
 {
 
 	@BeforeEach void setup () { Config.initializeFromEnv (); }

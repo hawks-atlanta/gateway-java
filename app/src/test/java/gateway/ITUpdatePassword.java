@@ -2,10 +2,6 @@ package gateway;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.UUID;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import gateway.config.Config;
 import gateway.controller.CtrlAccountRegister;
 import gateway.controller.CtrlUpdatePassword;
@@ -13,7 +9,9 @@ import gateway.soap.request.Credentials;
 import gateway.soap.request.ReqAccPassword;
 import gateway.soap.response.ResSession;
 import gateway.testutils.TestUtilConfig;
-
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ITUpdatePassword {
 

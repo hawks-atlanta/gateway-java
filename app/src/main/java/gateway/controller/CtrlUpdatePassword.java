@@ -1,10 +1,5 @@
 package gateway.controller;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import org.json.JSONObject;
 import gateway.config.Config;
 import gateway.services.ServiceAuth;
 import gateway.services.UtilValidator;
@@ -12,6 +7,12 @@ import gateway.soap.request.ReqAccPassword;
 import gateway.soap.response.ResFileDownload;
 import gateway.soap.response.ResSession;
 import gateway.soap.response.ResStatus;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import org.json.JSONObject;
+
 
 public class CtrlUpdatePassword {
     public static ResStatus account_password (ReqAccPassword accPassword) {

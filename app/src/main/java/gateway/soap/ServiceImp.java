@@ -27,7 +27,7 @@ import javax.jws.WebService;
 		return CtrlAccountRegister.account_register (credentials);
 	}
 
-	@WebMethod public ResStatus account_password (ReqAccPassword parameters) 
+	@WebMethod public ResStatus account_password (ReqAccPassword parameters)
 	{ 
 		return CtrlUpdatePassword.account_password (parameters);
 	}

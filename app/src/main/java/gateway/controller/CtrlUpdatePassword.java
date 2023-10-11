@@ -19,6 +19,7 @@ public class CtrlUpdatePassword {
         // Create a new ResSession object to hold the response data
 		ResSession resSession = new ResSession ();
 
+		// Check fields of ReqAccPassword
         ResStatus resValidate = UtilValidator.validate (accPassword);
 		if (resValidate.error) {
 			return ResStatus.downCast (ResFileDownload.class, resValidate);
@@ -31,25 +32,21 @@ public class CtrlUpdatePassword {
 			return ResStatus.downCast (ResFileDownload.class, resAuth);
 		}
 
-		System.err.println("old: " + resAuth.code);
-
         // Define the URL for updated password
 		String url = Config.getAuthBaseUrl () + "/account/password";
 
         // Create a JSONObject to hold the request body data.
 		JSONObject requestBody = new JSONObject ();
 
-        // Add the new password and current password fields
+        // Add the new password and old password fields
 		// request body
-		requestBody.put ("currentPassword", accPassword.oldpassword);
+		requestBody.put ("oldPassword", accPassword.oldpassword);
 		requestBody.put ("newPassword", accPassword.newpassword);
-
-		System.err.println("old: " + accPassword.oldpassword);
 
         try {
 			HttpResponse<String> response = HttpClient.newHttpClient().send(
 				HttpRequest.newBuilder()
-					.uri(URI.create(Config.getAuthBaseUrl() + "/account/password"))
+					.uri(URI.create (url))
 					.method("PATCH", HttpRequest.BodyPublishers.ofString(requestBody.toString ()))
 					.header("Authorization", "Bearer " + accPassword.token)
 					.header("Content-Type", "application/json")
@@ -62,8 +59,6 @@ public class CtrlUpdatePassword {
 
 			// Get the HTTP status code from the response.
 			resSession.code = response.statusCode ();
-			
-			System.err.println(response.statusCode ());
 
             // Check if the response status code is 200 (Updated Password)
 			if (resSession.code == 200) {

@@ -28,7 +28,7 @@ import javax.jws.WebService;
 	}
 
 	@WebMethod public ResStatus account_password (ReqAccPassword parameters)
-	{ 
+	{
 		return CtrlUpdatePassword.account_password (parameters);
 	}
 

@@ -212,7 +212,7 @@ paths:
             schema:
               $ref: '#/components/schemas/ReqFileNewDir'
       responses:
-        "200":
+        "201":
           description: Directory created.
           content:
             Object:

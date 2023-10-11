@@ -201,7 +201,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResStatus'
                 
-  /file_new_directory:
+  /file_new_dir:
     post:
       tags:
         - File

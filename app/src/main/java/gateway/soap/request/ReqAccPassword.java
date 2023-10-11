@@ -1,7 +1,9 @@
 package gateway.soap.request;
 
+import jakarta.validation.constraints.NotNull;
+
 public class ReqAccPassword extends Authorization
 {
-	public String oldpassword;
-	public String newpassword;
+	@NotNull public String oldpassword;
+	@NotNull public String newpassword;
 }

@@ -63,7 +63,10 @@ import javax.jws.WebService;
 
 	@WebMethod public ResStatus unshare_file (ReqShareRemove args) { return null; }
 
-	@WebMethod public ResShareList share_list (Authorization auth) { return null; }
+	@WebMethod public ResShareList share_list (Authorization auth)
+	{
+		return CtrlShareList.share_list (auth);
+	}
 
 	@WebMethod public ResShareListWithWho share_list_with_who (ReqFile args) { return null; }
 }

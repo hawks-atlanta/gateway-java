@@ -54,6 +54,11 @@ import javax.jws.WebService;
 
 	@WebMethod public ResStatus file_move (ReqFileMove args) { return null; }
 
+	@WebMethod public ResStatus file_rename (ReqFileRename args)
+	{
+		return CtrlFileRename.file_rename (args);
+	}
+
 	// sharing
 
 	@WebMethod public ResStatus share_file (ReqShareFile args)

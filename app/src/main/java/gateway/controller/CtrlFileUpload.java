@@ -32,7 +32,7 @@ public class CtrlFileUpload
 		if (args.fileContent.length == 0) {
 			s.code = 400;
 			s.error = true;
-			s.msg = "{\"fileContent: must not be empty\"}";
+			s.msg = "\"fileContent must not be empty\"";
 			return s;
 		} else if (args.fileContent.length > Config.MAX_FILE_SIZE) {
 			s.code = 413; // payload too large

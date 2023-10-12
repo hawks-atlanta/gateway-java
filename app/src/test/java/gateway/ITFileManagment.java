@@ -42,9 +42,12 @@ import org.junit.jupiter.api.TestMethodOrder;
 		// create subdirectory
 
 		reqD.location = resD.fileUUID;
-		assertEquals (201, resD.code, "Subdirectory created");
+		assertEquals (201, CtrlFileNewDir.file_new_dir (reqD).code, "Subdirectory created");
 
 		// errors
+
+		assertEquals (
+			409, CtrlFileNewDir.file_new_dir (reqD).code, "File with the same name already exists");
 
 		TestUtilConfig.makeInvalidMetadata ();
 		assertEquals (500, CtrlFileNewDir.file_new_dir (reqD).code, "Can't reach metadata");

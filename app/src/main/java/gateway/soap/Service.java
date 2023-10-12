@@ -35,6 +35,8 @@ public interface Service {
 
 	@WebMethod ResStatus file_move (ReqFileMove args);
 
+	@WebMethod ResStatus file_rename (ReqFileRename args);
+
 	// sharing
 
 	@WebMethod ResStatus share_file (ReqShareFile args);

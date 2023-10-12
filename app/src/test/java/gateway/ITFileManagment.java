@@ -1,12 +1,14 @@
 package gateway;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import gateway.config.Config;
 import gateway.controller.CtrlAccountRegister;
+import gateway.controller.CtrlFileNewDir;
 import gateway.controller.CtrlFileRename;
 import gateway.controller.CtrlFileUpload;
 import gateway.soap.request.Credentials;
+import gateway.soap.request.ReqFileNewDir;
 import gateway.soap.request.ReqFileRename;
 import gateway.soap.request.ReqFileUpload;
 import gateway.soap.response.ResFileNew;
@@ -66,5 +68,43 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 		reqN.newName = null;
 		assertEquals (400, CtrlFileRename.file_rename (reqN).code, "Field validation failed");
+	}
+
+	@Test @Order (2) void createSubdirectory ()
+	{
+		// register
+
+		ResSession resR = CtrlAccountRegister.account_register (
+			new Credentials (UUID.randomUUID ().toString (), "pass"));
+		assertEquals (201, resR.code, "Register successfully");
+
+		// create directory
+
+		ReqFileNewDir reqD = new ReqFileNewDir ();
+		reqD.directoryName = UUID.randomUUID ().toString ();
+		reqD.token = resR.auth.token;
+		reqD.location = null;
+
+		ResFileNew resD = CtrlFileNewDir.file_new_dir (reqD);
+		assertEquals (201, resD.code, "Directory created");
+
+		// create subdirectory
+
+		reqD.location = resD.fileUUID;
+		assertEquals (201, CtrlFileNewDir.file_new_dir (reqD).code, "Subdirectory created");
+
+		// errors
+
+		assertEquals (
+			409, CtrlFileNewDir.file_new_dir (reqD).code, "File with the same name already exists");
+
+		TestUtilConfig.makeInvalidMetadata ();
+		assertEquals (500, CtrlFileNewDir.file_new_dir (reqD).code, "Can't reach metadata");
+
+		reqD.token = "invalid-token";
+		assertEquals (401, CtrlFileNewDir.file_new_dir (reqD).code, "Unauthorized");
+
+		reqD.directoryName = null;
+		assertEquals (400, CtrlFileNewDir.file_new_dir (reqD).code, "Field validation failed");
 	}
 }

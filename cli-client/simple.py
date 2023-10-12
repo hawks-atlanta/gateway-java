@@ -21,7 +21,16 @@ print(session)
 res = client.service.auth_refresh({'token': session.auth.token})
 print(res)
 
-# upload
+# create directory
+
+resD = client.service.file_new_dir({
+    "directoryName": f"mydir-{random.random()}",
+    "location": "None",
+    "token": session.auth.token
+})
+print(resD)
+
+# upload file in directory
 # NOTE: Put a file here
 
 with open ("./LICENSE", "rb") as in_file:
@@ -29,7 +38,7 @@ with open ("./LICENSE", "rb") as in_file:
         {
             "fileName": f"karolsticker{random.random()}.png",
             "fileContent": in_file.read(),
-            "location": "None",
+            "location": resD.fileUUID,
             "token": session.auth.token,
         }
     )

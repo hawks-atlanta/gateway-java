@@ -39,7 +39,10 @@ import javax.jws.WebService;
 		return CtrlFileUpload.file_upload (args);
 	}
 
-	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args) { return null; }
+	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args)
+	{
+		return CtrlFileNewDir.file_new_dir (args);
+	}
 
 	@WebMethod public ResFileCheck file_check (ReqFile args)
 	{

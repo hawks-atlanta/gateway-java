@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.34 (2023-10-12)
+
+
+### Features
+
+* create new directory ([#71](https://github.com/hawks-atlanta/gateway-java/issues/71)) ([0f0594d](https://github.com/hawks-atlanta/gateway-java/commit/0f0594d7088c1dfef8bbed059e2a5c57a50996f8))
+
 ### 0.0.33 (2023-10-12)
 
 ### 0.0.32 (2023-10-12)

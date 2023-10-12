@@ -27,7 +27,10 @@ import javax.jws.WebService;
 		return CtrlAccountRegister.account_register (credentials);
 	}
 
-	@WebMethod public ResStatus account_password (ReqAccPassword parameters) { return null; }
+	@WebMethod public ResStatus account_password (ReqAccPassword parameters)
+	{
+		return CtrlUpdatePassword.account_password (parameters);
+	}
 
 	// file system
 
@@ -36,7 +39,10 @@ import javax.jws.WebService;
 		return CtrlFileUpload.file_upload (args);
 	}
 
-	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args) { return null; }
+	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args)
+	{
+		return CtrlFileNewDir.file_new_dir (args);
+	}
 
 	@WebMethod public ResFileCheck file_check (ReqFile args)
 	{
@@ -53,6 +59,11 @@ import javax.jws.WebService;
 	}
 
 	@WebMethod public ResStatus file_move (ReqFileMove args) { return null; }
+
+	@WebMethod public ResStatus file_rename (ReqFileRename args)
+	{
+		return CtrlFileRename.file_rename (args);
+	}
 
 	// sharing
 

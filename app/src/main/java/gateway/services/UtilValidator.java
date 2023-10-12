@@ -14,15 +14,13 @@ public class UtilValidator
 			Validation.buildDefaultValidatorFactory ().getValidator ().validate (obj);
 
 		if (val.size () > 0) {
-			s.msg += "{";
 			for (ConstraintViolation<T> violation : val) {
 				s.msg += String.format (
-					"\"%s: %s\",", violation.getPropertyPath ().toString (),
+					"\"%s %s\",", violation.getPropertyPath ().toString (),
 					violation.getMessage ());
 			}
-			s.msg = s.msg.substring (0, s.msg.length () - 1);
-			s.msg += "}";
 
+			s.msg = s.msg.substring (0, s.msg.length () - 1);
 			s.code = 400;
 			s.error = true;
 			return s;

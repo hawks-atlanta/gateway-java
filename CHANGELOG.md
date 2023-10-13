@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.36 (2023-10-13)
+
+
+### Bug Fixes
+
+* Update field validation ([#73](https://github.com/hawks-atlanta/gateway-java/issues/73)) ([d90a999](https://github.com/hawks-atlanta/gateway-java/commit/d90a999378485acf84a8040249ccebb0c436ee42))
+
 ### 0.0.35 (2023-10-12)
 
 ### 0.0.34 (2023-10-12)

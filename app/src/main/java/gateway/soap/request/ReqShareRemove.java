@@ -1,9 +1,11 @@
 package gateway.soap.request;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public class ReqShareRemove
 {
-	public UUID fileUUID;
-	public String otherUsername;
+	@NotNull public UUID fileUUID;
+	@NotEmpty public String otherUsername;
 }

@@ -38,6 +38,8 @@ import javax.jws.WebService;
 
 	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args) { return null; }
 
+	@Override public ResFileGet file_get (ReqFile args) { return CtrlFileGet.file_get (args); }
+
 	@WebMethod public ResFileCheck file_check (ReqFile args)
 	{
 		return CtrlFileCheck.file_check (args);

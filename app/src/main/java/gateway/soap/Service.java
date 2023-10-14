@@ -20,6 +20,7 @@ public interface Service {
 	@WebMethod ResStatus account_password (ReqAccPassword parameters);
 
 	// file system
+	@WebMethod ResFileGet file_get (ReqFile args);
 
 	@WebMethod ResFileList file_list (ReqFileList args);
 

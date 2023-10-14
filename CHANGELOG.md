@@ -2,6 +2,56 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.36 (2023-10-13)
+
+
+### Bug Fixes
+
+* Update field validation ([#73](https://github.com/hawks-atlanta/gateway-java/issues/73)) ([d90a999](https://github.com/hawks-atlanta/gateway-java/commit/d90a999378485acf84a8040249ccebb0c436ee42))
+
+### 0.0.35 (2023-10-12)
+
+### 0.0.34 (2023-10-12)
+
+
+### Features
+
+* create new directory ([#71](https://github.com/hawks-atlanta/gateway-java/issues/71)) ([0f0594d](https://github.com/hawks-atlanta/gateway-java/commit/0f0594d7088c1dfef8bbed059e2a5c57a50996f8))
+
+### 0.0.33 (2023-10-12)
+
+### 0.0.32 (2023-10-12)
+
+
+### Features
+
+* File rename ([#69](https://github.com/hawks-atlanta/gateway-java/issues/69)) ([4309419](https://github.com/hawks-atlanta/gateway-java/commit/43094191afb59059b797a5f206e520d2558dcdd7))
+
+### 0.0.31 (2023-10-09)
+
+
+### Bug Fixes
+
+* Move /api/version base path ([f424acc](https://github.com/hawks-atlanta/gateway-java/commit/f424accb83ca30ce70364c19be432f0b37d90e68))
+
+### 0.0.30 (2023-10-08)
+
+### 0.0.29 (2023-10-08)
+
+
+### Features
+
+* share file feature ([#61](https://github.com/hawks-atlanta/gateway-java/issues/61)) ([ff0efa6](https://github.com/hawks-atlanta/gateway-java/commit/ff0efa69503dbedc6ce1b7f6f50d4b0082b1abe6))
+
+### 0.0.28 (2023-10-08)
+
+### 0.0.27 (2023-10-07)
+
+
+### Bug Fixes
+
+* Delete Unnecesary resFileNew ([#63](https://github.com/hawks-atlanta/gateway-java/issues/63)) ([4eea954](https://github.com/hawks-atlanta/gateway-java/commit/4eea9541c85fe44f8a758328b551c194a0037538))
+
 ### 0.0.26 (2023-10-05)
 
 

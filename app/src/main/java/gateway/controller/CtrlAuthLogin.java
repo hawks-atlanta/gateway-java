@@ -16,7 +16,6 @@ public class CtrlAuthLogin
 	public static ResSession auth_login (Credentials credentials)
 	{
 		// Create a new ResSession object to hold the response data
-		ResFileNew resFileNew = new ResFileNew ();
 		ResSession res = new ResSession ();
 
 		ResStatus resValidate = UtilValidator.validate (credentials);
@@ -67,9 +66,9 @@ public class CtrlAuthLogin
 		} catch (Exception e) {
 			// Handle exceptions such as IOException and InterruptedException, if they occur.
 			System.err.println (e);
-			resFileNew.code = 500;
-			resFileNew.error = true;
-			resFileNew.msg = "Internal error, try again later";
+			res.code = 500;
+			res.error = true;
+			res.msg = "Internal error, try again later";
 		}
 
 		// Return the res object containing the response data.

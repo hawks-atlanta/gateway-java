@@ -1,11 +1,11 @@
 package gateway.soap.request;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 public class Credentials
 {
-	@NotNull public String username;
-	@NotNull public String password;
+	@NotEmpty public String username;
+	@NotEmpty public String password;
 
 	public Credentials () {}
 	public Credentials (String username, String password)

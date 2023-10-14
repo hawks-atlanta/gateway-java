@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
-public class ReqShareRemove
+public class ReqFileRename extends Authorization
 {
 	@NotNull public UUID fileUUID;
-	@NotEmpty public String otherUsername;
+	@NotEmpty public String newName;
 }

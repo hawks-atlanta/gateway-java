@@ -69,7 +69,7 @@ public class CtrlFileList
 										 ? null
 										 : fileObject.getString ("fileExtension");
 					file.isFile = fileObject.getString ("fileType").equals ("archive");
-					file.size = Integer.parseInt (fileObject.getString ("fileSize"));
+					file.size = fileObject.getInt ("fileSize");
 
 					files[i] = file;
 				}

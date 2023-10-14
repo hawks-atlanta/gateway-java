@@ -33,7 +33,7 @@ public class CtrlFileList
 		userUUID = UUID.fromString (ServiceAuth.tokenGetClaim (args.token, "uuid"));
 
 		// Build the URL for the request.
-		if (args.location == null || args.location.equals (new UUID (0L, 0L))) {
+		if (args.location == null) {
 			// If no location is specified, build the URL without a parentUUID parameter
 			url = Config.getMetadataBaseUrl () + "/files/list/" + userUUID;
 		} else {
@@ -60,19 +60,14 @@ public class CtrlFileList
 					// Process each file in the response JSON
 					JSONObject fileObject = filesArray.getJSONObject (i);
 
-					// Extract file information
-					String fileuuid = fileObject.getString ("uuid");
-					String fileType = fileObject.getString ("fileType");
-					String fileName = fileObject.getString ("name");
-					String fileExtension =
-						fileObject.isNull ("extension") ? null : fileObject.getString ("extension");
-
 					// Create a File object and assign it the file information
 					File file = new File ();
 
-					file.uuid = UUID.fromString (fileuuid);
-					file.name = (fileExtension == null) ? fileName : fileName + "." + fileExtension;
-					file.isFile = fileType.equals ("archive");
+					file.uuid = UUID.fromString (fileObject.getString ("uuid"));
+					file.name = fileObject.getString ("name");
+					file.extension =
+						fileObject.isNull ("extension") ? null : fileObject.getString ("extension");
+					file.isFile = fileObject.getString ("fileType").equals ("archive");
 					file.size = 0;
 
 					files[i] = file;

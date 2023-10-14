@@ -58,13 +58,7 @@ public class ITFileList
 		reqFileList.token = resSession.auth.token;
 		reqFileList.location = null;
 		assertEquals (
-			200, CtrlFileList.file_list (reqFileList).code,
-			"File list success from root (location is null)");
-
-		reqFileList.location = new UUID (0L, 0L);
-		assertEquals (
-			200, CtrlFileList.file_list (reqFileList).code,
-			"File list success from root (location is empty)");
+			200, CtrlFileList.file_list (reqFileList).code, "File list success from root");
 
 		// file list (parentUUID query parameter is provided)
 		reqFileList.location = resD.fileUUID;

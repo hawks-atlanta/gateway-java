@@ -43,8 +43,7 @@ public class CtrlFileGet
 		if (s.code == 200) {
 			File file = new File ();
 			file.uuid = args.fileUUID;
-			String extension = resM.extension == null ? "" : String.format (".%s", resM.extension);
-			file.name = String.format ("%s%s", resM.name, extension);
+			file.name = resM.name;
 			file.isFile = resM.volume != null;
 
 			s.file = file;

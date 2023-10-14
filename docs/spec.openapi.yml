@@ -548,7 +548,7 @@ components:
       properties:
         name:
           type: string
-          example: picture.png
+          example: picture.jpeg
         isFile:
           type: boolean
         uuid:
@@ -557,6 +557,9 @@ components:
         size:
           type: number
           example: 46350
+        extension:
+          type: string
+          example: "image/jpeg"
 
     ReqFileList:
       allOf:

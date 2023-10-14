@@ -1,5 +1,7 @@
 package gateway;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import gateway.config.Config;
 import gateway.controller.*;
 import gateway.soap.request.*;
@@ -14,8 +16,6 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder (OrderAnnotation.class) class ITFileManagment
 {
@@ -103,7 +103,7 @@ import static org.junit.jupiter.api.Assertions.*;
 		assertEquals (400, CtrlFileNewDir.file_new_dir (reqD).code, "Field validation failed");
 	}
 
-	@Test @Order (3) void getFileMetadata() throws InterruptedException
+	@Test @Order (3) void getFileMetadata () throws InterruptedException
 	{
 		// register
 		ResSession resR = CtrlAccountRegister.account_register (
@@ -124,29 +124,29 @@ import static org.junit.jupiter.api.Assertions.*;
 		Thread.sleep (2_000);
 
 		// get file metadata
-		ReqFile reqF = new ReqFile();
+		ReqFile reqF = new ReqFile ();
 		reqF.fileUUID = resU.fileUUID;
 		reqF.token = resR.auth.token;
 
-		ResFileGet resF = CtrlFileGet.file_get(reqF);
+		ResFileGet resF = CtrlFileGet.file_get (reqF);
 
 		// Check SOAP response fields
 		assertEquals (200, resF.code, "Metadata retrieved successfully");
-		assertFalse(resF.error, "There is no error in the SOAP response");
+		assertFalse (resF.error, "There is no error in the SOAP response");
 
 		// Check file metadata fields
-		assertEquals(resU.fileUUID, resF.file.uuid, "File UUID matches");
-		assertEquals(reqU.fileName, resF.file.name, "File name matches");
-		assertTrue(resF.file.isFile, "File is an archive");
+		assertEquals (resU.fileUUID, resF.file.uuid, "File UUID matches");
+		assertEquals (reqU.fileName, resF.file.name, "File name matches");
+		assertTrue (resF.file.isFile, "File is an archive");
 
 		// errors
 		TestUtilConfig.makeInvalidMetadata ();
-		assertEquals(500, CtrlFileGet.file_get(reqF).code, "Can't reach metadata");
+		assertEquals (500, CtrlFileGet.file_get (reqF).code, "Can't reach metadata");
 
 		reqF.token = "invalid-token";
-		assertEquals(401, CtrlFileGet.file_get(reqF).code, "Unauthorized");
+		assertEquals (401, CtrlFileGet.file_get (reqF).code, "Unauthorized");
 
 		reqF.fileUUID = null;
-		assertEquals(400, CtrlFileGet.file_get(reqF).code, "Field validation failed");
+		assertEquals (400, CtrlFileGet.file_get (reqF).code, "Field validation failed");
 	}
 }

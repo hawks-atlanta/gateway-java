@@ -45,6 +45,8 @@ public class CtrlFileGet
 			file.uuid = args.fileUUID;
 			file.name = resM.name;
 			file.isFile = resM.volume != null;
+			file.extension = resM.extension;
+			file.size = resM.size;
 
 			s.file = file;
 			s.msg = "File metadata has been retrieved";

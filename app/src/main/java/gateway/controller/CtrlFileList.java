@@ -64,11 +64,12 @@ public class CtrlFileList
 					File file = new File ();
 
 					file.uuid = UUID.fromString (fileObject.getString ("uuid"));
-					file.name = fileObject.getString ("name");
-					file.extension =
-						fileObject.isNull ("extension") ? null : fileObject.getString ("extension");
+					file.name = fileObject.getString ("fileName");
+					file.extension = fileObject.isNull ("fileExtension")
+										 ? null
+										 : fileObject.getString ("fileExtension");
 					file.isFile = fileObject.getString ("fileType").equals ("archive");
-					file.size = 0;
+					file.size = Integer.parseInt (fileObject.getString ("fileSize"));
 
 					files[i] = file;
 				}

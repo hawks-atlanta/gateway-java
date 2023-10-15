@@ -58,7 +58,7 @@ public class CtrlFileMove
 			HttpResponse<String> response =
 				client.send (request, HttpResponse.BodyHandlers.ofString ());
 			statusRes.code = response.statusCode ();
-			System.out.println (response.body ().toString ());
+
 			if (statusRes.code == 204) {
 				statusRes.error = false;
 				statusRes.msg = "The file have been moved";

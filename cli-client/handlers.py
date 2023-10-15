@@ -88,9 +88,8 @@ def moveFileHandler():
     # Login with the default user
     session = client.service.auth_login({"username": "woynert", "password": "password"})
 
-    # TODO: NewName?
     res = client.service.file_move(
-        {"fileUUID": fileUUID, "targetDirectoryUUID": targetDirectoryUUID, "newName": "", "token": session.auth.token}
+        {"fileUUID": fileUUID, "targetDirectoryUUID": targetDirectoryUUID, "token": session.auth.token}
     )
 
 

@@ -14,6 +14,7 @@ available_features = [
     {"name": "📄 Upload file", "handler": handlers.uploadHandler},
     {"name": "📄 Download file", "handler": handlers.downloadHandler},
     {"name": "📄 Move file", "handler": handlers.moveFileHandler},
+    {"name": "📄 Get file by UUID", "handler": handlers.getMetadataByUUIDHandler},
     {"name": "🚪 Finish program", "handler": handlers.exitHandler},
 ]
 

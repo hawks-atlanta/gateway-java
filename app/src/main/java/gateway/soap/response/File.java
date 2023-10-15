@@ -4,8 +4,9 @@ import java.util.UUID;
 
 public class File
 {
-	public String name;
-	public boolean isFile;
 	public UUID uuid;
-	public int size; // byte size
+	public String name;
+	public String extension;
+	public boolean isFile;
+	public int size;
 }

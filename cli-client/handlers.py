@@ -40,7 +40,6 @@ def uploadHandler():
 
     with open(filePath, "rb") as in_file:
         fileName = os.path.basename(filePath)
-        fileExtension = os.path.splitext(fileName)[1]
 
         # Login with the default user
         session = client.service.auth_login(
@@ -81,6 +80,19 @@ def downloadHandler():
     res.fileContent = f"{len(res.fileContent)} bytes"
     print(res)
 
+def getMetadataByUUIDHandler():
+    fileUUID = input("File UUID: ")
+
+    # Login with the default user
+    session = client.service.auth_login({"username": "woynert", "password": "password"})
+
+    # Get the file
+    res = client.service.file_get(
+        {"fileUUID": fileUUID, "token": session.auth.token}
+    )
+
+    print(res)
+
 def moveFileHandler():
     fileUUID = input("File UUID: ")
     targetDirectoryUUID = input("targetDirectoryUUID: ")
@@ -92,6 +104,7 @@ def moveFileHandler():
         {"fileUUID": fileUUID, "targetDirectoryUUID": targetDirectoryUUID, "token": session.auth.token}
     )
 
+    print(res)
 
 def exitHandler():
     os._exit(0)

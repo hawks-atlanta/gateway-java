@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.37 (2023-10-15)
+
+
+### Features
+
+* Get file by UUID ([#76](https://github.com/hawks-atlanta/gateway-java/issues/76)) ([3785327](https://github.com/hawks-atlanta/gateway-java/commit/3785327b11ef4daceb3840681d95a406350e141d))
+
 ### 0.0.36 (2023-10-13)
 
 

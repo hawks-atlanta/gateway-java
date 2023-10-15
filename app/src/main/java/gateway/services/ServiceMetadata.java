@@ -101,8 +101,8 @@ public class ServiceMetadata
 	{
 		public String name;
 		public String extension;
-		public int volume;
-		public long size;
+		public Integer volume;
+		public int size;
 		public boolean isShared;
 	}
 
@@ -129,8 +129,8 @@ public class ServiceMetadata
 				s.error = false;
 				s.name = resBody.getString ("name");
 				s.extension = resBody.isNull ("extension") ? null : resBody.getString ("extension");
-				s.volume = resBody.getInt ("volume");
-				s.size = resBody.getLong ("size");
+				s.volume = resBody.isNull ("volume") ? null : resBody.getInt ("volume");
+				s.size = resBody.getInt ("size");
 				s.isShared =
 					resBody.getBoolean ("is_shared"); // TODO make a test for true and false
 			} else {

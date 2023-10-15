@@ -128,7 +128,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 		// create a file and aux file
 		ResSaveFile resSaveFile1 = createFile (tokenUser1, null, "filename");
 		ResSaveFile resSaveFile2 = createFile (tokenUser2, null, "filename");
-		ResSaveFile resSaveFile3 = createFile (tokenUser2, null, "filename_alt");
+		ResSaveFile resSaveFile3 = createFile (tokenUser1, null, "filename_alt");
 
 		// create a directory
 		ResSaveFile resSaveDirectory = ServiceMetadata.saveFile (
@@ -147,7 +147,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 		// 409
 		reqFileMove.fileUUID = resSaveFile3.fileUUID;
 		assertEquals (
-			204, CtrlFileMove.file_move (reqFileMove).code,
+			409, CtrlFileMove.file_move (reqFileMove).code,
 			"There is another file in the same folder with the same name.");
 
 		// 403

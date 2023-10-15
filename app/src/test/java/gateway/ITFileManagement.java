@@ -23,13 +23,14 @@ import gateway.testutils.TestUtilConfig;
 import gateway.testutils.TestUtilGenerator;
 import java.util.Random;
 import java.util.UUID;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-@TestMethodOrder (OrderAnnotation.class) class ITFileManagment
+@TestMethodOrder (OrderAnnotation.class) class ITFileManagement
 {
 	@BeforeEach void setup () { Config.initializeFromEnv (); }
 
@@ -125,13 +126,15 @@ import org.junit.jupiter.api.TestMethodOrder;
 		String tokenUser2 = registerAndLoginUserSuccess (username2);
 
 		// create a file and aux file
-		ResSaveFile resSaveFile1 = createFile (tokenUser1);
-		ResSaveFile resSaveFile2 = createFile (tokenUser2);
+		ResSaveFile resSaveFile1 = createFile (tokenUser1, null, "filename");
+		ResSaveFile resSaveFile2 = createFile (tokenUser2, null, "filename");
+		ResSaveFile resSaveFile3 = createFile (tokenUser2, null, "filename_alt");
 
 		// create a directory
 		ResSaveFile resSaveDirectory = ServiceMetadata.saveFile (
 			UUID.fromString (ServiceAuth.tokenGetClaim (tokenUser1, "uuid")), null, false, null,
 			"nested", 0);
+		createFile (tokenUser1, resSaveDirectory.fileUUID, "filename_alt");
 
 		// 204
 		ReqFileMove reqFileMove = new ReqFileMove ();
@@ -140,6 +143,12 @@ import org.junit.jupiter.api.TestMethodOrder;
 		reqFileMove.token = tokenUser1;
 		ResStatus resStatus = CtrlFileMove.file_move (reqFileMove);
 		assertEquals (204, resStatus.code, "The file have been moved");
+
+		// 409
+		reqFileMove.fileUUID = resSaveFile3.fileUUID;
+		assertEquals (
+			204, CtrlFileMove.file_move (reqFileMove).code,
+			"There is another file in the same folder with the same name.");
 
 		// 403
 		reqFileMove.fileUUID = resSaveFile2.fileUUID;
@@ -152,9 +161,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 		assertEquals (
 			404, resStatus.code, "Not found. No file with the given file_uuid was found.");
 
-		// 409
-
 		// 500
+		TestUtilConfig.makeInvalidMetadata ();
+		assertEquals (500, CtrlFileMove.file_move (reqFileMove).code, "Can't reach metadata");
 	}
 
 	// TODO UTILS?
@@ -165,10 +174,12 @@ import org.junit.jupiter.api.TestMethodOrder;
 		return res.auth.token;
 	}
 
-	private ResSaveFile createFile (String token)
+	private ResSaveFile createFile (String token, UUID directoryUUID, String filename)
 	{
+
+		UUID fileType = (directoryUUID != null) ? null : directoryUUID;
 		return ServiceMetadata.saveFile (
-			UUID.fromString (ServiceAuth.tokenGetClaim (token, "uuid")), null, true, "txt",
-			"filename", (new Random ().nextInt (3000) + 1));
+			UUID.fromString (ServiceAuth.tokenGetClaim (token, "uuid")), fileType, true, "txt",
+			filename, (new Random ().nextInt (3000) + 1));
 	}
 }

@@ -93,5 +93,18 @@ def getMetadataByUUIDHandler():
 
     print(res)
 
+def moveFileHandler():
+    fileUUID = input("File UUID: ")
+    targetDirectoryUUID = input("targetDirectoryUUID: ")
+
+    # Login with the default user
+    session = client.service.auth_login({"username": "woynert", "password": "password"})
+
+    res = client.service.file_move(
+        {"fileUUID": fileUUID, "targetDirectoryUUID": targetDirectoryUUID, "token": session.auth.token}
+    )
+
+    print(res)
+
 def exitHandler():
     os._exit(0)

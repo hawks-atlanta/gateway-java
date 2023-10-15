@@ -60,7 +60,10 @@ import javax.jws.WebService;
 		return CtrlFileDownload.file_download (args);
 	}
 
-	@WebMethod public ResStatus file_move (ReqFileMove args) { return null; }
+	@WebMethod public ResStatus file_move (ReqFileMove args)
+	{
+		return CtrlFileMove.file_move (args);
+	}
 
 	@WebMethod public ResStatus file_rename (ReqFileRename args)
 	{

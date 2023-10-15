@@ -53,7 +53,10 @@ import javax.jws.WebService;
 
 	@WebMethod public ResStatus file_delete (ReqFileDelete args) { return null; }
 
-	@WebMethod public ResFileList file_list (ReqFileList args) { return null; }
+	@WebMethod public ResFileList file_list (ReqFileList args)
+	{
+		return CtrlFileList.file_list (args);
+	}
 
 	@WebMethod public ResFileDownload file_download (ReqFile args)
 	{

@@ -44,6 +44,8 @@ import javax.jws.WebService;
 		return CtrlFileNewDir.file_new_dir (args);
 	}
 
+	@Override public ResFileGet file_get (ReqFile args) { return CtrlFileGet.file_get (args); }
+
 	@WebMethod public ResFileCheck file_check (ReqFile args)
 	{
 		return CtrlFileCheck.file_check (args);
@@ -51,14 +53,20 @@ import javax.jws.WebService;
 
 	@WebMethod public ResStatus file_delete (ReqFileDelete args) { return null; }
 
-	@WebMethod public ResFileList file_list (ReqFileList args) { return null; }
+	@WebMethod public ResFileList file_list (ReqFileList args)
+	{
+		return CtrlFileList.file_list (args);
+	}
 
 	@WebMethod public ResFileDownload file_download (ReqFile args)
 	{
 		return CtrlFileDownload.file_download (args);
 	}
 
-	@WebMethod public ResStatus file_move (ReqFileMove args) { return null; }
+	@WebMethod public ResStatus file_move (ReqFileMove args)
+	{
+		return CtrlFileMove.file_move (args);
+	}
 
 	@WebMethod public ResStatus file_rename (ReqFileRename args)
 	{

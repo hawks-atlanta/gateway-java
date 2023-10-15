@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.40 (2023-10-15)
+
+### 0.0.39 (2023-10-15)
+
+
+### Features
+
+* List Files ([#74](https://github.com/hawks-atlanta/gateway-java/issues/74)) ([9da5799](https://github.com/hawks-atlanta/gateway-java/commit/9da57996c01e88f2176674ed0c118666010e0223))
+
+### 0.0.38 (2023-10-15)
+
+
+### Features
+
+* File move ([#77](https://github.com/hawks-atlanta/gateway-java/issues/77)) ([53112a2](https://github.com/hawks-atlanta/gateway-java/commit/53112a2a6ec759dad65ffc8a76baa6a29e3b62ca))
+
+### 0.0.37 (2023-10-15)
+
+
+### Features
+
+* Get file by UUID ([#76](https://github.com/hawks-atlanta/gateway-java/issues/76)) ([3785327](https://github.com/hawks-atlanta/gateway-java/commit/3785327b11ef4daceb3840681d95a406350e141d))
+
+### 0.0.36 (2023-10-13)
+
+
+### Bug Fixes
+
+* Update field validation ([#73](https://github.com/hawks-atlanta/gateway-java/issues/73)) ([d90a999](https://github.com/hawks-atlanta/gateway-java/commit/d90a999378485acf84a8040249ccebb0c436ee42))
+
 ### 0.0.35 (2023-10-12)
 
 ### 0.0.34 (2023-10-12)

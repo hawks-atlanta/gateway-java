@@ -76,7 +76,7 @@ public class ITShareFile
 	private ResSaveFile createFile (String token)
 	{
 		return ServiceMetadata.saveFile (
-			UUID.fromString (ServiceAuth.tokenGetClaim (token, "uuid")), null, "txt", "filename_t",
-			(new Random ().nextInt (3000) + 1));
+			UUID.fromString (ServiceAuth.tokenGetClaim (token, "uuid")), null, true, "txt",
+			"filename_t", (new Random ().nextInt (3000) + 1));
 	}
 }

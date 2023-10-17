@@ -4,27 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import gateway.config.Config;
 import gateway.controller.*;
-import gateway.controller.CtrlAccountRegister;
-import gateway.controller.CtrlFileMove;
-import gateway.controller.CtrlFileNewDir;
-import gateway.controller.CtrlFileRename;
-import gateway.controller.CtrlFileUpload;
 import gateway.services.ServiceAuth;
 import gateway.services.ServiceMetadata;
 import gateway.services.ServiceMetadata.ResSaveFile;
 import gateway.soap.request.*;
-import gateway.soap.request.Credentials;
-import gateway.soap.request.ReqFileMove;
-import gateway.soap.request.ReqFileNewDir;
-import gateway.soap.request.ReqFileRename;
-import gateway.soap.request.ReqFileUpload;
-import gateway.soap.response.ResFileGet;
-import gateway.soap.response.ResFileNew;
-import gateway.soap.response.ResSession;
-import gateway.soap.response.ResStatus;
+import gateway.soap.response.*;
+import gateway.testutils.TestUtilAuth;
 import gateway.testutils.TestUtilConfig;
 import gateway.testutils.TestUtilGenerator;
-import java.util.Random;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -171,20 +158,20 @@ import org.junit.jupiter.api.TestMethodOrder;
 		String username2 = UUID.randomUUID ().toString ();
 
 		// register
-		String tokenUser1 = registerAndLoginUserSuccess (username1);
-		String tokenUser2 = registerAndLoginUserSuccess (username2);
+		String tokenUser1 = TestUtilAuth.registerAndLoginUserSuccess (username1);
+		String tokenUser2 = TestUtilAuth.registerAndLoginUserSuccess (username2);
 
 		// create 2 files user1 in root, 1 file for user2
-		ResSaveFile resSaveFile1 = createFile (tokenUser1, null, "filename");
-		ResSaveFile resSaveFile2 = createFile (tokenUser2, null, "filename");
-		createFile (tokenUser1, null, "filename_alt");
+		ResSaveFile resSaveFile1 = TestUtilAuth.createFile (tokenUser1, null, "filename");
+		ResSaveFile resSaveFile2 = TestUtilAuth.createFile (tokenUser2, null, "filename");
+		TestUtilAuth.createFile (tokenUser1, null, "filename_alt");
 
 		// create a directory and a file on it
 		ResSaveFile resSaveDirectory = ServiceMetadata.saveFile (
 			UUID.fromString (ServiceAuth.tokenGetClaim (tokenUser1, "uuid")), null, false, null,
 			"nested", 0);
 		ResSaveFile resSaveFile3 =
-			createFile (tokenUser1, resSaveDirectory.fileUUID, "filename_alt");
+			TestUtilAuth.createFile (tokenUser1, resSaveDirectory.fileUUID, "filename_alt");
 
 		// 204
 		ReqFileMove reqFileMove = new ReqFileMove ();
@@ -227,20 +214,5 @@ import org.junit.jupiter.api.TestMethodOrder;
 		assertEquals (
 			400, resStatus.code,
 			"The owner_uuid or file_uuid were not a valid UUID or the JSON body does't fullfill the validations.");
-	}
-
-	private String registerAndLoginUserSuccess (String username)
-	{
-		ResSession res = CtrlAccountRegister.account_register (new Credentials (username, "pass"));
-		assertEquals (201, res.code, "User registered successfully");
-		return res.auth.token;
-	}
-
-	private ResSaveFile createFile (String token, UUID directoryUUID, String filename)
-	{
-		UUID fileType = (directoryUUID != null) ? directoryUUID : null;
-		return ServiceMetadata.saveFile (
-			UUID.fromString (ServiceAuth.tokenGetClaim (token, "uuid")), fileType, true, "txt",
-			filename, (new Random ().nextInt (3000) + 1));
 	}
 }

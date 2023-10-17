@@ -32,7 +32,6 @@ public class ITFileList
 		assertEquals (201, resSession.code, "User registered successfully");
 
 		// upload file
-
 		ReqFileUpload reqFileUpload = new ReqFileUpload ();
 		reqFileUpload.fileContent = TestUtilGenerator.randomBytes (1);
 		reqFileUpload.fileName = UUID.randomUUID ().toString ();
@@ -48,7 +47,6 @@ public class ITFileList
 		TestUtilAuth.createFile (resSession.auth.token);
 
 		// create directory
-
 		ReqFileNewDir reqFileNewDir = new ReqFileNewDir ();
 		reqFileNewDir.directoryName = UUID.randomUUID ().toString ();
 		reqFileNewDir.token = resSession.auth.token;
@@ -86,7 +84,6 @@ public class ITFileList
 		assertEquals (201, resSessionAnotherUser.code, "Another User registered successfully");
 
 		// create directory another user
-
 		ReqFileNewDir reqFileNewDirAnotherUser = new ReqFileNewDir ();
 		reqFileNewDirAnotherUser.directoryName = UUID.randomUUID ().toString ();
 		reqFileNewDirAnotherUser.token = resSessionAnotherUser.auth.token;

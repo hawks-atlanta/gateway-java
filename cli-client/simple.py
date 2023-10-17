@@ -18,10 +18,19 @@ print(resR)
 session = client.service.auth_login({"username": "woynert", "password": "password"})
 print(session)
 
-result = client.service.auth_refresh({'token': session.auth.token})
-print(result)
+res = client.service.auth_refresh({'token': session.auth.token})
+print(res)
 
-# upload
+# create directory
+
+resD = client.service.file_new_dir({
+    "directoryName": f"mydir-{random.random()}",
+    "location": "None",
+    "token": session.auth.token
+})
+print(resD)
+
+# upload file in directory
 # NOTE: Put a file here
 
 with open ("./LICENSE", "rb") as in_file:
@@ -29,7 +38,7 @@ with open ("./LICENSE", "rb") as in_file:
         {
             "fileName": f"karolsticker{random.random()}.png",
             "fileContent": in_file.read(),
-            "location": "None",
+            "location": resD.fileUUID,
             "token": session.auth.token,
         }
     )
@@ -52,4 +61,13 @@ if res.fileContent:
         print("INFO: File successfully written in disk")
 
 res.fileContent = f"{len(res.fileContent)} bytes"
+print(res)
+
+# rename file
+
+res = client.service.file_rename({
+    "fileUUID": resU.fileUUID,
+    "newName": f"woysticker{random.random()}.png",
+    "token": session.auth.token
+})
 print(res)

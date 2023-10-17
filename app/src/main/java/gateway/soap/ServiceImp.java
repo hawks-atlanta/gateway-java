@@ -27,7 +27,10 @@ import javax.jws.WebService;
 		return CtrlAccountRegister.account_register (credentials);
 	}
 
-	@WebMethod public ResStatus account_password (ReqAccPassword parameters) { return null; }
+	@WebMethod public ResStatus account_password (ReqAccPassword parameters)
+	{
+		return CtrlUpdatePassword.account_password (parameters);
+	}
 
 	// file system
 
@@ -36,7 +39,12 @@ import javax.jws.WebService;
 		return CtrlFileUpload.file_upload (args);
 	}
 
-	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args) { return null; }
+	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args)
+	{
+		return CtrlFileNewDir.file_new_dir (args);
+	}
+
+	@Override public ResFileGet file_get (ReqFile args) { return CtrlFileGet.file_get (args); }
 
 	@WebMethod public ResFileCheck file_check (ReqFile args)
 	{
@@ -45,14 +53,25 @@ import javax.jws.WebService;
 
 	@WebMethod public ResStatus file_delete (ReqFileDelete args) { return null; }
 
-	@WebMethod public ResFileList file_list (ReqFileList args) { return null; }
+	@WebMethod public ResFileList file_list (ReqFileList args)
+	{
+		return CtrlFileList.file_list (args);
+	}
 
 	@WebMethod public ResFileDownload file_download (ReqFile args)
 	{
 		return CtrlFileDownload.file_download (args);
 	}
 
-	@WebMethod public ResStatus file_move (ReqFileMove args) { return null; }
+	@WebMethod public ResStatus file_move (ReqFileMove args)
+	{
+		return CtrlFileMove.file_move (args);
+	}
+
+	@WebMethod public ResStatus file_rename (ReqFileRename args)
+	{
+		return CtrlFileRename.file_rename (args);
+	}
 
 	// sharing
 

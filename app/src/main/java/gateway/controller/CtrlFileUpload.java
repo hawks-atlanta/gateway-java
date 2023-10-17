@@ -32,7 +32,7 @@ public class CtrlFileUpload
 		if (args.fileContent.length == 0) {
 			s.code = 400;
 			s.error = true;
-			s.msg = "{\"fileContent: must not be empty\"}";
+			s.msg = "\"fileContent must not be empty\"";
 			return s;
 		} else if (args.fileContent.length > Config.MAX_FILE_SIZE) {
 			s.code = 413; // payload too large
@@ -57,7 +57,7 @@ public class CtrlFileUpload
 		}
 
 		ServiceMetadata.ResSaveFile resMeta = ServiceMetadata.saveFile (
-			userUUID, args.location, mimetype, args.fileName, args.fileContent.length);
+			userUUID, args.location, true, mimetype, args.fileName, args.fileContent.length);
 		if (resMeta.error) {
 			return ResStatus.downCast (ResFileNew.class, (ResStatus)resMeta);
 		}

@@ -1,10 +1,10 @@
 package gateway.soap.request;
 
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public class ReqFileMove extends Authorization
 {
-	public UUID fileUUID;
+	@NotNull public UUID fileUUID;
 	public UUID targetDirectoryUUID; // always a directory
-	public String newName;			 // optional
 }

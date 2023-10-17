@@ -20,6 +20,7 @@ public interface Service {
 	@WebMethod ResStatus account_password (ReqAccPassword parameters);
 
 	// file system
+	@WebMethod ResFileGet file_get (ReqFile args);
 
 	@WebMethod ResFileList file_list (ReqFileList args);
 
@@ -34,6 +35,8 @@ public interface Service {
 	@WebMethod ResFileDownload file_download (ReqFile args);
 
 	@WebMethod ResStatus file_move (ReqFileMove args);
+
+	@WebMethod ResStatus file_rename (ReqFileRename args);
 
 	// sharing
 

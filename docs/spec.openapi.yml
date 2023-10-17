@@ -50,7 +50,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResStatus'
 
-                
+
   /auth_refresh:
     post:
       tags:
@@ -83,8 +83,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResStatus'
 
-  # account
-                
+                # account
+
   /account_register:
     post:
       tags:
@@ -108,7 +108,7 @@ paths:
             Object:
               schema:
                 $ref: '#/components/schemas/ResStatus'
-                
+
   /account_password:
     patch:
       security:
@@ -136,6 +136,34 @@ paths:
                 $ref: '#/components/schemas/ResStatus'
 
   # file system
+  /file_get:
+    post:
+      tags: [ "File" ]
+      description: Get metadata for the given file
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/ReqFile'
+      responses:
+        "200":
+          description: Ok. The metadata is retreived.
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResFileGet'
+        "202":
+          description: The file is not ready yet.
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
 
   /file_list:
     post:
@@ -159,7 +187,7 @@ paths:
             Object:
               schema:
                 $ref: '#/components/schemas/ResStatus'
-                
+
   /file_upload:
     post:
       tags:
@@ -200,8 +228,8 @@ paths:
             Object:
               schema:
                 $ref: '#/components/schemas/ResStatus'
-                
-  /file_new_directory:
+
+  /file_new_dir:
     post:
       tags:
         - File
@@ -212,7 +240,7 @@ paths:
             schema:
               $ref: '#/components/schemas/ReqFileNewDir'
       responses:
-        "200":
+        "201":
           description: Directory created.
           content:
             Object:
@@ -248,7 +276,7 @@ paths:
             Object:
               schema:
                 $ref: '#/components/schemas/ResStatus'
-                
+
   /file_download:
     post:
       tags:
@@ -309,11 +337,11 @@ paths:
             Object:
               schema:
                 $ref: '#/components/schemas/ResStatus'
-                
+
   /file_move:
     put:
       tags: ["File"]
-      description: Move or rename the given file. If `targetDirectoryUUID` is provided the file will be moved. If `newName` is provided the name will be renamed. 
+      description: Moves the given file. If `targetDirectoryUUID` is null the file will be moved to the user's root directory, otherwise it'll be moved to the specified directory.
       requestBody:
         content:
           Object:
@@ -321,13 +349,36 @@ paths:
               $ref: '#/components/schemas/ReqFileMove'
       responses:
         "200":
-          description: The file was moved / renamed.
+          description: The file was moved.
           content:
             object:
               schema:
                 $ref: "#/components/schemas/ResStatus"
         'default':
-          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `PUT /files/rename/{user_uuid}/{file_uuid}` and `PUT /files/move/{user_uuid}/{file_uuid}`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `PUT /files/move/{user_uuid}/{file_uuid}`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
+          content:
+            Object:
+              schema:
+                $ref: '#/components/schemas/ResStatus'
+
+  /file_rename:
+    put:
+      tags: ["File"]
+      description: Rename the given file.
+      requestBody:
+        content:
+          Object:
+            schema:
+              $ref: '#/components/schemas/ReqFileRename'
+      responses:
+        "200":
+          description: The file was renamed.
+          content:
+            object:
+              schema:
+                $ref: "#/components/schemas/ResStatus"
+        'default':
+          description: An error occurred. Returns error code and message. See possible responses at [Metadata API Spec endpoint `PUT /files/rename/{user_uuid}/{file_uuid}`](https://github.com/hawks-atlanta/metadata-scala/blob/main/docs/spec.openapi.yaml)
           content:
             Object:
               schema:
@@ -406,7 +457,7 @@ paths:
             Object:
               schema:
                 $ref: '#/components/schemas/ResStatus'
-                
+
   /share_list_with_who:
     post:
       tags:
@@ -439,9 +490,9 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-  
+
     # Base types
-    
+
     Authorization:
       type: object
       properties:
@@ -469,7 +520,7 @@ components:
             auth:
               $ref: '#/components/schemas/Authorization'
         - $ref: '#/components/schemas/ResStatus'
-          
+
     Credentials:
       type: object
       properties:
@@ -477,9 +528,9 @@ components:
           type: string
         password:
           type: string
-          
+
     # account types
-    
+
     ReqAccPassword:
       allOf:
         - type: object
@@ -489,15 +540,18 @@ components:
             newpassword:
               type: string
         - $ref: '#/components/schemas/Authorization'
-     
+
     # file types
-    
+
     File:
       type: object
       properties:
         name:
           type: string
           example: picture.png
+        extension:
+          type: string
+          example: image/png
         isFile:
           type: boolean
         uuid:
@@ -506,7 +560,7 @@ components:
         size:
           type: number
           example: 46350
-    
+
     ReqFileList:
       allOf:
         - type: object
@@ -515,7 +569,7 @@ components:
               type: string
               example: 5295d524-aafc-407c-96ed-adae2cd5047a
         - $ref: '#/components/schemas/Authorization'
-    
+
     ResFileList:
       allOf:
         - type: object
@@ -525,7 +579,15 @@ components:
               items:
                 $ref: '#/components/schemas/File'
         - $ref: '#/components/schemas/ResStatus'
-    
+
+    ResFileGet:
+      allOf:
+        - type: object
+          properties:
+            file:
+              $ref: '#/components/schemas/File'
+        - $ref: '#/components/schemas/ResStatus'
+
     ReqFileUpload:
       allOf:
         - type: object
@@ -542,7 +604,7 @@ components:
               type: string
               example: 5295d524-aafc-407c-96ed-adae2cd5047a
         - $ref: '#/components/schemas/Authorization'
-    
+
     ReqFileNewDir:
       allOf:
         - type: object
@@ -554,7 +616,7 @@ components:
               type: string
               example: 5295d524-aafc-407c-96ed-adae2cd5047a
         - $ref: '#/components/schemas/Authorization'
-    
+
     ResFileNew:
       allOf:
         - type: object
@@ -563,7 +625,7 @@ components:
               type: string
               example: 5295d524-aafc-407c-96ed-adae2cd5047a
         - $ref: '#/components/schemas/ResStatus'
-    
+
     ResFileCheck:
       allOf:
         - type: object
@@ -571,7 +633,7 @@ components:
             ready:
               type: boolean
         - $ref: '#/components/schemas/ResStatus'
-      
+
     ReqFileDelete:
       allOf:
         - type: object
@@ -582,7 +644,7 @@ components:
                 type: string
                 example: 5295d524-aafc-407c-96ed-adae2cd5047a
         - $ref: '#/components/schemas/Authorization'
-    
+
     ResFileDownload:
       allOf:
         - type: object
@@ -596,7 +658,7 @@ components:
                 type: number
               example: []
         - $ref: '#/components/schemas/ResStatus'
-    
+
     ReqFileMove:
       allOf:
         - type: object
@@ -610,13 +672,26 @@ components:
             targetDirectoryUUID:
               type: string
               example: 5295d524-aafc-407c-96ed-adae2cd5047a
+        - $ref: '#/components/schemas/Authorization'
+
+    ReqFileRename:
+      allOf:
+        - type: object
+          required:
+            - fileUUID
+            - newName
+            - token
+          properties:
+            fileUUID:
+              type: string
+              example: 5295d524-aafc-407c-96ed-adae2cd5047a
             newName:
               type: string
               example: picture_new_name.png
         - $ref: '#/components/schemas/Authorization'
-        
+
     # share types
-  
+
     SharedFile:
       allOf:
         - type: object
@@ -625,7 +700,7 @@ components:
               type: string
               example: CocoTheCat
         - $ref: '#/components/schemas/File'
-          
+
     ReqShareFile:
       allOf:
         - type: object
@@ -637,7 +712,7 @@ components:
               type: string
               example: whosthenert67
         - $ref: '#/components/schemas/Authorization'
-        
+
     ReqShareRemove:
       allOf:
         - type: object
@@ -649,7 +724,7 @@ components:
               type: string
               example: whosthenert67
         - $ref: '#/components/schemas/Authorization'
-    
+
     ResShareList:
       allOf:
         - type: object
@@ -659,7 +734,7 @@ components:
               items:
                 $ref: '#/components/schemas/SharedFile'
         - $ref: '#/components/schemas/ResStatus'
-        
+
     ReqFile:
       allOf:
         - type: object
@@ -668,7 +743,7 @@ components:
               type: string
               example: 5295d524-aafc-407c-96ed-adae2cd5047a
         - $ref: '#/components/schemas/Authorization'
-        
+
     ResShareListWithWho:
       allOf:
         - type: object

@@ -87,5 +87,8 @@ import javax.jws.WebService;
 		return CtrlShareList.share_list (auth);
 	}
 
-	@WebMethod public ResShareListWithWho share_list_with_who (ReqFile args) { return null; }
+	@WebMethod public ResShareListWithWho share_list_with_who (ReqFile args)
+	{
+		return CtrlShareListWithWho.share_list_with_who (args);
+	}
 }

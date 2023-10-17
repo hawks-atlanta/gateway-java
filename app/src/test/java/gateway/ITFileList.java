@@ -13,6 +13,7 @@ import gateway.soap.request.ReqFileNewDir;
 import gateway.soap.request.ReqFileUpload;
 import gateway.soap.response.ResFileNew;
 import gateway.soap.response.ResSession;
+import gateway.testutils.TestUtilAuth;
 import gateway.testutils.TestUtilConfig;
 import gateway.testutils.TestUtilGenerator;
 import java.util.UUID;
@@ -42,6 +43,9 @@ public class ITFileList
 		assertEquals (201, resFileNew.code, "File upload success");
 
 		Thread.sleep (1000); // wait for upload
+
+		// Upload file with extension
+		TestUtilAuth.createFile (resSession.auth.token);
 
 		// create directory
 

@@ -8,6 +8,7 @@ import gateway.controller.CtrlAuthLogin;
 import gateway.controller.CtrlAuthRefresh;
 import gateway.services.ServiceAuth;
 import gateway.services.ServiceAuth.ResUUID;
+import gateway.services.ServiceAuth.ResUsername;
 import gateway.soap.request.Authorization;
 import gateway.soap.request.Credentials;
 import gateway.soap.response.ResSession;
@@ -141,9 +142,11 @@ class ITServiceAuth
 		assertEquals (200, resUUID.code, "Get UUID successfully");
 
 		// get username from UUID
-		assertEquals (
-			200, ServiceAuth.getUsername (res.auth.token, resUUID.uuid).code,
-			"Get username successfully");
+		ResUsername resUsername = ServiceAuth.getUsername (res.auth.token, resUUID.uuid);
+		assertEquals (200, resUsername.code, "Get username successfully");
+
+		// Verify if the returned username is the same as the original username
+		assertEquals (cred.username, resUsername.username, "Username matches");
 
 		// errors
 		assertEquals (

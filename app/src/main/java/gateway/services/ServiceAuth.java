@@ -107,7 +107,8 @@ public class ServiceAuth
 			// Make an HTTP GET request
 			HttpResponse<String> response = HttpClient.newHttpClient ().send (
 				HttpRequest.newBuilder ()
-					.uri (URI.create (Config.getAuthBaseUrl () + "/user/username/" + uuid))
+					.uri (URI.create (
+						String.format ("%s/user/username/%s", Config.getAuthBaseUrl (), uuid)))
 					.GET ()
 					.header ("Authorization", "Bearer " + token)
 					.build (),

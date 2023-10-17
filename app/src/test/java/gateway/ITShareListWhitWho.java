@@ -3,19 +3,14 @@ package gateway;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import gateway.config.Config;
-import gateway.controller.CtrlAccountRegister;
 import gateway.controller.CtrlShareFile;
 import gateway.controller.CtrlShareListWithWho;
-import gateway.services.ServiceAuth;
-import gateway.services.ServiceMetadata;
 import gateway.services.ServiceMetadata.ResSaveFile;
-import gateway.soap.request.Credentials;
 import gateway.soap.request.ReqFile;
 import gateway.soap.request.ReqShareFile;
-import gateway.soap.response.ResSession;
 import gateway.soap.response.ResStatus;
+import gateway.testutils.TestUtilAuth;
 import gateway.testutils.TestUtilConfig;
-import java.util.Random;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,11 +25,12 @@ public class ITShareListWhitWho
 		String username2 = UUID.randomUUID ().toString ();
 
 		// Register
-		String tokenUser1 = registerAndLoginUserSuccess (username1);
-		registerAndLoginUserSuccess (username2);
+
+		String tokenUser1 = TestUtilAuth.registerAndLoginUserSuccess (username1);
+		TestUtilAuth.registerAndLoginUserSuccess (username2);
 
 		// Create a file
-		ResSaveFile resSaveFile1 = createFile (tokenUser1);
+		ResSaveFile resSaveFile1 = TestUtilAuth.createFile (tokenUser1);
 
 		// Share file
 		ReqShareFile reqShareFile = new ReqShareFile ();
@@ -73,19 +69,5 @@ public class ITShareListWhitWho
 		TestUtilConfig.makeInvalidMetadata ();
 		assertEquals (
 			500, CtrlShareListWithWho.share_list_with_who (reqFile).code, "Can't reach metadata");
-	}
-
-	private String registerAndLoginUserSuccess (String username)
-	{
-		ResSession res = CtrlAccountRegister.account_register (new Credentials (username, "pass"));
-		assertEquals (201, res.code, "User registered successfully");
-		return res.auth.token;
-	}
-
-	private ResSaveFile createFile (String token)
-	{
-		return ServiceMetadata.saveFile (
-			UUID.fromString (ServiceAuth.tokenGetClaim (token, "uuid")), null, true, "txt",
-			"filename_t", (new Random ().nextInt (3000) + 1));
 	}
 }

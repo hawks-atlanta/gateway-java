@@ -100,8 +100,8 @@ public class ServiceAuth
 
 	public static ResUsername getUsername (String token, UUID uuid)
 	{
-		// Create an instance of the ResUsername 
-		ResUsername resUsername = new ResUsername();
+		// Create an instance of the ResUsername
+		ResUsername resUsername = new ResUsername ();
 
 		try {
 			// Make an HTTP GET request

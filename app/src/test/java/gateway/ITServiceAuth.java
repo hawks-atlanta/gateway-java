@@ -138,18 +138,21 @@ class ITServiceAuth
 
 		// get UUID
 		ResUUID resUUID = ServiceAuth.getUserUUID (res.auth.token, cred.username);
-		assertEquals (200, resUUID.code,"Get UUID successfully");
+		assertEquals (200, resUUID.code, "Get UUID successfully");
 
 		// get username from UUID
-		assertEquals (200, ServiceAuth.getUsername(res.auth.token, resUUID.uuid).code, "Get username successfully");
+		assertEquals (
+			200, ServiceAuth.getUsername (res.auth.token, resUUID.uuid).code,
+			"Get username successfully");
 
 		// errors
 		assertEquals (
-			401, ServiceAuth.getUsername ("invalid token", resUUID.uuid).code, "Authorization failed");
+			401, ServiceAuth.getUsername ("invalid token", resUUID.uuid).code,
+			"Authorization failed");
 
 		TestUtilConfig.makeInvalidAll ();
 		assertEquals (
-			500, ServiceAuth.getUsername(res.auth.token, resUUID.uuid).code,
+			500, ServiceAuth.getUsername (res.auth.token, resUUID.uuid).code,
 			"Can't reach Auth Server");
 	}
 }

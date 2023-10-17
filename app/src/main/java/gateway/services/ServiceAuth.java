@@ -92,4 +92,48 @@ public class ServiceAuth
 
 		return s;
 	}
+
+	public static class ResUsername extends ResStatus
+	{
+		public String username;
+	}
+
+	public static ResUsername getUsername (String token, UUID uuid)
+	{
+		// Create an instance of the ResUsername 
+		ResUsername resUsername = new ResUsername();
+
+		try {
+			// Make an HTTP GET request
+			HttpResponse<String> response = HttpClient.newHttpClient ().send (
+				HttpRequest.newBuilder ()
+					.uri (URI.create (Config.getAuthBaseUrl () + "/user/username/" + uuid))
+					.GET ()
+					.header ("Authorization", "Bearer " + token)
+					.build (),
+				HttpResponse.BodyHandlers.ofString ());
+
+			// Parse the JSON response
+			JSONObject jsonObject = new JSONObject (response.body ());
+			resUsername.code = response.statusCode ();
+
+			if (resUsername.code == 200) {
+				// If the response code is 200, the request was successful
+				resUsername.error = false;
+				resUsername.username = jsonObject.getString ("username");
+			} else {
+				// If the response code is not 200, there was an error
+				resUsername.error = true;
+				resUsername.msg = jsonObject.getString ("msg");
+			}
+		} catch (Exception e) {
+			// In case of an exception, handle the error
+			e.printStackTrace ();
+			resUsername.code = 500;
+			resUsername.error = true;
+			resUsername.msg = "Internal server error. Try again later";
+		}
+
+		return resUsername;
+	}
 }

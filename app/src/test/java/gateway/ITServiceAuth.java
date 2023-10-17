@@ -7,6 +7,7 @@ import gateway.controller.CtrlAccountRegister;
 import gateway.controller.CtrlAuthLogin;
 import gateway.controller.CtrlAuthRefresh;
 import gateway.services.ServiceAuth;
+import gateway.services.ServiceAuth.ResUUID;
 import gateway.soap.request.Authorization;
 import gateway.soap.request.Credentials;
 import gateway.soap.response.ResSession;
@@ -126,5 +127,29 @@ class ITServiceAuth
 		res.auth.token = res.auth.token + "unauthorized";
 		challenge = CtrlAuthRefresh.auth_refresh (authorization);
 		assertEquals (401, challenge.code, "Unauthorized");
+	}
+
+	@Test void GetUsername ()
+	{
+		// register
+		Credentials cred = new Credentials (UUID.randomUUID ().toString (), "pass");
+		ResSession res = CtrlAccountRegister.account_register (cred);
+		assertEquals (201, res.code, "Login successfully");
+
+		// get UUID
+		ResUUID resUUID = ServiceAuth.getUserUUID (res.auth.token, cred.username);
+		assertEquals (200, resUUID.code,"Get UUID successfully");
+
+		// get username from UUID
+		assertEquals (200, ServiceAuth.getUsername(res.auth.token, resUUID.uuid).code, "Get username successfully");
+
+		// errors
+		assertEquals (
+			401, ServiceAuth.getUsername ("invalid token", resUUID.uuid).code, "Authorization failed");
+
+		TestUtilConfig.makeInvalidAll ();
+		assertEquals (
+			500, ServiceAuth.getUsername(res.auth.token, resUUID.uuid).code,
+			"Can't reach Auth Server");
 	}
 }

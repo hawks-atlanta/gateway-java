@@ -15,6 +15,7 @@ available_features = [
     {"name": "📄 Download file", "handler": handlers.downloadHandler},
     {"name": "📄 Move file", "handler": handlers.moveFileHandler},
     {"name": "📄 Get file by UUID", "handler": handlers.getMetadataByUUIDHandler},
+    {"name": "📄 Get share with me", "handler": handlers.shareListHandler},
     {"name": "🚪 Finish program", "handler": handlers.exitHandler},
 ]
 

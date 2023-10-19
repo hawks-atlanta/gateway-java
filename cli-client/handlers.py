@@ -106,5 +106,17 @@ def moveFileHandler():
 
     print(res)
 
+def shareListHandler():
+    token = input("Token : ")
+
+    # Login with the default user
+    # session = client.service.auth_login({"username": "woynert", "password": "password"})
+
+    res = client.service.share_list(
+        {"token": token}
+    )
+
+    print(res)
+
 def exitHandler():
     os._exit(0)

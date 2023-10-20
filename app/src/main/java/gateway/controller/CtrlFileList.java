@@ -2,6 +2,7 @@ package gateway.controller;
 
 import gateway.config.Config;
 import gateway.services.ServiceAuth;
+import gateway.services.UtilsFiles;
 import gateway.soap.request.ReqFileList;
 import gateway.soap.response.File;
 import gateway.soap.response.ResFileList;
@@ -54,25 +55,7 @@ public class CtrlFileList
 			if (resFileList.code == 200) {
 				// If the response code is 200, process the received files
 				JSONArray filesArray = responseBody.getJSONArray ("files");
-				File[] files = new File[filesArray.length ()];
-
-				for (int i = 0; i < filesArray.length (); i++) {
-					// Process each file in the response JSON
-					JSONObject fileObject = filesArray.getJSONObject (i);
-
-					// Create a File object and assign it the file information
-					File file = new File ();
-
-					file.uuid = UUID.fromString (fileObject.getString ("uuid"));
-					file.name = fileObject.getString ("fileName");
-					file.extension = fileObject.isNull ("fileExtension")
-										 ? null
-										 : fileObject.getString ("fileExtension");
-					file.isFile = fileObject.getString ("fileType").equals ("archive");
-					file.size = fileObject.getInt ("fileSize");
-
-					files[i] = file;
-				}
+				File[] files = UtilsFiles.createFileArray (filesArray);
 
 				resFileList.files = files;
 				resFileList.error = false;

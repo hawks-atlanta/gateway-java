@@ -72,8 +72,8 @@ app/build/reports/jacoco/testCodeCoverageReport/html/index.html # coverage
 You need to have `clang-format` installed.
 
 ```sh
+./format.sh # apply (writes)
 ./format.sh clang-check # check (doesn't write)
-./format.sh clang-format # apply (writes)
 ```
 
 ## Coverage

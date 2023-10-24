@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.49 (2023-10-24)
+
+
+### Features
+
+* unshare file ([#86](https://github.com/hawks-atlanta/gateway-java/issues/86)) ([3604320](https://github.com/hawks-atlanta/gateway-java/commit/360432081a7ee3ff3b3e14b0667804fbaccfc685))
+
 ### 0.0.48 (2023-10-24)
 
 ### 0.0.47 (2023-10-24)

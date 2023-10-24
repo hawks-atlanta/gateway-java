@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.48 (2023-10-24)
+
+### 0.0.47 (2023-10-24)
+
+
+### Bug Fixes
+
+* [#87](https://github.com/hawks-atlanta/gateway-java/issues/87) file_delete not connected ([e82a3f2](https://github.com/hawks-atlanta/gateway-java/commit/e82a3f2c7bddb461139297711e55eef26085f9fc))
+
 ### 0.0.46 (2023-10-24)
 
 ### 0.0.45 (2023-10-24)

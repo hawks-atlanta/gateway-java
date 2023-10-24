@@ -14,59 +14,63 @@ import java.net.http.HttpResponse;
 import java.util.UUID;
 import org.json.JSONObject;
 
-public class CtrlUnshareFile {
+public class CtrlUnshareFile
+{
 
-	public static ResStatus unshare_file(ReqShareRemove args) {
-		ResStatus statusRes = new ResStatus();
+	public static ResStatus unshare_file (ReqShareRemove args)
+	{
+		ResStatus statusRes = new ResStatus ();
 
 		// validations of all fields
-		ResStatus resValidate = UtilValidator.validate(args);
+		ResStatus resValidate = UtilValidator.validate (args);
 		if (resValidate.error) {
-			return ResStatus.downCast(ResStatus.class, resValidate);
+			return ResStatus.downCast (ResStatus.class, resValidate);
 		}
 
 		// validation of auth
-		ResStatus resAuth = ServiceAuth.authenticate(args.token);
+		ResStatus resAuth = ServiceAuth.authenticate (args.token);
 		if (resAuth.error) {
-			return ResStatus.downCast(ResStatus.class, resAuth);
+			return ResStatus.downCast (ResStatus.class, resAuth);
 		}
 
 		// obtain uuid from user and otheruser
-		UUID userUUID = UUID.fromString(ServiceAuth.tokenGetClaim(args.token, "uuid"));
-		ResUUID otherUserUUID = ServiceAuth.getUserUUID(args.token, args.otherUsername);
+		UUID userUUID = UUID.fromString (ServiceAuth.tokenGetClaim (args.token, "uuid"));
+		ResUUID otherUserUUID = ServiceAuth.getUserUUID (args.token, args.otherUsername);
 		if (otherUserUUID.error) {
-			return ResStatus.downCast(ResStatus.class, otherUserUUID);
+			return ResStatus.downCast (ResStatus.class, otherUserUUID);
 		}
 
 		// request to share file with otheruser
-		JSONObject requestBody = new JSONObject();
-		requestBody.put("otherUserUUID", otherUserUUID.uuid);
+		JSONObject requestBody = new JSONObject ();
+		requestBody.put ("otherUserUUID", otherUserUUID.uuid);
 
-		String url = Config.getMetadataBaseUrl() + "/files/unshare/" + userUUID + "/" + args.fileUUID;
+		String url =
+			Config.getMetadataBaseUrl () + "/files/unshare/" + userUUID + "/" + args.fileUUID;
 
 		try {
 
-			HttpClient client = HttpClient.newHttpClient();
-			HttpRequest request = HttpRequest.newBuilder()
-					.uri(URI.create(url))
-					.POST(BodyPublishers.ofString(requestBody.toString()))
-					.header("Content-Type", "application/json")
-					.build();
+			HttpClient client = HttpClient.newHttpClient ();
+			HttpRequest request = HttpRequest.newBuilder ()
+									  .uri (URI.create (url))
+									  .POST (BodyPublishers.ofString (requestBody.toString ()))
+									  .header ("Content-Type", "application/json")
+									  .build ();
 
 			// Response
-			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-			statusRes.code = response.statusCode();
+			HttpResponse<String> response =
+				client.send (request, HttpResponse.BodyHandlers.ofString ());
+			statusRes.code = response.statusCode ();
 
 			if (statusRes.code == 204) {
 				statusRes.error = false;
 				statusRes.msg = "The file have been unshared";
 			} else {
-				JSONObject responseBody = new JSONObject(response.body());
+				JSONObject responseBody = new JSONObject (response.body ());
 				statusRes.error = true;
-				statusRes.msg = responseBody.getString("message");
+				statusRes.msg = responseBody.getString ("message");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace ();
 			statusRes.code = 500;
 			statusRes.error = true;
 			statusRes.msg = "Internal error, try again later";

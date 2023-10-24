@@ -51,7 +51,10 @@ import javax.jws.WebService;
 		return CtrlFileCheck.file_check (args);
 	}
 
-	@WebMethod public ResStatus file_delete (ReqFileDelete args) { return null; }
+	@WebMethod public ResStatus file_delete (ReqFileDelete args)
+	{
+		return CtrlFileDelete.file_delete (args);
+	}
 
 	@WebMethod public ResFileList file_list (ReqFileList args)
 	{

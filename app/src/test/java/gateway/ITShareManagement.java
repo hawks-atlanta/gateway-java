@@ -82,12 +82,11 @@ public class ITShareManagement
 		ResSaveFile resSaveFile2 = TestUtilAuth.createFile (tokenUser2);
 		ReqShareFile reqShareFile =
 			TestUtilShare.createShareFile (resSaveFile1, username2, tokenUser1);
+		CtrlShareFile.share_file (reqShareFile);
 
 		// 204
-		ReqShareRemove reqShareRemove = new ReqShareRemove ();
-		reqShareRemove.fileUUID = resSaveFile1.fileUUID;
-		reqShareRemove.otherUsername = username2;
-		reqShareRemove.token = tokenUser1;
+		ReqShareRemove reqShareRemove =
+			TestUtilShare.createShareRemove (resSaveFile1, username2, tokenUser1);
 		assertEquals (
 			204, CtrlUnshareFile.unshare_file (reqShareRemove).code, "The file was unshared");
 
@@ -97,27 +96,22 @@ public class ITShareManagement
 			"The file is already unshared with the given user.");
 
 		// 403
-		reqShareFile = TestUtilShare.createShareFile (resSaveFile1, username2, tokenUser1);
-		reqShareFile.fileUUID = resSaveFile2.fileUUID;
+		reqShareRemove.fileUUID = resSaveFile2.fileUUID;
 		assertEquals (
 			403, CtrlUnshareFile.unshare_file (reqShareRemove).code,
 			"The file is not owned by the user.");
 
 		// 401
-		reqShareFile = TestUtilShare.createShareFile (resSaveFile1, username2, tokenUser1);
-		reqShareFile.token = "token_invalid";
+		reqShareRemove.token = "token_invalid";
 		assertEquals (401, CtrlUnshareFile.unshare_file (reqShareRemove).code, "unauthorized");
 
 		// 400
-		reqShareFile = TestUtilShare.createShareFile (resSaveFile1, username2, tokenUser1);
-		reqShareFile.otherUsername = null;
+		reqShareRemove.otherUsername = null;
 		assertEquals (
 			400, CtrlUnshareFile.unshare_file (reqShareRemove).code,
 			"The owner_uuid or file_uuid were not a valid UUID or the JSON body does't fullfill the validations.");
 
-		// 500
-		// authorization.token = tokenUser1;
-		reqShareFile = TestUtilShare.createShareFile (resSaveFile1, username2, tokenUser1);
+		reqShareRemove = TestUtilShare.createShareRemove (resSaveFile1, username2, tokenUser1);
 		TestUtilConfig.makeInvalidMetadata ();
 		assertEquals (
 			500, CtrlUnshareFile.unshare_file (reqShareRemove).code, "Can't reach metadata");

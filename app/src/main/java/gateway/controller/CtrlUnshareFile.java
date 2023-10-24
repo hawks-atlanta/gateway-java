@@ -46,7 +46,10 @@ public class CtrlUnshareFile
 
 		String url =
 			Config.getMetadataBaseUrl () + "/files/unshare/" + userUUID + "/" + args.fileUUID;
-
+		System.out.println (userUUID.toString ());
+		System.out.println (otherUserUUID.toString ());
+		System.out.println (args.fileUUID);
+		System.out.println (url);
 		try {
 
 			HttpClient client = HttpClient.newHttpClient ();

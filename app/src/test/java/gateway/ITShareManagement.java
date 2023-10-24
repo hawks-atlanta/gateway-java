@@ -84,8 +84,10 @@ public class ITShareManagement
 			TestUtilShare.createShareFile (resSaveFile1, username2, tokenUser1);
 
 		// 204
-		ReqShareRemove reqShareRemove =
-			new ReqShareRemove (tokenUser1, reqShareFile.fileUUID, username2);
+		ReqShareRemove reqShareRemove = new ReqShareRemove ();
+		reqShareRemove.fileUUID = resSaveFile1.fileUUID;
+		reqShareRemove.otherUsername = username2;
+		reqShareRemove.token = tokenUser1;
 		assertEquals (
 			204, CtrlUnshareFile.unshare_file (reqShareRemove).code, "The file was unshared");
 

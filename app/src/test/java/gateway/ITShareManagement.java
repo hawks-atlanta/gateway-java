@@ -6,10 +6,12 @@ import gateway.config.Config;
 import gateway.controller.CtrlShareFile;
 import gateway.controller.CtrlShareList;
 import gateway.controller.CtrlShareListWithWho;
+import gateway.controller.CtrlUnshareFile;
 import gateway.services.ServiceMetadata.ResSaveFile;
 import gateway.soap.request.Authorization;
 import gateway.soap.request.ReqFile;
 import gateway.soap.request.ReqShareFile;
+import gateway.soap.request.ReqShareRemove;
 import gateway.soap.response.ResStatus;
 import gateway.testutils.TestUtilAuth;
 import gateway.testutils.TestUtilConfig;
@@ -63,6 +65,56 @@ public class ITShareManagement
 		assertEquals (
 			400, res.code,
 			"The owner_uuid or file_uuid were not a valid UUID or the JSON body does't fullfill the validations.");
+	}
+
+	@Test void UnshareFile ()
+	{
+
+		String username1 = UUID.randomUUID ().toString ();
+		String username2 = UUID.randomUUID ().toString ();
+
+		// register
+		String tokenUser1 = TestUtilAuth.registerAndLoginUserSuccess (username1);
+		String tokenUser2 = TestUtilAuth.registerAndLoginUserSuccess (username2);
+
+		// create a file and aux file
+		ResSaveFile resSaveFile1 = TestUtilAuth.createFile (tokenUser1);
+		ResSaveFile resSaveFile2 = TestUtilAuth.createFile (tokenUser2);
+		ReqShareFile reqShareFile =
+			TestUtilShare.createShareFile (resSaveFile1, username2, tokenUser1);
+		CtrlShareFile.share_file (reqShareFile);
+
+		// 204
+		ReqShareRemove reqShareRemove =
+			TestUtilShare.createShareRemove (resSaveFile1, username2, tokenUser1);
+		assertEquals (
+			204, CtrlUnshareFile.unshare_file (reqShareRemove).code, "The file was unshared");
+
+		// 409
+		assertEquals (
+			409, CtrlUnshareFile.unshare_file (reqShareRemove).code,
+			"The file is already unshared with the given user.");
+
+		// 403
+		reqShareRemove.fileUUID = resSaveFile2.fileUUID;
+		assertEquals (
+			403, CtrlUnshareFile.unshare_file (reqShareRemove).code,
+			"The file is not owned by the user.");
+
+		// 401
+		reqShareRemove.token = "token_invalid";
+		assertEquals (401, CtrlUnshareFile.unshare_file (reqShareRemove).code, "unauthorized");
+
+		// 400
+		reqShareRemove.otherUsername = null;
+		assertEquals (
+			400, CtrlUnshareFile.unshare_file (reqShareRemove).code,
+			"The owner_uuid or file_uuid were not a valid UUID or the JSON body does't fullfill the validations.");
+
+		reqShareRemove = TestUtilShare.createShareRemove (resSaveFile1, username2, tokenUser1);
+		TestUtilConfig.makeInvalidMetadata ();
+		assertEquals (
+			500, CtrlUnshareFile.unshare_file (reqShareRemove).code, "Can't reach metadata");
 	}
 
 	@Test void shareList ()

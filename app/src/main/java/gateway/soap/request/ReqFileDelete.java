@@ -1,9 +1,9 @@
 package gateway.soap.request;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.UUID;
 
 public class ReqFileDelete extends Authorization
 {
-	@NotNull public UUID[] fileUUID; // 1+
+	@NotEmpty public UUID[] fileUUID; // 1+
 }

@@ -5,5 +5,5 @@ import java.util.UUID;
 
 public class ReqFileDelete extends Authorization
 {
-	@NotNull public UUID[] fileUUID; // 1+
+	@NotNull public UUID fileUUID;
 }

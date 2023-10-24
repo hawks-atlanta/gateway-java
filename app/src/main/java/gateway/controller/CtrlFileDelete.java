@@ -35,38 +35,34 @@ public class CtrlFileDelete
 		// obtain uuid from user
 		UUID userUUID = UUID.fromString (ServiceAuth.tokenGetClaim (args.token, "uuid"));
 
-		for (UUID fileUUID : args.fileUUID) {
-			try {
-				HttpResponse<String> response = HttpClient.newHttpClient ().send (
-					HttpRequest.newBuilder ()
-						.uri (URI.create (String.format (
-							"%s/files/delete/%s/%s", Config.getMetadataBaseUrl (),
-							userUUID.toString (), fileUUID.toString ())))
-						.DELETE ()
-						.build (),
-					HttpResponse.BodyHandlers.ofString ());
-
-				// Get the HTTP status code from the response
-				resStatus.code = response.statusCode ();
-				resStatus.error = true;
-
-				if (resStatus.code == 204) {
-					// If the response code is 204, the request was successful
-					resStatus.error = false;
-				} else {
-					// If the response code is not 204, there was an error
-					JSONObject responseBody = new JSONObject (response.body ());
-					resStatus.msg = responseBody.getString ("message");
-					return resStatus;
-				}
-			} catch (Exception e) {
-				// In case of an exception, handle the error
-				e.printStackTrace ();
-				resStatus.code = 500;
-				resStatus.error = true;
-				resStatus.msg = "Internal server error. Try again later";
+		try {
+			HttpResponse<String> response = HttpClient.newHttpClient ().send (
+				HttpRequest.newBuilder ()
+					.uri (URI.create (String.format (
+						"%s/files/delete/%s/%s", Config.getMetadataBaseUrl (), userUUID.toString (),
+						args.fileUUID.toString ())))
+					.DELETE ()
+					.build (),
+				HttpResponse.BodyHandlers.ofString ());
+			// Get the HTTP status code from the response
+			resStatus.code = response.statusCode ();
+			resStatus.error = true;
+			if (resStatus.code == 204) {
+				// If the response code is 204, the request was successful
+				resStatus.error = false;
+			} else {
+				// If the response code is not 204, there was an error
+				JSONObject responseBody = new JSONObject (response.body ());
+				resStatus.msg = responseBody.getString ("message");
 				return resStatus;
 			}
+		} catch (Exception e) {
+			// In case of an exception, handle the error
+			e.printStackTrace ();
+			resStatus.code = 500;
+			resStatus.error = true;
+			resStatus.msg = "Internal server error. Try again later";
+			return resStatus;
 		}
 
 		return resStatus;

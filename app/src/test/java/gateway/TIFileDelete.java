@@ -43,12 +43,12 @@ public class TIFileDelete
 		// Bad Request
 		ReqFileDelete reqFileDelete = new ReqFileDelete ();
 		reqFileDelete.token = "invalid token";
-		reqFileDelete.fileUUID = new UUID[0];
+		reqFileDelete.fileUUID = null;
 		assertEquals (
 			400, CtrlFileDelete.file_delete (reqFileDelete).code, "Bad Request: Invalid Field");
 
 		// Authorization failed
-		reqFileDelete.fileUUID = new UUID[] { resFileNew.fileUUID };
+		reqFileDelete.fileUUID = resFileNew.fileUUID;
 		assertEquals (401, CtrlFileDelete.file_delete (reqFileDelete).code, "Authorization failed");
 
 		// Delete File
@@ -77,7 +77,7 @@ public class TIFileDelete
 		Thread.sleep (1000); // wait for upload
 
 		// The user tried to delete a file that not own
-		reqFileDelete.fileUUID = new UUID[] { resFileNewAnotherUser.fileUUID };
+		reqFileDelete.fileUUID = resFileNewAnotherUser.fileUUID;
 		assertEquals (
 			403, CtrlFileDelete.file_delete (reqFileDelete).code,
 			"The user tried to delete a file that not own");

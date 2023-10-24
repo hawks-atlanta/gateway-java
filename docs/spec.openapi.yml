@@ -311,8 +311,9 @@ paths:
 
   /file_delete:
     post:
-      tags: ["File"]
-      description: Delete one or multiple files from the user account.
+      tags:
+        - File
+      description: Delete one file from the user account.
       requestBody:
         content:
           Object:
@@ -639,10 +640,8 @@ components:
         - type: object
           properties:
             fileUUID:
-              type: array
-              items:
-                type: string
-                example: 5295d524-aafc-407c-96ed-adae2cd5047a
+              type: string
+              example: 5295d524-aafc-407c-96ed-adae2cd5047a
         - $ref: '#/components/schemas/Authorization'
 
     ResFileDownload:

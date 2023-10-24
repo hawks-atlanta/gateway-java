@@ -6,98 +6,92 @@ import gateway.soap.response.*;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
-@WebService(endpointInterface = "gateway.soap.Service")
-public class ServiceImp implements Service {
+@WebService (endpointInterface = "gateway.soap.Service") public class ServiceImp implements Service
+{
 	// auth
 
-	@WebMethod
-	public ResSession auth_login(Credentials credentials) {
-		return CtrlAuthLogin.auth_login(credentials);
+	@WebMethod public ResSession auth_login (Credentials credentials)
+	{
+		return CtrlAuthLogin.auth_login (credentials);
 	}
 
-	@WebMethod
-	public ResSession auth_refresh(Authorization auth) {
-		return CtrlAuthRefresh.auth_refresh(auth);
+	@WebMethod public ResSession auth_refresh (Authorization auth)
+	{
+		return CtrlAuthRefresh.auth_refresh (auth);
 	}
 
 	// account
 
-	@WebMethod
-	public ResSession account_register(Credentials credentials) {
-		return CtrlAccountRegister.account_register(credentials);
+	@WebMethod public ResSession account_register (Credentials credentials)
+	{
+		return CtrlAccountRegister.account_register (credentials);
 	}
 
-	@WebMethod
-	public ResStatus account_password(ReqAccPassword parameters) {
-		return CtrlUpdatePassword.account_password(parameters);
+	@WebMethod public ResStatus account_password (ReqAccPassword parameters)
+	{
+		return CtrlUpdatePassword.account_password (parameters);
 	}
 
 	// file system
 
-	@WebMethod
-	public ResFileNew file_upload(ReqFileUpload args) {
-		return CtrlFileUpload.file_upload(args);
+	@WebMethod public ResFileNew file_upload (ReqFileUpload args)
+	{
+		return CtrlFileUpload.file_upload (args);
 	}
 
-	@WebMethod
-	public ResFileNew file_new_dir(ReqFileNewDir args) {
-		return CtrlFileNewDir.file_new_dir(args);
+	@WebMethod public ResFileNew file_new_dir (ReqFileNewDir args)
+	{
+		return CtrlFileNewDir.file_new_dir (args);
 	}
 
-	@Override
-	public ResFileGet file_get(ReqFile args) {
-		return CtrlFileGet.file_get(args);
+	@Override public ResFileGet file_get (ReqFile args) { return CtrlFileGet.file_get (args); }
+
+	@WebMethod public ResFileCheck file_check (ReqFile args)
+	{
+		return CtrlFileCheck.file_check (args);
 	}
 
-	@WebMethod
-	public ResFileCheck file_check(ReqFile args) {
-		return CtrlFileCheck.file_check(args);
+	@WebMethod public ResStatus file_delete (ReqFileDelete args) { return null; }
+
+	@WebMethod public ResFileList file_list (ReqFileList args)
+	{
+		return CtrlFileList.file_list (args);
 	}
 
-	@WebMethod
-	public ResStatus file_delete(ReqFileDelete args) {
-		return null;
+	@WebMethod public ResFileDownload file_download (ReqFile args)
+	{
+		return CtrlFileDownload.file_download (args);
 	}
 
-	@WebMethod
-	public ResFileList file_list(ReqFileList args) {
-		return CtrlFileList.file_list(args);
+	@WebMethod public ResStatus file_move (ReqFileMove args)
+	{
+		return CtrlFileMove.file_move (args);
 	}
 
-	@WebMethod
-	public ResFileDownload file_download(ReqFile args) {
-		return CtrlFileDownload.file_download(args);
-	}
-
-	@WebMethod
-	public ResStatus file_move(ReqFileMove args) {
-		return CtrlFileMove.file_move(args);
-	}
-
-	@WebMethod
-	public ResStatus file_rename(ReqFileRename args) {
-		return CtrlFileRename.file_rename(args);
+	@WebMethod public ResStatus file_rename (ReqFileRename args)
+	{
+		return CtrlFileRename.file_rename (args);
 	}
 
 	// sharing
 
-	@WebMethod
-	public ResStatus share_file(ReqShareFile args) {
-		return CtrlShareFile.share_file(args);
+	@WebMethod public ResStatus share_file (ReqShareFile args)
+	{
+		return CtrlShareFile.share_file (args);
 	}
 
-	@WebMethod
-	public ResStatus unshare_file(ReqShareRemove args) {
-		return CtrlUnshareFile.unshare_file(args);
+	@WebMethod public ResStatus unshare_file (ReqShareRemove args)
+	{
+		return CtrlUnshareFile.unshare_file (args);
 	}
 
-	@WebMethod
-	public ResShareList share_list(Authorization auth) {
-		return CtrlShareList.share_list(auth);
+	@WebMethod public ResShareList share_list (Authorization auth)
+	{
+		return CtrlShareList.share_list (auth);
 	}
 
-	@WebMethod
-	public ResShareListWithWho share_list_with_who(ReqFile args) {
-		return CtrlShareListWithWho.share_list_with_who(args);
+	@WebMethod public ResShareListWithWho share_list_with_who (ReqFile args)
+	{
+		return CtrlShareListWithWho.share_list_with_who (args);
 	}
 }
